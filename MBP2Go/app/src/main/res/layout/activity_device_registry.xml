@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_device_registry"
+    android:layout_height="match_parent"
+    tools:context="com.example.sedaulusal.hiwijob.device.DeviceRegistryActivity"
+    android:layout_width="match_parent">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/toolbar_device_registry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tool_bar">
+
+
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tool_bar"
+        android:weightSum="1">
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview1"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="0.25">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="3dp">
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:padding="3dp"
+                            app:srcCompat="@mipmap/ic_launcher" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="10dp"
+                            android:text="Devicetype:"
+                            android:textSize="18sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner2"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignTop="@+id/textView3"
+                            android:entries="@array/devicetype" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/edtName"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/textView3"
+                            android:layout_alignParentEnd="true"
+                            android:ems="10"
+                            android:hint="Name"
+                            android:inputType="textPersonName"
+                            android:paddingLeft="10dp" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="10dp"
+                            android:text="Devicename:"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/edtSurname"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true"
+                            android:ems="10"
+                            android:hint="mac id"
+                            android:inputType="textPersonName"
+                            android:maxLength="17"
+                            android:maxLines="1"
+                            android:paddingLeft="10dp" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/edtSurname"
+                            android:layout_alignBottom="@+id/edtSurname"
+                            android:layout_alignParentStart="true"
+                            android:paddingLeft="10dp"
+                            android:text="Mac-ID:"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/viewspinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:paddingLeft="10dp">
+
+                        <ViewFlipper
+                            android:id="@+id/viewflipper_deviceregistry_spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true"
+                            android:orientation="vertical"
+                            android:layout_alignParentStart="true">
+
+                            <include
+                                android:id="@+id/view_arduino"
+                                layout="@layout/view_deviceregistry_arduino"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"></include>
+
+                            <include
+                                android:id="@+id/view_raspberry"
+                                layout="@layout/view_deviceregistry_raspberrypi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="false"
+                                android:layout_alignParentStart="false"
+                                android:layout_alignParentTop="false"></include>
+
+
+                        </ViewFlipper>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview2"
+                android:layout_width="match_parent"
+                android:layout_height="533dp"
+                android:layout_below="@+id/viewspinner"
+                android:layout_margin="8dp"
+                android:layout_marginTop="20dp">
+
+                <LinearLayout
+                    android:id="@+id/sensornames"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/HeadSensors"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/screen2"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Sensors"
+                        android:textColor="@android:color/background_light"
+                        android:textDirection="firstStrong"
+                        android:textSize="24sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_below="@id/sensornames">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/spinner"
+                            android:layout_alignParentStart="true"
+                            android:paddingLeft="10dp"
+                            android:text="Sensortype:"
+                            android:textSize="18sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:entries="@array/sensors" />
+
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="10dp"
+                            android:text="Pin-Set:"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/sensorpin"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true"
+                            android:ems="10"
+                            android:hint="12;34;56;78;"
+                            android:inputType="textPersonName"
+                            android:maxLength="17"
+                            android:maxLines="1"
+                            android:paddingLeft="10dp" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/sensornames">
+
+                        <EditText
+                            android:id="@+id/edtsensorname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:paddingLeft="10dp"
+                            android:text="Name" />
+
+                        <Button
+                            android:id="@+id/btn_addSensor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginEnd="13dp"
+                            android:onClick="btn_AddSensor"
+                            android:text="Add Sensor" />
+
+
+                    </RelativeLayout>
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <RelativeLayout
+                            android:id="@+id/sensorcardview"
+                            android:layout_width="match_parent"
+                            android:layout_height="500dp"
+                            android:layout_below="@+id/cardview2"
+                            android:layout_weight="2.43">
+
+
+                            <GridView
+                                android:id="@+id/gridView"
+                                android:layout_width="match_parent"
+                                android:layout_height="500dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:columnWidth="120dp"
+                                android:gravity="center"
+                                android:numColumns="auto_fit" />
+                        </RelativeLayout>
+                    </ScrollView>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview3"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_margin="8dp">
+
+
+
+                <LinearLayout
+                    android:id="@+id/aktuatornames"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/AktuSensors"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@color/screen3"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="Actuators"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="24sp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textViewaktuatortype"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/spinner"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="10dp"
+                            android:text="Aktuatortype:"
+                            android:textSize="18sp" />
+
+                        <Spinner
+                            android:id="@+id/spinneractuator"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignTop="@+id/textViewaktuatortype"
+                            android:entries="@array/sensors" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textview_aktuatorpinset"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="10dp"
+                            android:text="Pin-Set:"
+                            android:textSize="18sp"
+                            android:layout_alignBaseline="@+id/edttext_actuatorpinset"
+                            android:layout_alignBottom="@+id/edttext_actuatorpinset"
+                            android:layout_alignParentStart="true" />
+
+                        <EditText
+                            android:id="@+id/edttext_actuatorpinset"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="12;34;56;78;"
+                            android:inputType="textPersonName"
+                            android:maxLength="17"
+                            android:maxLines="1"
+                            android:paddingLeft="10dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/edt_aktuator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_weight="0.25"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:text="Actuator Name" />
+
+                        <Button
+                            android:id="@+id/btn_addActuator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginEnd="28dp"
+                            android:onClick="btn_Add_Actuators"
+                            android:text="Button" />
+
+                    </RelativeLayout>
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="379dp">
+
+                        <RelativeLayout
+                            android:id="@+id/aktuatorcardview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_below="@+id/edt_aktuator"
+                            android:layout_weight="2.43">
+
+
+                            <GridView
+                                android:id="@+id/gridView_aktuator"
+                                android:layout_width="match_parent"
+                                android:layout_height="500dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:columnWidth="120dp"
+                                android:gravity="center"
+                                android:numColumns="auto_fit" />
+                        </RelativeLayout>
+                    </ScrollView>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+</RelativeLayout>

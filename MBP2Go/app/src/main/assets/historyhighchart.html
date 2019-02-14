@@ -1,0 +1,85 @@
+<script src="file:///android_asset/jquery-3.1.1.min.js"></script>
+<script src="file:///android_asset/highcharts.js"></script>
+
+<div id="container" style="min-width: 310px; height: 100%; margin: 0 auto"></div>
+
+<script type="text/javascript">
+
+var curValue = 0;
+var nameOfSensor = 'Value';
+var xValue = 'Value';
+
+
+Highcharts.setOptions({
+  global: {
+    useUTC: false
+  }
+});
+
+Highcharts.chart('container', {
+  chart: {
+    type: 'spline',
+    animation: Highcharts.svg, // don't animate in old IE
+    marginRight: 10,
+    events: {
+      load: function () {
+
+        // set up the updating of the chart each second
+        var series = this.series[0];
+        setInterval(function () {
+          var x = xValue, // current time
+            y = curValue;
+          series.addPoint([x, y], true, true);
+        }, 1000);
+      }
+    }
+  },
+  title: {
+    text: ''
+  },
+  xAxis: {
+
+  },
+  yAxis: {
+    title: {
+      text: 'Value'
+    },
+    plotLines: [{
+      value: 0,
+      width: 1,
+      color: '#808080'
+    }]
+  },
+  tooltip: {
+    formatter: function () {
+      return '<b>' + this.series.name + '</b><br/>' +
+        xValue + '<br/>' +
+        Highcharts.numberFormat(this.y, 2);
+    }
+  },
+  legend: {
+    enabled: false
+  },
+  exporting: {
+    enabled: false
+  },
+  series: [{
+    name: name = nameOfSensor,
+    data: (function () {
+      // generate an array of random data
+      var data = [],
+        time = xValue,
+        i;
+
+      for (i = 0; i <= 0; i += 1) {
+        data.push({
+          x: 3,
+          y: 4
+        });
+      }
+      return data;
+    }())
+  }]
+});
+
+</script>

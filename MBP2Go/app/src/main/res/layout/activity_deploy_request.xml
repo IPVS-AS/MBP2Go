@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/scrollojt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:addStatesFromChildren="true"
+            android:fillViewport="true">
+
+
+            <LinearLayout
+                android:id="@+id/layoutsensordeploy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dip">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/screen2"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Sensors"
+                    android:textColor="@android:color/background_light"
+                    android:textDirection="firstStrong"
+                    android:textSize="24sp" />
+
+                <ListView
+                    android:id="@+id/deplosy_sensor_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip">
+
+
+                </ListView>
+
+
+                <TextView
+                    android:id="@+id/ios"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/screen3"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Actuators"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="24sp" />
+
+                <ListView
+                    android:id="@+id/deplosy_actuator_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ios"
+                    android:layout_marginTop="10dip">
+
+
+                </ListView>
+            </LinearLayout>
+
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

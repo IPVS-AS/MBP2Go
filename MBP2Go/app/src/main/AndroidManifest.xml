@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.sedaulusal.hiwijob">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/iconmbp"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
+
+        <activity android:name=".IntroActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".device.DeviceOverviewActivity"
+            android:label="@string/title_activity_device_overview"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".device.advertise.DeviceFinderActivity"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity
+            android:name=".device.DeviceRegistryActivity"
+            android:theme="@style/Theme" />
+        <activity
+            android:name="com.google.zxing.client.androidlegacy.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.zxing.client.android.SCAN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".device.DetailActivity"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity android:name=".device.DeployRequestActivity" />
+        <activity
+            android:name=".diagramm.DiagrammActivity"
+            android:theme="@style/Live" />
+        <activity android:name=".SettingActivity" />
+        <activity
+            android:name=".test"
+            android:label="@string/title_activity_test"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ruleEngine.RuleEngineActivity"
+            android:theme="@style/Rule" />
+        <activity
+            android:name=".ruleEngine.RuleEngineOverviewActivity"
+            android:label="@string/title_activity_rules_overview"
+            android:theme="@style/Rule" />
+        <activity
+            android:name=".ruleEngine.SelectThingActivity"
+            android:label="@string/title_activity_select_thing"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ruleEngine.SelectActionActivity"
+            android:label="@string/title_activity_select_action"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".historydiagramm.HistoryDiagrammActivity"
+            android:label="@string/title_activity_history_diagramm"
+            android:theme="@style/History" />
+        <activity android:name=".ruleEngine.RuleEngingeSensorSettingsActivity"
+            android:label="Conditions"
+            android:theme="@style/Rulesetting"
+            ></activity>
+        <activity android:name=".ruleEngine.RuleEngingeActuatorSettingsActivity"
+            android:label="Actuator Settings"
+            android:theme="@style/Rulesetting"
+            ></activity>
+
+
+    </application>
+
+</manifest>

@@ -1,0 +1,105 @@
+<resources>
+    <string name="app_name">MBP2Go</string>
+
+
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="key">key</string>
+    <string name="action_add">action_add</string>
+    <string name="action_qrscann">action_qrscann</string>
+
+
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="start">Start</string>
+    <string name="title_slide1">Connecting Devices</string>
+    <string name="desc_slide1">dynamic device binding based on their type</string>
+    <string name="title_slide2">Smart Home</string>
+    <string name="desc_slide2">Make every thing smarter</string>
+    <string name="title_slide3">Smart Energy</string>
+    <string name="desc_slide3">avoid unnecessary generation and cost</string>
+    <string name="signup">Sign up</string>
+    <string name="loginintro">Already have an account? Sign in</string>
+    <string name="title_activity_sign_up">SignUp</string>
+
+    <string name="device">Device</string>
+    <string name="setting">Setting</string>
+
+
+    <string name="title_activity_device_overview">DeviceOverviewActivity</string>
+    <string name="title_activity_device_finder">DeviceFinderActivity</string>
+
+    <string name="btn_activity_device_finder">register manually</string>
+
+    <string-array name="action_dialog_sensors">
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
+
+    <string-array name="action_dialog_rule">
+        <item>Delete</item>
+    </string-array>
+
+    <string-array name="action_dialog_gridview">
+        <item>Delete</item>
+    </string-array>
+
+
+    <string-array name="sensors">
+        <item>@string/sensor_temperature</item>
+        <item>@string/sensor_pressure</item>
+        <item>@string/sensor_gps</item>
+        <item>@string/sensor_light</item>
+
+    </string-array>
+
+    <string name="sensor_temperature">Temperature</string>
+    <string name="sensor_pressure">Pressure</string>
+    <string name="sensor_gps">GPS</string>
+    <string name="sensor_light">Light</string>
+
+
+    <string-array name="devicetype">
+        <item>@string/device_raspberrypie</item>
+        <item>@string/device_arduino</item>
+        <item>@string/device_other</item>
+
+    </string-array>
+
+    <string name="device_raspberrypie">Raspberry Pi</string>
+    <string name="device_arduino">Arduino</string>
+    <string name="device_other">Other</string>
+    <string name="title_activity_test">test</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_rules_overview">Rules Overview</string>
+    <string name="title_activity_rule_engine_overview">RuleEngineOverviewActivity</string>
+    <string name="title_activity_select_thing">SelectThingActivity</string>
+    <string name="title_activity_select_action">SelectActionActivity</string>
+    <string name="title_activity_history_diagramm">HistoryDiagrammActivity</string>
+
+
+    <string name="ruleenigine_setting_operatorbig"> &gt; </string>
+    <string name="ruleenigine_setting_operatorlittle">&lt;</string>
+
+    <string-array
+        name="list">
+        <item>@string/greaterthan</item>
+        <item>@string/lessthan</item>
+        <item>@string/equalto</item>
+        <item>@string/notequalto</item>
+        <item>@string/greaterthanorequalto</item>
+        <item>@string/lessthanorequalto</item>
+    </string-array>
+
+
+    <string name="notequalto"> != </string>
+    <string name="equalto"> = </string>
+    <string name="greaterthan"> > </string>
+    <string name="greaterthanorequalto"> >= </string>
+    <string name="lessthan">&lt;</string>
+    <string name="lessthanorequalto">&lt;=</string>
+
+
+</resources>
+

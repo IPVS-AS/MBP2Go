@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ruleEngine.RuleEngineActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbarlayout"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:theme="@style/Rulesetting">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_synchrorequest"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="11dp"
+                        android:background="@drawable/ic_add_white_24dp"
+                        android:onClick="ruleengine_addRule"
+                        android:paddingTop="20dp" />
+
+
+                </RelativeLayout>
+
+            </android.support.design.widget.AppBarLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_below="@+id/tool_bar"
+                android:layout_marginTop="8dp"
+                tools:layout_editor_absoluteX="8dp">
+
+
+                <EditText
+                    android:id="@+id/ruleEngine_edtName2"
+                    android:layout_width="252dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:ems="10"
+                    android:hint="Name"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp" />
+
+                <TextView
+                    android:id="@+id/ruleEngine_rulename"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dp"
+                    android:text="Rule Name:"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_When"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_below="@+id/relativeLayout"
+                android:layout_marginTop="8dp"
+                tools:layout_editor_absoluteX="8dp">
+
+
+                <TextView
+                    android:id="@+id/ruleEngine_When"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dp"
+                    android:text="When"
+                    android:textSize="20sp" />
+
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/relativeLayout_When">
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/rule_engine_layout_for_whenview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/ruleEngine_button_or"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/screen4"
+                android:onClick="ruleengine_OR_Button"
+                android:text="OR"
+                android:textColor="#FFFFFF" />
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_below="@+id/ruleEngine_button"
+                android:layout_marginBottom="8dp"
+                tools:layout_editor_absoluteX="8dp">
+
+                <TextView
+                    android:id="@+id/ruleEngine_Actionname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Run these actions"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="0dp" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ruleEngine_recyclerView_action"
+
+                android:layout_width="match_parent"
+                android:layout_height="244dp"
+
+                android:layout_below="@+id/relativeLayout2"
+                android:layout_marginTop="8dp"
+                android:layout_weight="0.25"
+                tools:layout_editor_absoluteX="0dp">
+
+
+            </android.support.v7.widget.RecyclerView>
+            <Button
+                android:id="@+id/ruleEngine_button_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ruleEngine_recyclerView_action"
+                android:background="@color/screen4"
+                android:onClick="btn_RuleEngine_addAction"
+                android:text="Add Action"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

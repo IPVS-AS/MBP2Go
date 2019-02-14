@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true" >
+        <!-- This is the buttons Design if its pressed! -->
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+
+            <!-- view background color -->
+            <solid
+                android:color="@color/colorAccent" >
+            </solid>
+
+            <!-- If you want to add some padding -->
+            <padding
+                android:left="5dp"
+                android:top="2dp"
+                android:right="5dp"
+                android:bottom="2dp"    >
+            </padding>
+
+            <!-- Here is the corner radius -->
+            <corners
+                android:radius="8dp">
+            </corners>
+        </shape>
+    </item>
+
+    <item android:state_focused="true" >
+        <!-- This is the buttons Design if its focused! -->
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+
+            <!-- view background color -->
+            <solid
+                android:color="@color/colorAccent" >
+            </solid>
+
+            <!-- If you want to add some padding -->
+            <padding
+                android:left="5dp"
+                android:top="2dp"
+                android:right="5dp"
+                android:bottom="2dp"    >
+            </padding>
+
+            <!-- Here is the corner radius -->
+            <corners
+                android:radius="5dp">
+            </corners>
+        </shape>
+    </item>
+
+    <item>
+        <!-- This is the buttons Design if its normal! -->
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+
+        <!-- view background color -->
+        <solid
+            android:color="@color/colorAccent" >
+        </solid>
+
+        <!-- If you want to add some padding -->
+        <padding
+            android:left="5dp"
+            android:top="2dp"
+            android:right="5dp"
+            android:bottom="2dp"    >
+        </padding>
+
+        <!-- Here is the corner radius -->
+        <corners
+            android:radius="3dp">
+        </corners>
+        </shape>
+    </item>
+
+
+</selector>

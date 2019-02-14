@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#ffffff"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btn_Main_device"
+            android:layout_width="176dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="0.11"
+            android:adjustViewBounds="true"
+            android:background="@color/screen1"
+            android:drawableTop="@drawable/ic_baseline_devices_24px"
+            android:onClick="btn_Main_DeviceClick"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:text="@string/device"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_GraphView"
+            android:layout_width="176dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="0.11"
+            android:adjustViewBounds="true"
+            android:background="@color/screen2"
+            android:drawableTop="@drawable/ic_baseline_timeline_24px"
+            android:onClick="btn_Main_Diagramm"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:text="Live Data"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#ffffff"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btn_RuleEngine"
+            android:layout_width="176dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:onClick="btn_RuleEngine"
+            android:drawableTop="@drawable/ic_baseline_device_hub_24px"
+            android:background="@color/screen4"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:text="Rule Engine"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_History"
+            android:layout_width="176dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="@color/screen3"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:drawableTop="@drawable/ic_line_graph"
+            android:text="History Data"
+            android:textColor="@android:color/white"
+            android:onClick="btn_History"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#ffffff"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:weightSum="1">
+
+        <Button
+            android:layout_width="176dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="@color/bg_screen3"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:drawableTop="@drawable/ic_smartphone_ringing"
+            android:text="Test"
+            android:textColor="#FFFFFFFF"
+            android:onClick="btn_TestPublish"/>
+
+        <Button
+            android:id="@+id/btn_setting"
+            android:layout_width="176dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="@color/colorPrimaryDark"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:drawableTop="@drawable/ic_baseline_settings_20px"
+            android:onClick="btn_Main_Setting"
+            android:text="@string/setting"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+</LinearLayout>
