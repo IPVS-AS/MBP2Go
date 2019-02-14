@@ -11,6 +11,8 @@ For Developers:
 
 For Users:
 1: Download the project MBP2Go
+
 2: Transfer the file MBP2Go/MBP2Go/app/build/outputs/apkapp-debug.apk
 to your smartphone. 
+
 3: Open this file in your smartphone - and have fun!
