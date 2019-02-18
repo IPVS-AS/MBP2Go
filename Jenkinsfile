@@ -6,7 +6,7 @@ pipeline {
     stages {
 		stage('Initialize'){
 			steps {
-				cd './MBP2Go'
+				sh 'cd ./MBP2Go'
 			}
 		}
 		stage('Compile') {
