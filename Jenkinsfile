@@ -4,16 +4,21 @@ pipeline {
         jdk 'jdk8'
     }
     stages {
+		stage('Initialize'){
+			steps {
+				cd './MBP2Go'
+			}
+		}
 		stage('Compile') {
 			steps {
 				//Compile the app
-				sh './MBP2Go/gradlew compileDebugSources'
+				sh './gradlew compileDebugSources'
 			}
 		}
 		stage('Unit test') {
 			steps {
 				//Compile and run unit tests
-				sh './MBP2Go/gradlew testDebugUnitTest testDebugUnitTest'
+				sh './gradlew testDebugUnitTest testDebugUnitTest'
 
 				//Analyse the test results
 				junit '**/TEST-*.xml'
@@ -22,7 +27,7 @@ pipeline {
 		stage('Build APK') {
 			steps {
 				//Finish building and packaging the APK
-				sh './MBP2Go/gradlew assembleDebug'
+				sh './gradlew assembleDebug'
 
 				//Archive the APK
 				archiveArtifacts '**/*.apk'
@@ -31,7 +36,7 @@ pipeline {
 		stage('Static analysis') {
 			steps {
 				// Run Lint and analyse the results
-				sh './MBP2Go/gradlew lintDebug'
+				sh './gradlew lintDebug'
 				androidLint pattern: '**/lint-results-*.xml'
 			}
 		}
