@@ -42,10 +42,12 @@ pipeline {
 		stage('Copy') {
 			steps {
 				fileOperations([fileCopyOperation(
-					excludes: '',
-					flattenFiles: false,
+					flattenFiles: true,
 					includes: "**/app-debug.apk",
 					targetLocation: "/var/www/html/apk"
+				), fileRenameOperation(
+					source: "/var/www/html/apk/app-debug.apk",
+					destination: "/var/www/html/apk/${env.BRANCH_NAME}.apk"
 				)])
 			}
 		}
