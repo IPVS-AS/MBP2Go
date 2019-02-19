@@ -45,7 +45,7 @@ pipeline {
 				fileOperations([
 					fileCopyOperation(
 						flattenFiles: true,
-						includes: "**/app-debug.apk",
+						includes: "**/*.apk",
 						targetLocation: "/var/www/html/apk/${env.BRANCH_NAME}"
 					)
 				])
