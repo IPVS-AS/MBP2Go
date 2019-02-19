@@ -30,7 +30,7 @@ pipeline {
 				runGradle("assembleDebug")
 
 				//Archive the APK
-				archiveArtifacts '**/*.apk'
+				//archiveArtifacts '**/*.apk'
 			}
 		}
 		stage('Static analysis') {
