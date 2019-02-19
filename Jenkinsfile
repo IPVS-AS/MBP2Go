@@ -1,9 +1,3 @@
-android {
-	lintOptions {
-		abortOnError false
-    }
-}
-
 pipeline {
     agent any
     tools {
