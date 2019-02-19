@@ -37,7 +37,6 @@ pipeline {
 			steps {
 				//Run Lint and analyse the results
 				runGradle("lintDebug")
-				androidLint pattern: '**/lint-results-*.xml'
 			}
 		}
     }
