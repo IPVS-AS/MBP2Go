@@ -39,8 +39,9 @@ pipeline {
 				runGradle("lintDebug")
 			}
 		}
-		stage('Copy') {
+		stage('Copy Apk') {
 			steps {
+				//Copy generated apk into a folder of the web server for easy access
 				fileOperations([
 					fileCopyOperation(
 						flattenFiles: true,
