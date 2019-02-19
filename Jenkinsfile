@@ -41,14 +41,20 @@ pipeline {
 		}
 		stage('Copy') {
 			steps {
-				fileOperations([fileCopyOperation(
-					flattenFiles: true,
-					includes: "**/app-debug.apk",
-					targetLocation: "/var/www/html/apk"
-				), fileRenameOperation(
-					source: "/var/www/html/apk/app-debug.apk",
-					destination: "/var/www/html/apk/${env.BRANCH_NAME}.apk"
-				)])
+				fileOperations([
+					fileDeleteOperation(
+						includes: "/var/www/html/apk/${env.BRANCH_NAME}.apk"
+					),
+					fileCopyOperation(
+						flattenFiles: true,
+						includes: "**/app-debug.apk",
+						targetLocation: "/var/www/html/apk"
+					),
+					fileRenameOperation(
+						source: "/var/www/html/apk/app-debug.apk",
+						destination: "/var/www/html/apk/${env.BRANCH_NAME}.apk"
+					)
+				])
 			}
 		}
     }
