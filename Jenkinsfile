@@ -41,7 +41,12 @@ pipeline {
 		}
 		stage('Copy') {
 			steps {
-				sh "sudo cp ./MBP2Go/app/build/outputs/apk/debug/app-debug.apk /var/www/html/apk/app.apk"
+				fileOperations([fileCopyOperation(
+					excludes: '',
+					flattenFiles: false,
+					includes: "**/app-debug.apk",
+					targetLocation: "/var/www/html/apk"
+				)])
 			}
 		}
     }
