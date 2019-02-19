@@ -2,23 +2,23 @@ pipeline {
     agent any
     tools {
         jdk 'jdk8'
+		gradle 'Gradle5'
     }
     stages {
-		stage('Initialize'){
+		stage('Initialize') {
 			steps {
-				sh 'cd ./MBP2Go'
+				runGradle("--version")
 			}
 		}
 		stage('Compile') {
 			steps {
-				//Compile the app
-				sh './gradlew compileDebugSources'
+				runGradle("compileDebugSources")
 			}
 		}
 		stage('Unit test') {
 			steps {
 				//Compile and run unit tests
-				sh './gradlew testDebugUnitTest testDebugUnitTest'
+				runGradle("testDebugUnitTest testDebugUnitTest")
 
 				//Analyse the test results
 				junit '**/TEST-*.xml'
@@ -27,7 +27,7 @@ pipeline {
 		stage('Build APK') {
 			steps {
 				//Finish building and packaging the APK
-				sh './gradlew assembleDebug'
+				runGradle("assembleDebug")
 
 				//Archive the APK
 				archiveArtifacts '**/*.apk'
@@ -35,10 +35,16 @@ pipeline {
 		}
 		stage('Static analysis') {
 			steps {
-				// Run Lint and analyse the results
-				sh './gradlew lintDebug'
+				//Run Lint and analyse the results
+				runGradle("lintDebug")
 				androidLint pattern: '**/lint-results-*.xml'
 			}
 		}
+    }
+}
+
+def runGradle(command) {
+    dir("MBP2Go") {
+        sh "gradle ${command}"
     }
 }
