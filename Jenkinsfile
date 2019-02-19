@@ -56,6 +56,6 @@ pipeline {
 
 def runGradle(command) {
     dir("MBP2Go") {
-        sh "gradle ${command}"
+        sh "gradle --no-daemon ${command}"
     }
 }
