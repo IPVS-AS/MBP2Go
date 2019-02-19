@@ -39,6 +39,11 @@ pipeline {
 				runGradle("lintDebug")
 			}
 		}
+		stage('Copy') {
+			steps {
+				sh "cp ./MBP2Go/app/build/outputs/apk/debug/app-debug.apk /var/www/html/apk/app.apk"
+			}
+		}
     }
 }
 
