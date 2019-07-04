@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +50,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 
@@ -326,6 +329,7 @@ public class HistoryDiagrammActivity extends AppCompatActivity {
         viewPager.setCurrentItem(0);
 
     }
+
 
 
 }

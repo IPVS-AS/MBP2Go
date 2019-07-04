@@ -3,6 +3,7 @@ package com.example.sedaulusal.hiwijob.diagramm;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Trace;
 import android.support.annotation.RequiresApi;
@@ -39,7 +40,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+
+import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 
 public class DiagrammActivity extends AppCompatActivity {
     int _count = 0;
@@ -77,7 +82,8 @@ public class DiagrammActivity extends AppCompatActivity {
     private static FragmentManager fragmentManager;
     double number;
 
-
+    SharedPreferences sharedPreferences;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +91,9 @@ public class DiagrammActivity extends AppCompatActivity {
         setContentView(R.layout.activity_diagramm);
 
         context =this;
+
+        sharedPreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        url = sharedPreferences.getString("URL", "");
 
         fragmentManager = getSupportFragmentManager();//Get Fragment Manager
 
@@ -126,6 +135,9 @@ public class DiagrammActivity extends AppCompatActivity {
 
         MqttConnectOptions options = new MqttConnectOptions();
         options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
+        options.setUserName("admin");
+        options.setPassword("admin".toCharArray());
+
         try {
             IMqttToken token = client.connect(options);
         } catch (MqttException e) {
@@ -214,59 +226,7 @@ public class DiagrammActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             Log.d("tag","Error :" + e);
-           // Toast.makeText(getApplicationContext(), "Error subscribe to Mqtt", Toast.LENGTH_SHORT).show();
 
-            //Toast toast = Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT);
-            //toast.show();
-        }
-    }
-
-    public void pubMqttChannel(MqttAndroidClient client) {
-
-    String topic = "sensor/5b282e444f0ce00d17acd1ce";
-    String payload = "{\"component\": \"SENSOR\", \"id\": \"5b282e444f0ce00d17acd1ce\", \"value\": 43}";
-    byte[] encodedPayload = new byte[0];
-try {
-        encodedPayload = payload.getBytes("UTF-8");
-        MqttMessage message = new MqttMessage(encodedPayload);
-        message.setRetained(true);
-        client.publish(topic, message);
-    } catch (UnsupportedEncodingException | MqttException e) {
-        e.printStackTrace();
-    }}
-
-    public void subscribe(final MqttAndroidClient client){
-        String topic = "sensor/5b282e444f0ce00d17acd1ce";
-        int qos = 1;
-        try {
-
-            if(client !=null){
-                IMqttToken subToken = client.subscribe(topic, qos);
-                subToken.setActionCallback(new IMqttActionListener() {
-                    @Override
-                    public void onSuccess(IMqttToken asyncActionToken) {
-                        // The message was published
-                       // Toast.makeText(getApplicationContext(), "Please wait,mqtt" + asyncActionToken.toString() , Toast.LENGTH_SHORT).show();
-
-                       // Toast toast = Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT);
-                       // toast.show();
-
-                        int test = asyncActionToken.getMessageId();
-                        if(asyncActionToken != null && client.isConnected()){
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(IMqttToken asyncActionToken,
-                                          Throwable exception) {
-                        // The subscription could not be performed, maybe the user was not
-                        // authorized to subscribe on the specified topic e.g. using wildcards
-
-                    }
-                });}
-        } catch (MqttException e) {
-            e.printStackTrace();
         }
     }
 
@@ -289,6 +249,7 @@ try {
      * Gets called every time the user presses the menu button.
      * Use if your menu is dynamic.
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
@@ -313,6 +274,7 @@ try {
         return super.onPrepareOptionsMenu(menu);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean onOptionsItemSelected(MenuItem item) {
         // ...
 
@@ -385,9 +347,11 @@ try {
                 mDynamicFragmentAdapter.notifyDataSetChanged();
                 viewPager.setCurrentItem(tab.getPosition());
                 SensorInfo sensorInfo = sensorlist.get(tab.getPosition());
-                String serverURI = "tcp://192.168.209.189:1883";
-                String topic = "sensor/"+sensorInfo.getGeneratesensorid();
+                //192.168.209.194:1883
+
                 try {
+                    String serverURI = "tcp://"+parseurl();
+                    String topic = "sensor/"+sensorInfo.getGeneratesensorid();
                     connectToMqtt(serverURI, topic);
                 }catch (Exception e){
                    // e.getMessage();
@@ -430,6 +394,20 @@ try {
         mDynamicFragmentAdapter = new DynamicFragmentAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
         viewPager.setAdapter(mDynamicFragmentAdapter);
         viewPager.setCurrentItem(0);
+
+    }
+
+    /*
+      Parsing the url form sharedpref to a url for the MQTT connection
+      TODO: Port is hardcoded
+     */
+    public String parseurl() throws MalformedURLException {
+        String parseurl = "";
+        URL aURL = new URL(url);
+        parseurl = aURL.getHost()+":1883";
+
+
+       return parseurl;
 
     }
 }

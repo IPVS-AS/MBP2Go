@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void btn_Login_SignInClick(View v) throws JSONException {
 
-        /*
+
         //final RequestQueue queue = Volley.newRequestQueue(context); // this = context
 
         RequestQueue queue2 = Volley.newRequestQueue(context); // this = context
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
         };
         // Add the request to the RequestQueue.
-        queue.add(stringRequest);*/
+        queue2.add(stringRequest);
 
 
 

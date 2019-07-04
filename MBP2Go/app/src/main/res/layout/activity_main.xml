@@ -105,9 +105,9 @@
             android:padding="20dp"
             android:scaleType="fitCenter"
             android:drawableTop="@drawable/ic_smartphone_ringing"
-            android:text="Test"
+            android:text="Monitoring"
             android:textColor="#FFFFFFFF"
-            android:onClick="btn_TestPublish"/>
+            android:onClick="btn_Monitoring"/>
 
         <Button
             android:id="@+id/btn_setting"

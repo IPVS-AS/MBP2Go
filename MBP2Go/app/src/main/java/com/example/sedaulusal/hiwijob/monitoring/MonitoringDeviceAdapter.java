@@ -1,4 +1,4 @@
-package com.example.sedaulusal.hiwijob.device;
+package com.example.sedaulusal.hiwijob.monitoring;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,20 +10,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.sedaulusal.hiwijob.R;
+import com.example.sedaulusal.hiwijob.device.DeviceInfo;
 
 import java.util.ArrayList;
 
 /**
  * Created by sedaulusal on 18.05.17.
  */
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder>  {
+public class MonitoringDeviceAdapter extends RecyclerView.Adapter<MonitoringDeviceAdapter.DeviceViewHolder>  {
 
-    private ProgressCallback mProgressCallback;
 
     private ArrayList<DeviceInfo> deviceList;
     private ArrayList<DeviceInfo> arraylist;
@@ -33,17 +34,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder> 
 
 
 
-    public MyAdapter(ArrayList<DeviceInfo> deviceList, Cursor mCursor, Context mContext) {
+    public MonitoringDeviceAdapter(ArrayList<DeviceInfo> deviceList, Cursor mCursor, Context mContext) {
         this.mCursor = mCursor;
         this.mContext = mContext;
         this.deviceList = deviceList;
         this.arraylist = new ArrayList<DeviceInfo>();
         this.arraylist.addAll(deviceList);
-        try {
-            this.mProgressCallback = ((ProgressCallback) mContext);
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement AdapterCallback.");
-        }
+
     }
 
 
@@ -64,17 +61,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder> 
         DeviceInfo de = deviceList.get(i);
         deviceViewHolder.itemView.setTag(R.string.key, de.getId());
 
-        deviceViewHolder.vTitle.setText(de.name);
+        deviceViewHolder.vTitle.setText(de.getName());
         deviceViewHolder.vState.setText(de.getState());
         byte[] iconImage = de.getImage();
         Bitmap bitmap = BitmapFactory.decodeByteArray(iconImage, 0, iconImage.length);
         deviceViewHolder.vIcon.setImageBitmap(bitmap);
 
-        if(mProgressCallback.loadingProgress()){
-            deviceViewHolder.vProcessbar.setVisibility(View.INVISIBLE);
-        }else{
-            deviceViewHolder.vProcessbar.setVisibility(View.VISIBLE);
-        }
+
 
     }
 
@@ -149,7 +142,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder> 
             vTitle = (TextView) v.findViewById(R.id.title);
             vState = (TextView) v.findViewById(R.id.devicestate);
             vIcon = (ImageView) v.findViewById(R.id.imageIcon);
-            vProcessbar = (ProgressBar) v.findViewById(R.id.progressBar);
             //vDeployButton = (Button) v.findViewById(R.id.switch_deploy);
         }
 

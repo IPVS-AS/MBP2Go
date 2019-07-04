@@ -1,4 +1,4 @@
-package com.example.sedaulusal.hiwijob.device;
+package com.example.sedaulusal.hiwijob.monitoring;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -15,35 +15,31 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.sedaulusal.hiwijob.R;
+import com.example.sedaulusal.hiwijob.device.DeviceInfo;
 
 import java.util.ArrayList;
 
 /**
  * Created by sedaulusal on 18.05.17.
  */
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder>  {
+public class MonitoringDeployAdapter extends RecyclerView.Adapter<MonitoringDeployAdapter.DeviceViewHolder>  {
 
-    private ProgressCallback mProgressCallback;
 
-    private ArrayList<DeviceInfo> deviceList;
-    private ArrayList<DeviceInfo> arraylist;
+    private ArrayList<MonitoringAdapters> monitoringAdaptersList;
+    private ArrayList<MonitoringAdapters> arraylist;
 
     private Cursor mCursor;
     private Context mContext;
 
 
 
-    public MyAdapter(ArrayList<DeviceInfo> deviceList, Cursor mCursor, Context mContext) {
+    public MonitoringDeployAdapter(ArrayList<MonitoringAdapters> monitoringAdaptersList, Cursor mCursor, Context mContext) {
         this.mCursor = mCursor;
         this.mContext = mContext;
-        this.deviceList = deviceList;
-        this.arraylist = new ArrayList<DeviceInfo>();
-        this.arraylist.addAll(deviceList);
-        try {
-            this.mProgressCallback = ((ProgressCallback) mContext);
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement AdapterCallback.");
-        }
+        this.monitoringAdaptersList = monitoringAdaptersList;
+        this.arraylist = new ArrayList<MonitoringAdapters>();
+        this.arraylist.addAll(monitoringAdaptersList);
+
     }
 
 
@@ -61,20 +57,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder> 
     public void onBindViewHolder(DeviceViewHolder deviceViewHolder, int i) {
 
 
-        DeviceInfo de = deviceList.get(i);
-        deviceViewHolder.itemView.setTag(R.string.key, de.getId());
+        MonitoringAdapters de = monitoringAdaptersList.get(i);
+        //deviceViewHolder.itemView.setTag(R.string.key, de.getId());
 
-        deviceViewHolder.vTitle.setText(de.name);
-        deviceViewHolder.vState.setText(de.getState());
-        byte[] iconImage = de.getImage();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(iconImage, 0, iconImage.length);
-        deviceViewHolder.vIcon.setImageBitmap(bitmap);
+        deviceViewHolder.vTitle.setText(de.getName());
+        deviceViewHolder.vState.setText(de.getUnit());
 
-        if(mProgressCallback.loadingProgress()){
-            deviceViewHolder.vProcessbar.setVisibility(View.INVISIBLE);
-        }else{
-            deviceViewHolder.vProcessbar.setVisibility(View.VISIBLE);
-        }
 
     }
 
@@ -109,7 +97,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder> 
 
     @Override
     public int getItemCount() {
-        return deviceList.size();
+        return monitoringAdaptersList.size();
     }
 
 
@@ -128,7 +116,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder> 
     public DeviceViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.cardview_sensor_send_item, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.monitoring_deploy_item, viewGroup, false);
 
         return new DeviceViewHolder(itemView);
     }
@@ -138,7 +126,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder> 
 
         protected TextView vTitle;
         protected TextView vState;
-        protected ImageView vIcon;
         protected ProgressBar vProcessbar;
        // protected Button vDeployButton;
 
@@ -146,10 +133,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder> 
         public DeviceViewHolder(View v) {
             super(v);
 
-            vTitle = (TextView) v.findViewById(R.id.title);
-            vState = (TextView) v.findViewById(R.id.devicestate);
-            vIcon = (ImageView) v.findViewById(R.id.imageIcon);
-            vProcessbar = (ProgressBar) v.findViewById(R.id.progressBar);
+            vTitle = (TextView) v.findViewById(R.id.txtMonitoringName);
+            vState = (TextView) v.findViewById(R.id.txtMonitoringState);
             //vDeployButton = (Button) v.findViewById(R.id.switch_deploy);
         }
 

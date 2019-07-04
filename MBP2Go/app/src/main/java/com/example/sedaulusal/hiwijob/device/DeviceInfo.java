@@ -17,6 +17,7 @@ public class DeviceInfo {
     protected String password;
     protected String plattformid;
 
+    protected String state;
 
 
     public DeviceInfo() {
@@ -87,6 +88,21 @@ public class DeviceInfo {
         this.username = username;
         this.password = password;
         this.plattformid =plattformid;
+
+    }
+
+
+    public DeviceInfo(int id, String plattformid, String name, String macid, byte[] image, String devicetype, String optionalIP, String username, String password,String state) {
+        this.id = id;
+        this.name = name;
+        this.macid = macid;
+        this.image = image;
+        this.devicetype = devicetype;
+        this.optionalIP = optionalIP;
+        this.username = username;
+        this.password = password;
+        this.plattformid =plattformid;
+        this.state = state;
 
     }
 
@@ -194,6 +210,15 @@ public class DeviceInfo {
 
     public void setPlattformid(String plattformid) {
         this.plattformid = plattformid;
+    }
+
+    //for the Device state possible states are available or unavailable
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
 

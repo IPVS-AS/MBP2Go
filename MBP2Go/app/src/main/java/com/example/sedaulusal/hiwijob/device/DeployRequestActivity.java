@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 
 import android.view.LayoutInflater;
@@ -25,11 +26,14 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -43,6 +47,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
@@ -99,7 +105,6 @@ public class DeployRequestActivity extends AppCompatActivity {
             Log.d("Sensor Watchlist", sensorInfo.getName() + "\n" + sensorInfo.getSensorPinset() + sensorInfo.getGeneratesensorid());
             listSensor.add(sensorInfo);
 
-
         }
 
         ArrayList<ActuatorInfo> actuatorWatchList = sqLiteHelper.getAllActuatorsByDevicePlattform(di.getPlattformid());
@@ -118,8 +123,7 @@ public class DeployRequestActivity extends AppCompatActivity {
         //then populate myListItems
         sensorAdapter = new SensorDeployAdapter(this, R.layout.layout_deploy, listSensor);
         actuatorAdapter = new ActuatorDeployAdapter(this, R.layout.layout_deploy_actuator, listactuator);
-        sensorAdapter.notifyDataSetChanged();
-
+        //sensorAdapter.notifyDataSetChanged();
 
         listView.setAdapter(sensorAdapter);
 
@@ -149,9 +153,6 @@ public class DeployRequestActivity extends AppCompatActivity {
             ListUtils.setDynamicHeight(listView);
             ListUtils.setDynamicHeight(listView2);
         }
-
-        //UtilityClass.setListViewHeightBasedOnChildren(listView);
-        //UtilityClass.setListViewHeightBasedOnChildren(listView2);
     }
 
 
@@ -162,9 +163,8 @@ public class DeployRequestActivity extends AppCompatActivity {
                     public void onRefresh() {
                         //Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
                         //Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_SHORT).show();
-                        // This method performs the actual data-refresh operation.
+                        //This method performs the actual data-refresh operation.
                         //getRequest(url,finalHolder);
-
                         updateSensorsDeploy();
                         updateActuatorsDeploy();
 
@@ -176,16 +176,13 @@ public class DeployRequestActivity extends AppCompatActivity {
 
     public void updateSensorsDeploy() {
         RequestQueue queue2 = Volley.newRequestQueue(context);
-        // this = context
-        //Intent intent = getIntent();
-        //finish();
-        //startActivity(intent);
+        mSwipeRefreshLayout.setRefreshing(true);
+
         for (final SensorInfo sensorInfo : listSensor) {
-            listSensorTest.add(sensorInfo);
 
             //String url = "http://192.168.209.189:8080/MBP/api/deploy/sensor/" + sensorInfo.getGeneratesensorid();
-            String urlSensors = url+"/api/deploy/sensor/" + sensorInfo.getGeneratesensorid();
-
+            String urlSensors = url+"/api/sensors/state/" + sensorInfo.getGeneratesensorid();
+            //http://192.168.209.194:8888/deploy/master/api/sensors/state/
             JSONObject params_sensor = new JSONObject();
 
             StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
@@ -195,13 +192,17 @@ public class DeployRequestActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
 
-                    if (response.contains("true")) {
+                    if (response.contains("DEPLOYED")) {
                         sensorInfo.deployed = true;
+                        sensorAdapter.notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
+
                     } else {
                         sensorInfo.deployed = false;
+                        sensorAdapter.notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
+
                     }
-                    sensorAdapter.notifyDataSetChanged();
-                    mSwipeRefreshLayout.setRefreshing(false);
 
 
                 }
@@ -215,7 +216,19 @@ public class DeployRequestActivity extends AppCompatActivity {
 
                         }
                     }
-            );
+            ){
+                //
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> authentification = getHeaderforAuthentification();
+                    return authentification;
+
+                }
+
+            };
+            int socketTimeout = 30000;//30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            jsonObjReq.setRetryPolicy(policy);
             queue2.add(jsonObjReq);
             //mSwipeRefreshLayout.setRefreshing(false);
             // The method calls setRefreshing(false) when it's finished.
@@ -225,11 +238,7 @@ public class DeployRequestActivity extends AppCompatActivity {
                 mSwipeRefreshLayout.setRefreshing(false);
 
             }*/
-
         }
-
-
-
     }
 
     public void updateActuatorsDeploy() {
@@ -268,7 +277,16 @@ public class DeployRequestActivity extends AppCompatActivity {
 
                         }
                     }
-            );
+            ){
+                //
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> authentification = getHeaderforAuthentification();
+                    return authentification;
+
+                }
+
+            };
             queue2.add(jsonObjReq);
 
             // The method calls setRefreshing(false) when it's finished.
@@ -312,5 +330,20 @@ public class DeployRequestActivity extends AppCompatActivity {
         }
     }
 
+
+    public Map<String, String> getHeaderforAuthentification(){
+        String username = "admin";
+        String password = "admin";
+        // String auth =new String(username + ":" + password);
+        String auth = new String("admin:admin");
+        byte[] data = auth.getBytes();
+        String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic " + base64);
+        //headers.put("accept-language","EN");
+        headers.put("Content-Type", "application/json");
+        //headers.put("Accept","application/json");
+        return headers;
+    }
 
 }

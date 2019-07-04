@@ -65,12 +65,12 @@
 
         <EditText
             android:id="@+id/edit_password"
+            android:inputType="text|textMultiLine"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:ems="10"
-            android:inputType="textPersonName"
             android:text="raspberry" />
 
         <TextView
@@ -81,7 +81,8 @@
             android:layout_alignBottom="@+id/edit_password"
             android:layout_alignParentStart="true"
             android:text="Password:"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            />
 
     </RelativeLayout>
 

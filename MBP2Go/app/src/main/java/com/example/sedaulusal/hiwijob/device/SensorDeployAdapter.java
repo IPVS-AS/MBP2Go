@@ -1,36 +1,48 @@
 package com.example.sedaulusal.hiwijob.device;
 
-import android.app.assist.AssistStructure;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.ekalips.fancybuttonproj.FancyButton;
 import com.example.sedaulusal.hiwijob.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+
 
 import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 
@@ -40,6 +52,7 @@ import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 
 public class SensorDeployAdapter extends BaseAdapter {
 
+    private static String frequencyString = "";
     private DeployRequestActivity context;
     private int layout;
     private ArrayList<SensorInfo> sensorList;
@@ -68,15 +81,13 @@ public class SensorDeployAdapter extends BaseAdapter {
         return position;
     }
 
-    private class ViewHolder {
+    public class ViewHolder {
         ImageView SensorimageView;
         TextView txtSensorName;
         TextView txtSensorPinset;
-        ToggleButton toggleButton;
+        FancyButton sensorstartorpause;
+        FancyButton fancyBtn;
 
-        public ToggleButton getToggleButton() {
-            return toggleButton;
-        }
     }
 
     public DeployRequestActivity getContext() {
@@ -107,8 +118,10 @@ public class SensorDeployAdapter extends BaseAdapter {
             holder.txtSensorName = (TextView) itemView.findViewById(R.id.txtSensorName);
             holder.txtSensorPinset = (TextView) itemView.findViewById(R.id.txtSensorId);
             holder.SensorimageView = (ImageView) itemView.findViewById(R.id.imgSensor);
-            holder.toggleButton = (ToggleButton) itemView.findViewById(R.id.toggleButton);
-
+            //holder.toggleButton = (ToggleButton) itemView.findViewById(R.id.toggleButton);
+            holder.sensorstartorpause = (FancyButton) itemView.findViewById(R.id.btn_tgl_sensorstartpause);
+            //holder.circularProgressButton = (CircularProgressButton) itemView.findViewById(R.id.btn_animatedeploy);
+            holder.fancyBtn = (FancyButton) itemView.findViewById(R.id.btn1);
             itemView.setTag(holder);
 
         } else {
@@ -125,16 +138,26 @@ public class SensorDeployAdapter extends BaseAdapter {
         byte[] sensorImage = sensor.getImage();
         Bitmap bitmap = BitmapFactory.decodeByteArray(sensorImage, 0, sensorImage.length);
         holder.SensorimageView.setImageBitmap(bitmap);
-
+        //holder.fancyBtn.collapse();
 
         final ViewHolder finalHolder = holder;
 
         if (sensor.deployed) {
-            finalHolder.toggleButton.setSelected(true);
-            finalHolder.toggleButton.setChecked(true);
+            //finalHolder.toggleButton.setSelected(true);
+            //finalHolder.toggleButton.setChecked(true);
+            finalHolder.fancyBtn.expand();
+            finalHolder.fancyBtn.setText("deployed");
+            finalHolder.sensorstartorpause.setVisibility(View.VISIBLE);
+            finalHolder.sensorstartorpause.setText("Pause");
+
+
         } else {
-            finalHolder.toggleButton.setSelected(false);
-            finalHolder.toggleButton.setChecked(false);
+            //finalHolder.toggleButton.setSelected(false);
+            //finalHolder.toggleButton.setChecked(false);
+            finalHolder.fancyBtn.expand();
+            finalHolder.fancyBtn.setText("undeployed");
+            finalHolder.sensorstartorpause.setVisibility(View.GONE);
+
         }
 
 
@@ -144,17 +167,262 @@ public class SensorDeployAdapter extends BaseAdapter {
          */
         final DeployRequestActivity activity = this.context;
 
+        holder.fancyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v instanceof  FancyButton)
+                {
+                    if (!sensor.deployed) {
 
+                        //((FancyButton) v).setText("Hi1");
+                        getSensorAdapter(sensor,finalHolder.sensorstartorpause, finalHolder.fancyBtn);
 
+                    } else {
+                        undeploySensor(sensor,finalHolder.sensorstartorpause,finalHolder.fancyBtn);
+                        //((FancyButton) v).expand();
+                        //((FancyButton) v).setText("Hi");
+                    }
+                }
+            }
+        });
 
-        holder.toggleButton.setOnClickListener(new View.OnClickListener() {
+        /*holder.toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Boolean toggleButtonState = finalHolder.toggleButton.isChecked();
+
                 final String urlSensor = url+"/api/deploy/sensor/" + sensor.getGeneratesensorid();
-
-
                 if (toggleButtonState == true) {
+                    getSensorAdapter(sensor,finalHolder.toggleButton, finalHolder.sensorstartorpause, finalHolder.fancyBtn);
+
+                    //frequenzcy();
+                    //YouEditTextValue1.length();
+                }else if(toggleButtonState == false){
+                    undeploySensor(sensor,finalHolder.toggleButton,finalHolder.fancyBtn);
+                }
+
+            }
+        });*/
+
+
+        return itemView;
+    }
+
+    public Map<String, String> getHeaderforAuthentification(){
+        String username = "admin";
+        String password = "admin";
+        // String auth =new String(username + ":" + password);
+        String auth = new String("admin:admin");
+        byte[] data = auth.getBytes();
+        String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic " + base64);
+        //headers.put("accept-language","EN");
+        headers.put("Content-Type", "application/json");
+        //headers.put("Accept","application/json");
+        return headers;
+    }
+
+    public void frequenzcy(SensorInfo sensor,FancyButton sensorstartorpause, FancyButton fancyButton){
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        final EditText edittext = new EditText(context);
+        edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        alert.setMessage("Frequency:");
+        alert.setTitle("Option");
+
+        alert.setView(edittext);
+        //frequencyString="";
+        edittext.setText(frequencyString);
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //What ever you want to do with the value
+               // Editable YouEditTextValue = edittext.getText();
+                //OR
+                frequencyString = edittext.getText().toString();
+                    if(!(frequencyString.length() == 0) || !(frequencyString == null) ||!frequencyString.contains("")){
+
+                        //toogleButonstate.setChecked(true);
+                        try {
+                            deploySensorwithFrequency(sensor, sensorstartorpause, fancyButton);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                }
+
+            }
+        }
+        );
+
+        if(frequencyString.length() == 0 || frequencyString== null||frequencyString.contains("")){
+            //fancyButton.expand();
+        }
+        alert.show();
+    }
+
+    public void getSensorAdapter(SensorInfo sensor,  FancyButton sensorstartorpause, FancyButton fancyButton){
+        final String urlSensor = url+"/api/sensors/" + sensor.getGeneratesensorid();
+
+        RequestQueue queue = Volley.newRequestQueue(context);  // this = context
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, urlSensor, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        JSONObject obj = null;
+
+                        try {
+                            JSONObject mainObject = response;
+
+                            JSONObject embeddedObject = mainObject.getJSONObject("_embedded");
+                            JSONObject adapterObject = embeddedObject.getJSONObject("adapter");
+                            JSONArray parameterObject = adapterObject.getJSONArray("parameters");
+                            if(parameterObject.toString().length() > 2){
+                                frequenzcy(sensor, sensorstartorpause, fancyButton);
+
+                            }else{
+                                System.out.println("Teste else");
+                               deploySensorwithoutFrequency(sensor, sensorstartorpause, fancyButton);
+                            }
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            //  dialog.dismiss();
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error.Response", "errorrrrr");
+                        // dialog.dismiss();
+
+                    }
+                })
+        {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+
+        queue.add(getRequest);
+
+    }
+
+
+    public void deploySensorwithFrequency(SensorInfo sensor,  FancyButton sensorstartorpause, FancyButton fancyButton) throws JSONException {
+        final String requestBody = "";
+        final DeployRequestActivity activity = this.context;
+        fancyButton.collapse();
+        sensorstartorpause.setVisibility(View.GONE);
+        final String urlSensor = url+"/api/deploy/sensor/" + sensor.getGeneratesensorid();
+//http://192.168.209.194:8888/deploy/master/api/deploy/sensor/5c7fd6d3f8ea1203bcf381b9
+        //if (toggleButton.isChecked()==true) {
+            System.out.println("Teste true oder ner");
+            JSONObject params_sensor = new JSONObject();
+
+            try {
+                params_sensor.put("","[]");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            RequestQueue queue1 = Volley.newRequestQueue(context); // this = context
+            JSONArray arr = new JSONArray();
+            JSONObject params_actuator = new JSONObject();
+            params_actuator.put("name", "Frequency");
+            params_actuator.put("value", Integer.valueOf(frequencyString));
+            arr.put(params_actuator);
+            JsonObjectRequest jsonObjReqPOST = new JsonObjectRequest(Request.Method.POST,
+                    urlSensor, params_actuator, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d("ResponseAdapterPOST", response.toString());
+                    System.out.println("ResponseAdapterPost" + response.toString());
+
+                    if (response.toString().contains("201") || response.toString().contains("true") ) {
+                        sensor.deployed = true;
+                        notifyDataSetChanged();
+
+                    } else {
+                        sensor.deployed = false;
+                        notifyDataSetChanged();
+                    }
+
+                }
+
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //sensor.deployed = false;
+                            if(error.toString().contains("TimeoutError")){
+                               // activity.updateSensorsDeploy();
+                                //sensor.deployed = true;
+                                notifyDataSetChanged();
+                            }else{
+                                sensor.deployed = false;
+                                notifyDataSetChanged();
+                            }
+                            //notifyDataSetChanged();
+                        }
+                    }
+            ){
+                //
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> authentification = getHeaderforAuthentification();
+                    return authentification;
+
+                }/*@Override
+                public byte[] getBody() {
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }*/
+
+            };
+            int socketTimeout = 60000;//30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            jsonObjReqPOST.setRetryPolicy(policy);
+            queue1.add(jsonObjReqPOST);
+       // }
+    }
+
+
+    public void deploySensorwithoutFrequency(SensorInfo sensor, FancyButton sensorstartorpause, FancyButton fancyButton){
+        final DeployRequestActivity activity = this.context;
+        fancyButton.collapse();
+        sensorstartorpause.setVisibility(View.GONE);
+
+
+        final String urlSensor = url+"/api/deploy/sensor/" + sensor.getGeneratesensorid();
+        System.out.println("Test mmm");
+//http://192.168.209.194:8888/deploy/master/api/deploy/sensor/5c7fd6d3f8ea1203bcf381b9
+               // if (toggleButton.isChecked()==true) {
+                    System.out.println("Teste true oder ner");
+                    JSONObject params_sensor = new JSONObject();
+
+                   /* try {
+                        //params_sensor.put("","[]");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }*/
 
 
                     RequestQueue queue1 = Volley.newRequestQueue(context); // this = context
@@ -167,10 +435,16 @@ public class SensorDeployAdapter extends BaseAdapter {
 
                             if (response.toString().contains("201") || response.toString().contains("true") ) {
                                 sensor.deployed = true;
+                                //fancyButton.expand();
+
+                                //sensorstartorpause.setVisibility(View.VISIBLE);
                                 notifyDataSetChanged();
 
                             } else {
                                 sensor.deployed = false;
+                                //fancyButton.expand();
+
+                                //sensorstartorpause.setVisibility(View.GONE);
                                 notifyDataSetChanged();
                             }
 
@@ -182,72 +456,107 @@ public class SensorDeployAdapter extends BaseAdapter {
                                 public void onErrorResponse(VolleyError error) {
                                     //sensor.deployed = false;
                                     if(error.toString().contains("TimeoutError")){
-                                        activity.updateSensorsDeploy();
+                                        //activity.updateSensorsDeploy();
                                         //sensor.deployed = true;
                                         notifyDataSetChanged();
                                     }else{
                                         sensor.deployed = false;
+                                       // fancyButton.expand();
+                                        fancyButton.setText("ErrorListener");
+
+                                        //sensorstartorpause.setVisibility(View.GONE);
                                         notifyDataSetChanged();
                                     }
                                     //notifyDataSetChanged();
                                 }
                             }
-                    );
-
-                    queue1.add(jsonObjReqPOST);
-
-
-                } else if (toggleButtonState == false) {
-                    RequestQueue queue3 = Volley.newRequestQueue(context); // this = context
-
-
-                    StringRequest jsonObjReqPOST = new StringRequest(Request.Method.DELETE,
-                            urlSensor, new Response.Listener<String>() {
+                    ){
+                        //
                         @Override
-                        public void onResponse(String response) {
-                            // response
-                            Log.d("ResponseAdapterPOST", (String) response);
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> authentification = getHeaderforAuthentification();
+                            return authentification;
 
-                            if (response.contains("201")) {
-                                sensor.deployed = true;
-                                notifyDataSetChanged();
-                                Toast.makeText(context, "Sucess", Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                sensor.deployed = false;
-                                notifyDataSetChanged();
-                            }
-
-
+                        }@Override
+                        public byte[] getBody() {
+                            return "[]".toString().getBytes();
                         }
 
-                    },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    if(error.toString().contains("TimeoutError")){
-                                        activity.updateSensorsDeploy();
-                                        //sensor.deployed = true;
-                                        notifyDataSetChanged();
-                                    }else{
-                                        sensor.deployed = true;
-                                        notifyDataSetChanged();
-                                    }
+                    };
+                    int socketTimeout = 30000;//30 seconds - change to what you want
+                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                    jsonObjReqPOST.setRetryPolicy(policy);
+                    queue1.add(jsonObjReqPOST);
+                //}
+    }
 
-                                }
-                            }
-                    );
-                    queue3.add(jsonObjReqPOST);
+    public void undeploySensor(SensorInfo sensor, FancyButton sensorstartorpause,FancyButton fancyButton){
+        final DeployRequestActivity activity = this.context;
+
+        final String urlSensor = url+"/api/deploy/sensor/" + sensor.getGeneratesensorid();
+        System.out.println("Test mmm");
+        fancyButton.collapse();
+        sensorstartorpause.setVisibility(View.GONE);
+
+        //http://192.168.209.194:8888/deploy/master/api/deploy/sensor/5c7fd6d3f8ea1203bcf381b9
+        //if (toggleButton.isChecked()==false)  {
+            System.out.println("Teste false oohhhh");
+
+            RequestQueue queue3 = Volley.newRequestQueue(context); // this = context
+
+
+            StringRequest jsonObjReqPOST = new StringRequest(Request.Method.DELETE,
+                    urlSensor, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    // response
+                    Log.d("ResponseAdapterPOST", (String) response);
+
+                    if (response.contains("201")) {
+                        sensor.deployed = true;
+                        //sensorstartorpause.setVisibility(View.GONE);
+
+                        notifyDataSetChanged();
+                        Toast.makeText(context, "Sucess", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        sensor.deployed = false;
+                        notifyDataSetChanged();
+                    }
 
 
                 }
 
-            }
-        });
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if(error.toString().contains("TimeoutError")){
+                                //activity.updateSensorsDeploy();
+                                sensor.deployed = true;
+                                notifyDataSetChanged();
+                            }else{
+                                sensor.deployed = true;
+                                notifyDataSetChanged();
+                            }
+
+                        }
+                    }
+            ){
+                //
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> authentification = getHeaderforAuthentification();
+                    return authentification;
+
+                }
+            };
+            queue3.add(jsonObjReqPOST);
 
 
-        return itemView;
+       // }
     }
+
 
 
 }

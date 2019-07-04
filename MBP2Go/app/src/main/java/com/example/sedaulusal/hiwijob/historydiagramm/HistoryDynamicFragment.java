@@ -1,21 +1,28 @@
 package com.example.sedaulusal.hiwijob.historydiagramm;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,6 +30,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.sedaulusal.hiwijob.R;
+import com.example.sedaulusal.hiwijob.device.DeviceOverviewActivity;
+import com.example.sedaulusal.hiwijob.device.DeviceRegistryActivity;
 import com.example.sedaulusal.hiwijob.device.SQLiteHelper;
 import com.example.sedaulusal.hiwijob.device.SensorInfo;
 import com.highsoft.highcharts.Common.HIChartsClasses.HIChart;
@@ -44,13 +53,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 
-public class HistoryDynamicFragment extends Fragment  {
+/*
+class which generate the fragment for the history Data
+it shows the diagramm for history data and calculate the max, min, average values
+ */
+public class HistoryDynamicFragment extends Fragment {
     SQLiteHelper sqLiteHelper;
     HistoryDynamicFragment context;
 
@@ -60,7 +77,7 @@ public class HistoryDynamicFragment extends Fragment  {
 
 
     private static FragmentManager fragmentManager;
-    int number= 1;
+    int number = 1;
     View view;
     HIChart chart;
     HIEvents events;
@@ -72,7 +89,8 @@ public class HistoryDynamicFragment extends Fragment  {
     ArrayList<Double> yAchse;
 
     ArrayList<SensorInfo> sensorlist;
-    static String TAG =  "TAG";
+    static String TAG = "TAG";
+    String unit = " ";
 
     public static HistoryDynamicFragment newInstance() {
         return new HistoryDynamicFragment();
@@ -81,7 +99,7 @@ public class HistoryDynamicFragment extends Fragment  {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       context = this;
+        context = this;
 
 
     }
@@ -91,43 +109,77 @@ public class HistoryDynamicFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         sqLiteHelper = new SQLiteHelper(getContext());
 
-        view= inflater.inflate(R.layout.historydynamic_fragment_layout, container, false);
-        historyDiagrammActivity= (HistoryDiagrammActivity) getActivity();
+        view = inflater.inflate(R.layout.historydynamic_fragment_layout, container, false);
+        historyDiagrammActivity = (HistoryDiagrammActivity) getActivity();
 
         ArrayList<SensorInfo> sensorInfos = historyDiagrammActivity.sensorlist;
 
-        String sen= sensorInfos.get(getArguments().getInt("position")).getGeneratesensorid();
+        String sen = sensorInfos.get(getArguments().getInt("position")).getGeneratesensorid();
 
         //getValuesfromSensor(sen);
-         min = (TextView) view.findViewById(R.id.minValue);
-         max = (TextView) view.findViewById(R.id.maxValue);
-         average = (TextView) view.findViewById(R.id.t);
-         historybutton = (ImageButton) view.findViewById(R.id.btn_History_actual);
+        min = (TextView) view.findViewById(R.id.minValue);
+        max = (TextView) view.findViewById(R.id.maxValue);
+        average = (TextView) view.findViewById(R.id.t);
+        historybutton = (ImageButton) view.findViewById(R.id.btn_History_actual);
 
         initViews(view);
 
         historybutton.setOnClickListener(new View.OnClickListener() {
-                                             @Override
-                                             public void onClick(View v) {
-                                                 initViews(view);
-                                             }
-                                         });
+            @Override
+            public void onClick(View v) {
+                initViews(view);
+            }
+        });
 
-                //return view;
+        Button deleteHistoryValues = (Button) view.findViewById(R.id.button_deleteHistoryValues);
+        deleteHistoryValues.setOnClickListener(new View.OnClickListener() {
 
-                // View view = inflater.inflate(R.layout.fragmentlayout, container, false);//Inflate Layout
-                // TextView text = (TextView) view.findViewById(R.id.commonTextView);//Find textview Id
+            public void onClick(View v) {
+
+                AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(getActivity());
+                myAlertDialog.setTitle("Delete value data");
+                myAlertDialog.setMessage("Are you sure you want to delete all value data that has been recorded so far for this component? This action cannot be undone.");
+
+               // List<String> items = new ArrayList<String>();
+               // items.add("RED");
+               // items.add("BLUE");
 
 
-                //Get Argument that passed from activity in "data" key value
-                //String getArgument = getArguments().getString("sensorInfoGenerateSensorId");
-                fragmentManager = this.getFragmentManager();//Get Fragment Manager
+               // final ArrayAdapter<String> arrayAdapterItems = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, items);
+
+                myAlertDialog.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do stuff
+                    }
+                });
+                myAlertDialog.setPositiveButton("Delete",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do stuff
+                        deleteHistoryValues(sen);
+                        initViews(view);
+                    }
+                });
+                myAlertDialog.show();
+
+
+            }
+        });
+
+        //return view;
+
+        // View view = inflater.inflate(R.layout.fragmentlayout, container, false);//Inflate Layout
+        // TextView text = (TextView) view.findViewById(R.id.commonTextView);//Find textview Id
+
+
+        //Get Argument that passed from activity in "data" key value
+        //String getArgument = getArguments().getString("sensorInfoGenerateSensorId");
+        fragmentManager = this.getFragmentManager();//Get Fragment Manager
         //chartView.reload();
         return view;//return view
 
     }
-
-
 
 
     public void setyAchse(ArrayList<Double> yAchse) {
@@ -141,17 +193,17 @@ public class HistoryDynamicFragment extends Fragment  {
     private void initViews(View view) {
 
         //TextView textView=view.findViewById(R.id.commonTextView);
-       // diagrammActivity = (DiagrammActivity) getActivity();
+        // diagrammActivity = (DiagrammActivity) getActivity();
 
         //String name = diagrammActivity.lastWord; //id device
         ArrayList<SensorInfo> sensorInfos = historyDiagrammActivity.sensorlist;
-        String sen= sensorInfos.get(getArguments().getInt("position")).getGeneratesensorid();
+        String sen = sensorInfos.get(getArguments().getInt("position")).getGeneratesensorid();
 
         //getValuesfromSensor(sen);
         //textView.setText(String.valueOf("Category :  "+getArguments().getInt("position")));
-       // textView.setText(String.valueOf("Category :  "+ sensorInfos.get(getArguments().getInt("position")).getName()));
+        // textView.setText(String.valueOf("Category :  "+ sensorInfos.get(getArguments().getInt("position")).getName()));
 
-       // ArrayList<Double> sensorvalue = historyDiagrammActivity.sensorValues;
+        // ArrayList<Double> sensorvalue = historyDiagrammActivity.sensorValues;
         HIChartView chartView = (HIChartView) view.findViewById(R.id.webView);
 
         HIOptions options = new HIOptions();
@@ -166,33 +218,20 @@ public class HistoryDynamicFragment extends Fragment  {
         HISpline spline = new HISpline();
 
 
-
         // events.load = new HIFunction("function () { var series = this.series[0]; setInterval(function () { var x = (new Date()).getTime(), y = Math.random(); series.addPoint([x, y], true, true); }, 1000); }", true);
         options.setChart(chart);
 
         HITitle title = new HITitle();
-        //sensorlist= sqLiteHelper.getAllSensorsByPlattformId(devicelist.get(0).getPlattformid());
 
-        //String sensorName = sensorlist.get(1).getName();
-        //title.setText(sqLiteHelper.getSensor(getArguments().getInt("position") + 1).getName());
-        // DiagrammActivity diagrammActivity = new DiagrammActivity();
-        // String id = diagrammActivity.sensorId;
-        //title.setText(String.valueOf(diagrammActivity.getMyData()));
         title.setText("");
         options.setTitle(title);
 
-        HIXAxis xaxis =  new HIXAxis();
-        //xaxis.setType("datetime");
-        //xaxis.type = "datetime";
-        //String[] categoriesList = new String[] {"Apples", "Oranges", "Pears", "Grapes", "Bananas" };
-        //xaxis.setCategories(new ArrayList<>(Arrays.asList(categoriesList)));
-        options.setXAxis(new ArrayList<HIXAxis>(){{add(xaxis);}});
+        HIXAxis xaxis = new HIXAxis();
+        options.setXAxis(new ArrayList<HIXAxis>() {{
+            add(xaxis);
+        }});
 
-        //xaxis.tickPixelInterval = 150;
-            //options.setXAxis(new ArrayList<>(Collections.singletonList(xaxis)));
-        //options.xAxis = new ArrayList<>(Collections.singletonList(xaxis));
-
-        HIYAxis yaxis =  new HIYAxis();
+        HIYAxis yaxis = new HIYAxis();
         // yaxis.title =  new HITitle();
         HITitle hiTitle = new HITitle();
         hiTitle.setText("value");
@@ -200,7 +239,7 @@ public class HistoryDynamicFragment extends Fragment  {
         yaxis.setTitle(hiTitle);
         //yaxis.title.text = "Value";
         //yaxis.setTitle(hiTitle.setText(""));;//!!!!
-        HIPlotLines plotLines =  new HIPlotLines();
+        HIPlotLines plotLines = new HIPlotLines();
         //plotLines.value = 0;
         plotLines.setValue(0);
         plotLines.setWidth(1);
@@ -208,134 +247,52 @@ public class HistoryDynamicFragment extends Fragment  {
         yaxis.setPlotLines(new ArrayList<>(Collections.singletonList(plotLines)));
         options.setYAxis(new ArrayList<>(Collections.singletonList(yaxis)));
 
-        HITooltip tooltip =  new HITooltip();
+        HITooltip tooltip = new HITooltip();
         tooltip.setFormatter(new HIFunction("function () { return '<b>' + this.series.name + '</b><br/>' + this.x + '<br/>' + Highcharts.numberFormat(this.y, 2); }"));
         options.setTooltip(tooltip);
 
-        HILegend legend =  new HILegend();
+        HILegend legend = new HILegend();
         //legend.enabled = false;
         legend.setEnabled(false);
         //options.legend = legend;
         options.setLegend(legend);
 
-        HIExporting exporting =  new HIExporting();
+        HIExporting exporting = new HIExporting();
         //exporting.enabled = false;
         exporting.setEnabled(false);
         //options.exporting = exporting;
         options.setExporting(exporting);
 
-        //HISpline spline =  new HISpline();
-        //spline.name = "Random data";
         spline.setName("Data");
-        //diagrammActivity = (DiagrammActivity) getActivity();
 
 
         HashMap<String, Object> splineData1 = getStringObjectHashMap(1506522303996L, 0.9008867958057089);
         HashMap<String, Object> splineData2 = new HashMap<>();
         splineData2.put("x", 1506522304996L);
-        splineData2.put("y", 1 );
+        splineData2.put("y", 1);
         HashMap<String, Object> splineData3 = new HashMap<>();
         splineData3.put("x", 1506522305996L);
-        splineData3.put("y", 2 );
+        splineData3.put("y", 2);
         HashMap<String, Object> splineData4 = getStringObjectHashMap(1506522306996L, 1);
         HashMap<String, Object> splineData5 = new HashMap<>();
         splineData5.put("x", 1506522307996L);
         splineData5.put("y", 4);
-        HashMap<String, Object> splineData6= new HashMap<>();
+        HashMap<String, Object> splineData6 = new HashMap<>();
 
         splineData6.put("x", 1506522307996L);
         splineData6.put("y", 3);
-
-        //ArrayList<Double> yAchse;
-        //yAchse = new ArrayList<>();
-        //yAchse= historyDiagrammActivity.sensorValues;
-
-
-
-        //yAchse = sensorValues;
-
-
-        //int[] xArray = {1,2,3,4,5};
-        //int[] yArray = {3,4,5,6,7};
-
-        //yAchse = historyDiagrammActivity.sensorValues;
-        //yAchse.add("1");
-        //yAchse.add(2.0);
-        //yAchse.add(3);
-        //yAchse.add(4);
 
         ArrayList<String> xAchse;
         xAchse = new ArrayList<>();
         xAchse.add("1");
         xAchse.add("5");
 
-        // xAchse.add(2);
-       // xAchse.add(3);
-       // xAchse.add(4);
 
-
-        ArrayList<Object[]> listevalue;
-        listevalue = new ArrayList<>();
-        ArrayList<Object[]> myList1 = new ArrayList<>();
-
-
-        //xaxis.setCategories(xAchse);
-        //xaxis.setPlotLines(xAchse);
-       // xaxis.setUnits(xAchse);
-        //xaxis.setTickPositions();
-
-        //methode(xAchse,yAchse);
-
-        //list =new ArrayList(listevalue);
-
-
-
-
-
-        //methode1(xAchse,yAchse);
-        //listevalue = myList1;
-
-        //spline.data =  new ArrayList<>(Arrays.asList(splineData1, splineData2, splineData3, splineData4, splineData5, splineData6, splineData7, splineData8, splineData9, splineData10, splineData11, splineData12, splineData13, splineData14, splineData15, splineData16, splineData17, splineData18, splineData19, splineData20));
-       // spline.setData(new ArrayList<>(Arrays.asList(splineData1, splineData2, splineData3, splineData4, splineData5)));
-        //ArrayList<List> list =new ArrayList(Arrays.asList(splineData1, splineData2, splineData3, splineData4, splineData5));
-
-        //, splineData6, splineData7, splineData8, splineData9, splineData10, splineData11, splineData12, splineData13, splineData14, splineData15, splineData16, splineData17, splineData18, splineData19, splineData20)));
-        //options.series = new ArrayList<>(Collections.singletonList(spline));
-        //  spline.setPoint(new HIPoint());
-        //HIPoint hiPoint = new HIPoint();
-        //hiPoint.setX(3);
-        //hiPoint.setY(4);
-        // spline.setPoint(hiPoint);
-      /*  spline.getPoint().setEvents(new HIEvents());
-
-        spline.getPoint().getEvents().setClick(new HIFunction(
-                this::accept,
-                new String[] {"x", "y"}
-        ));*/
-
-
-        //HashMap<String, Object> splineData1 = getStringObjectHashMap(1506522303996L, givenList_shouldReturnARandomElement());
-        //HashMap<String, Object> splineData2 = getStringObjectHashMap(5, givenList_shouldReturnARandomElement());
-        //HashMap<String, Object> splineData5 = getStringObjectHashMap(10, 6);
-
-        //list =new ArrayList(Arrays.asList( splineData1, splineData2,splineData5));
-
-
-
-       // list.add(new ArrayList(Arrays.asList(splineData6)));
-       // spline.setData(list);
-
-        //ArrayList<List> list =new ArrayList(Arrays.asList(splineData1, splineData1, splineData1));
-        //options.setSeries(new ArrayList<HISeries>(Collections.singletonList(spline)));
-        //options.setSeries(new ArrayList<HISeries>((Collection<? extends HISeries>) spline));
         chart.setZoomType("x");
-        //HIScrollablePlotArea scroll = new HIScrollablePlotArea();
-        //scroll.setMinWidth(700);
-        //scroll.setScrollPositionX(1);
-        //chart.setScrollablePlotArea(scroll);
 
-        getValuesfromSensor(sen, spline,options,chartView,xaxis);
-        //chartevent();
+        getSensorParam(sen);
+        getValuesfromSensor(sen, spline, options, chartView, xaxis);
+
         chartView.setOptions(options);
 
 
@@ -348,29 +305,12 @@ public class HistoryDynamicFragment extends Fragment  {
         }, 800);
 
 
-
-
     }
 
 
-
-
-   /* Runnable helloRunnable = new Runnable() {
-        public void run() {
-            String s = "function request () { var series = this.series[0]; setInterval(function () { var x = (new Date()).getTime(), y ="+newInstance().test()+"; series.addPoint([x, y], true, true); }, 2000); }"));
-
-
-        }
-    };*/
-
-
-
-    public double test(){
+    public double test() {
         return Math.random();
     }
-
-
-
 
 
     private HashMap<String, Object> getStringObjectHashMap(long l, double numberget) {
@@ -416,13 +356,70 @@ public class HistoryDynamicFragment extends Fragment  {
     }
 
 
+    public void getSensorParam(String sensorId) {
+        String urlSensor = historyDiagrammActivity.url + "/api/sensors/" + sensorId;
+        //final String url = "http://192.168.209.189:8080/MBP/api/types";
+        RequestQueue queue = Volley.newRequestQueue(getContext()); // this = context
 
-    public void getValuesfromSensor(String sensorId, HISpline spline, HIOptions options, HIChartView chartView, HIXAxis xaxis){
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, urlSensor, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        JSONObject obj = null;
+
+                        try {
+                            JSONObject mainObject = response;
+
+                            JSONObject embeddedObject = mainObject.getJSONObject("_embedded");
+                            JSONObject adapterObject = embeddedObject.getJSONObject("adapter");
+                            //JSONArray parameterObject = adapterObject.getJSONArray("parameters");
+                            unit = adapterObject.getString("unit");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            //  dialog.dismiss();
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error.Response", "errorrrrr");
+                        // dialog.dismiss();
+
+                    }
+                }) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+
+        queue.add(getRequest);
+
+    }
+
+
+    public void getValuesfromSensor(String sensorId, HISpline spline, HIOptions options, HIChartView chartView, HIXAxis xaxis) {
 
         sensorValueList = new ArrayList<>();
         sensorTimeValueList = new ArrayList<>();
 
-        String url_forsensorvalues= historyDiagrammActivity.url +"/api/valueLogs/search/findAllByIdref?idref="+ sensorId+"&page=0&size=10000&sort=date,desc";
+        max.setText("");
+        min.setText("");
+        average.setText("");
+
+        String url_forsensorvalues = historyDiagrammActivity.url + "/api/valueLogs/search/findAllByIdref?idref=" + sensorId + "&page=0&size=10000&sort=date,desc";
         //final String url = "http://192.168.209.189:8080/MBP/api/types";
         RequestQueue queue = Volley.newRequestQueue(getContext()); // this = context
         // prepare the Request
@@ -447,53 +444,63 @@ public class HistoryDynamicFragment extends Fragment  {
                                 JSONObject explrObject = jsonArray.getJSONObject(i);
                                 String name = explrObject.getString("value");
                                 String time = explrObject.getString("date");
-                                //String description = explrObject.getString("description");
-                                //temperaturid = explrObject.getString("id");
-                                //Log.d("Response Tempid", temperaturid);
-                                //sensorTypeIDName.put(name, temperaturid);
-                                //spinnerSensorAdapter.add(name);
+
                                 sensorValueList.add(Double.parseDouble(name));
                                 sensorTimeValueList.add(time);
-                               // Collections.reverse(sensorValueList);
 
-                               // sensorValues = sensorValueList;
                             }
                             Collections.reverse(sensorTimeValueList);
                             Collections.reverse(sensorValueList);
 
-                            //sensorValues = reverse(sensorValueList);
                             setyAchse(sensorValueList);
 
                             xaxis.setCategories(sensorTimeValueList);
 
-                            ArrayList realMadridData = new ArrayList<>();
+                            ArrayList historicValueList = new ArrayList<>();
 
-                            if(getyAchse() == null){
+                            if (getyAchse() == null) {
                                 Toast.makeText(getContext(), "Please load again", Toast.LENGTH_SHORT).show();
 
-                            }else {
+                            } else {
                                 for (Double j : getyAchse()) {
 
 
-                                    realMadridData.add(j);
+                                    historicValueList.add(j);
 
 
                                 }
 
-                                realMadridData.size();
+                                historicValueList.size();
 
-                                spline.setData(realMadridData);
+                                spline.setData(historicValueList);
 
                                 ArrayList series = new ArrayList<>();
                                 series.add(spline);
                                 options.setSeries(series);
-                                if(realMadridData.size()!=0){
-                                max.setText(Collections.max(realMadridData).toString());
-                                min.setText(Collections.min(realMadridData).toString());
-                                average.setText(String.valueOf(calculateAverage(realMadridData)));}
-                                // options.setXAxis(series);
-                                chartView.reload();
+                                if (historicValueList.size() != 0) {
 
+                                    Double maxValue = Double.valueOf(Collections.max(historicValueList).toString());
+
+                                    Double minValue = Double.valueOf(Collections.min(historicValueList).toString());
+
+                                    Double averageValue = calculateAverage(historicValueList);
+
+                                    //if unit is null set ""
+                                    if (unit.contains("null")) {
+                                        unit = "";
+                                    }
+
+
+                                    max.setText(new DecimalFormat("##.##", new DecimalFormatSymbols(Locale.US))
+                                            .format(maxValue) + " " + unit);
+
+                                    min.setText(new DecimalFormat("##.##", new DecimalFormatSymbols(Locale.US))
+                                            .format(minValue) + " " + unit);
+
+                                    average.setText(new DecimalFormat("##.##", new DecimalFormatSymbols(Locale.US))
+                                            .format(averageValue) + " " + unit);
+                                }
+                                chartView.reload();
 
 
                             }
@@ -507,18 +514,88 @@ public class HistoryDynamicFragment extends Fragment  {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //Log.d("Error.Response", response);
+                        // error.
+
                     }
                 }
-        );
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+
 
         // add it to the RequestQueue
         queue.add(getRequest);
-   }
+    }
+
+    /*
+    method to delete the history values from database
+     */
+    public void deleteHistoryValues(String sensorInfoGenerateID) {
+        //ArrayList<SensorInfo> sensorInfos = historyDiagrammActivity.sensorlist;
+        //String sen = sensorInfos.get(getArguments().getInt("position")).getGeneratesensorid();
+
+        String url_forsensorvalues = historyDiagrammActivity.url + "/api/sensors/" + sensorInfoGenerateID + "/valueLogs";
+        //final String url = "http://192.168.209.189:8080/MBP/api/types";
+        RequestQueue queue = Volley.newRequestQueue(getContext()); // this = context
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.DELETE, url_forsensorvalues, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        JSONObject obj = null;
+
+                        try {
+                            JSONObject mainObject = response;
+
+                            obj = response.getJSONObject("_embedded");
+
+                            Log.d("Response ", obj.toString());
+                            JSONArray jsonArray = obj.getJSONArray("valueLogs");
+                            Log.d("Response Array", jsonArray.toString());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error.
+
+                    }
+                }
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+
+
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
 
     private double calculateAverage(ArrayList<Double> list) {
         Double sum = 0.0;
-        if(!list.isEmpty()) {
+        if (!list.isEmpty()) {
             for (Double mark : list) {
                 sum += mark;
             }
@@ -528,12 +605,27 @@ public class HistoryDynamicFragment extends Fragment  {
     }
 
     public ArrayList<Double> reverse(ArrayList<Double> list) {
-        if(list.size() > 1) {
+        if (list.size() > 1) {
             Double value = list.remove(0);
             reverse(list);
             list.add(value);
         }
         return list;
+    }
+
+    public Map<String, String> getHeaderforAuthentification() {
+        String username = "admin";
+        String password = "admin";
+        // String auth =new String(username + ":" + password);
+        String auth = new String("admin:admin");
+        byte[] data = auth.getBytes();
+        String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic " + base64);
+        //headers.put("accept-language","EN");
+        headers.put("Content-Type", "application/json");
+        //headers.put("Accept","application/json");
+        return headers;
     }
 
 }

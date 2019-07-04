@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Hiwijob.iml" filepath="$PROJECT_DIR$/Hiwijob.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MBP2Go.iml" filepath="$PROJECT_DIR$/MBP2Go.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

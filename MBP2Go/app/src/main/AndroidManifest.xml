@@ -24,6 +24,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".monitoring.MonitoringDeployDeviceActivity"
+            android:label="@string/title_activity_monitoring_deploy_device"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".monitoring.MonitoringDeviceOverviewActivity"
+            android:label="@string/title_activity_monitoring_device_overview"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <activity android:name=".IntroActivity">
@@ -76,10 +85,6 @@
             android:theme="@style/Live" />
         <activity android:name=".SettingActivity" />
         <activity
-            android:name=".test"
-            android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ruleEngine.RuleEngineActivity"
             android:theme="@style/Rule" />
         <activity
@@ -98,16 +103,14 @@
             android:name=".historydiagramm.HistoryDiagrammActivity"
             android:label="@string/title_activity_history_diagramm"
             android:theme="@style/History" />
-        <activity android:name=".ruleEngine.RuleEngingeSensorSettingsActivity"
+        <activity
+            android:name=".ruleEngine.RuleEngingeSensorSettingsActivity"
             android:label="Conditions"
-            android:theme="@style/Rulesetting"
-            ></activity>
-        <activity android:name=".ruleEngine.RuleEngingeActuatorSettingsActivity"
+            android:theme="@style/Rulesetting" />
+        <activity
+            android:name=".ruleEngine.RuleEngingeActuatorSettingsActivity"
             android:label="Actuator Settings"
-            android:theme="@style/Rulesetting"
-            ></activity>
-
-
+            android:theme="@style/Rulesetting" />
     </application>
 
 </manifest>

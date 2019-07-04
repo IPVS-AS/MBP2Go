@@ -14,14 +14,18 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,11 +44,13 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 
 
-public class DeviceOverviewActivity extends AppCompatActivity {
+public class DeviceOverviewActivity extends AppCompatActivity implements ProgressCallback {
 
 
     private RecyclerView mRecyclerView;
@@ -75,6 +81,15 @@ public class DeviceOverviewActivity extends AppCompatActivity {
     ImageButton synchroRequest;
     Button deployRequest;
     String device_plattformid;
+    boolean progressBar;
+
+    public boolean isProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(boolean progressBar) {
+        this.progressBar = progressBar;
+    }
 
 
     // ProgressDialog dialog;
@@ -145,7 +160,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
 
         //sharedPreferences = getSharedPreferences(mypreference,
-          //      Context.MODE_PRIVATE);
+        //      Context.MODE_PRIVATE);
         //url = sharedPreferences.getString("URL", "");
 
         //String url = prefs.getString("URL", "");
@@ -206,14 +221,20 @@ public class DeviceOverviewActivity extends AppCompatActivity {
             String optinalIP = cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_OPTIONALIP));
             String userName = cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_USERNAME));
             String password = cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_PASSWORD));
+            String state = "Loading...";
 
             //id gelöscht
-            deviceInfo = new DeviceInfo(id, plattformid, name, macid, image, devicetype, optinalIP, userName, password);
+            deviceInfo = new DeviceInfo(id, plattformid, name, macid, image, devicetype, optinalIP, userName, password, state);
             // Log.d("Hiwi","device info: "+id+" "+name+" "+macid+" "+sensorId);
             Log.d("Hiwi", "device info: " + " " + name + " " + macid + " ");
             devicelist.add(deviceInfo);
         }
         cursor.close();
+
+        //for(DeviceInfo device : devicelist){
+        requestDeviceState();
+
+        // }
 
 
         mAdapter.notifyDataSetChanged();
@@ -222,6 +243,9 @@ public class DeviceOverviewActivity extends AppCompatActivity {
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                //requestDeviceState();
+                //mAdapter.notifyDataSetChanged();
+
                 position_stelle = position;
                 Log.d("Position in onClick", "Position ist " + position);
 
@@ -230,7 +254,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
 
                 //Fehlerbehebung, sonst Array -1 Error
-                if (position <= -1){
+                if (position <= -1) {
                     //dialog.dismiss();
                     return;
                 }
@@ -404,14 +428,20 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
     }
 
-
+    /*
+    onClick method for the synchronizing of the devices
+    it also proof the state of the devices
+     */
     public synchronized void synchrorequest(View v) {
         Toast.makeText(getApplicationContext(), "Please wait, synchronizing Data...", Toast.LENGTH_SHORT).show();
 
         getrequest();
+        //set the visibale of the Progressbar
+        setProgressBar(false);
+        requestDeviceState();
+
 
     }
-
 
 
     private synchronized void getrequest() {
@@ -420,7 +450,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);  // this = context
 
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url+"/api/devices", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/api/devices", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -485,12 +515,11 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                          //  dialog.dismiss();
+                            //  dialog.dismiss();
 
                         }
                         mAdapter.notifyDataSetChanged();
                         //dialog.dismiss();
-
 
 
                     }
@@ -499,11 +528,20 @@ public class DeviceOverviewActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("Error.Response", "errorrrrr");
-                       // dialog.dismiss();
+                        // dialog.dismiss();
 
                     }
-                }
-        );
+                }) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+
 
 // add it to the RequestQueue
         queue.add(getRequest);
@@ -539,7 +577,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
             devicelist.add(deviceInfo);
         }
         cursor.close();
-       // dialog.dismiss();
+        // dialog.dismiss();
         mAdapter.notifyDataSetChanged();
 
     }
@@ -617,7 +655,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
 
     private void getrequestSensor() {
-        String urlSensor = url+"/api/sensors/";
+        String urlSensor = url + "/api/sensors/";
         RequestQueue queue = Volley.newRequestQueue(this);  // this = context
 
         // prepare the Request
@@ -653,50 +691,48 @@ public class DeviceOverviewActivity extends AppCompatActivity {
                                 //JSONArray jsonArrayData = objectDetails2.getJSONArray("data");
 
 
-                                    Log.d("Plattformid", "id:" + plattformid);
-                                    byte[] image;
+                                Log.d("Plattformid", "id:" + plattformid);
+                                byte[] image;
 
-                                    //String sensorname = sensorspinner.getSelectedItem();
-                                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                    byte[] byteArray = stream.toByteArray();
-                                    image = byteArray;
+                                //String sensorname = sensorspinner.getSelectedItem();
+                                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                byte[] byteArray = stream.toByteArray();
+                                image = byteArray;
 
 
-                                    SensorInfo sensorInfo = new SensorInfo(plattformid, name, image);
-                                    SensorInfo sensorInf = new SensorInfo(plattformid, name);
+                                SensorInfo sensorInfo = new SensorInfo(plattformid, name, image);
+                                SensorInfo sensorInf = new SensorInfo(plattformid, name);
 
-                                    if (!senList.contains(sensorInf.getGeneratesensorid())) {
-                                        senList.add(sensorInf);
-                                    }
+                                if (!senList.contains(sensorInf.getGeneratesensorid())) {
+                                    senList.add(sensorInf);
+                                }
 
-                                    //for(DeviceInfo deviceInfo: devicelist){
-                                    for (int j = 0; j < objectDetails3.length(); j++) {
-                                        device_plattformid = objectDetails3.getString("id");
-                                        String namedevice = objectDetails3.getString("name");
-                                        String macid = objectDetails3.getString("macAddress");
+                                //for(DeviceInfo deviceInfo: devicelist){
+                                for (int j = 0; j < objectDetails3.length(); j++) {
+                                    device_plattformid = objectDetails3.getString("id");
+                                    String namedevice = objectDetails3.getString("name");
+                                    String macid = objectDetails3.getString("macAddress");
 
-                                        DeviceInfo deviceInfo1 = new DeviceInfo(namedevice, macid, device_plattformid, image);
-                                        if (!db.checkIsDataAlreadyInDBorNotSensor(sensorInfo.getGeneratesensorid())) {
-                                            if (device_plattformid.equals(deviceInfo1.getPlattformid())) {
-                                                db.createSensor(sensorInfo, deviceInfo1);
-                                            }
+                                    DeviceInfo deviceInfo1 = new DeviceInfo(namedevice, macid, device_plattformid, image);
+                                    if (!db.checkIsDataAlreadyInDBorNotSensor(sensorInfo.getGeneratesensorid())) {
+                                        if (device_plattformid.equals(deviceInfo1.getPlattformid())) {
+                                            db.createSensor(sensorInfo, deviceInfo1);
                                         }
-
                                     }
-                                    mAdapter.notifyDataSetChanged();
-
-                                    //compareTwoSensorList(db.getAllSensorNameSensorId(), senList);
-
 
                                 }
+                                mAdapter.notifyDataSetChanged();
+
+                                //compareTwoSensorList(db.getAllSensorNameSensorId(), senList);
+
+
+                            }
 
                             compareTwoSensorList(db.getAllSensorNameSensorId(), senList);
                             senList.clear();
                             //dialog.dismiss();
-
-
 
 
                         } catch (JSONException e) {
@@ -711,7 +747,17 @@ public class DeviceOverviewActivity extends AppCompatActivity {
                         Log.d("Error.Response", "error");
                     }
                 }
-        );
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+        ;
 
 // add it to the RequestQueue
         queue.add(getRequest);
@@ -728,7 +774,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
 
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url+"/api/sensors/", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/api/sensors/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -776,7 +822,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
                                     DeviceInfo deviceInfo1 = new DeviceInfo(namedevice, macid, device_plattformid, image);
                                     if (deviceInfo1.getPlattformid().equals(deviceplattformid)) {
                                         RequestQueue queue = Volley.newRequestQueue(context);  // this = context
-                                        String urlSensor = url+"/api/sensors/" + plattformid;
+                                        String urlSensor = url + "/api/sensors/" + plattformid;
                                         StringRequest deletesensor = new StringRequest(Request.Method.DELETE, urlSensor,
                                                 new Response.Listener<String>() {
                                                     @Override
@@ -792,7 +838,16 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
                                                     }
                                                 }
-                                        );
+                                        ) {
+                                            //
+                                            @Override
+                                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                                Map<String, String> authentification = getHeaderforAuthentification();
+                                                return authentification;
+
+                                            }
+
+                                        };
                                         queue.add(deletesensor);
                                     }
                                 }
@@ -814,20 +869,30 @@ public class DeviceOverviewActivity extends AppCompatActivity {
                         Log.d("Error.Response", "error");
                     }
                 }
-        );
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+        ;
         // add it to the RequestQueue
         queue.add(getRequest);
     }
 
 
     private void getrequestActuator() {
-       // String urlActuator = "http://192.168.209.189:8080/MBP/api/actuators/";
+        // String urlActuator = "http://192.168.209.189:8080/MBP/api/actuators/";
 
         RequestQueue queue = Volley.newRequestQueue(this);  // this = context
 
 
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url+"/api/actuators/", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/api/actuators/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -914,7 +979,16 @@ public class DeviceOverviewActivity extends AppCompatActivity {
                         Log.d("Error.Response", "error");
                     }
                 }
-        );
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
 
 // add it to the RequestQueue
         queue.add(getRequest);
@@ -931,7 +1005,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
 
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url+"/api/actuators/", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/api/actuators/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -979,7 +1053,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
                                     DeviceInfo deviceInfo1 = new DeviceInfo(namedevice, macid, device_plattformid, image);
                                     if (deviceInfo1.getPlattformid().equals(deviceplattformid)) {
                                         RequestQueue queue = Volley.newRequestQueue(context);  // this = context
-                                        String urlActuator = url+"/api/actuators/" + plattformid;
+                                        String urlActuator = url + "/api/actuators/" + plattformid;
                                         StringRequest deleteactuator = new StringRequest(Request.Method.DELETE, urlActuator,
                                                 new Response.Listener<String>() {
                                                     @Override
@@ -995,7 +1069,16 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
                                                     }
                                                 }
-                                        );
+                                        ) {
+                                            //
+                                            @Override
+                                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                                Map<String, String> authentification = getHeaderforAuthentification();
+                                                return authentification;
+
+                                            }
+
+                                        };
                                         queue.add(deleteactuator);
                                     }
                                 }
@@ -1017,7 +1100,16 @@ public class DeviceOverviewActivity extends AppCompatActivity {
                         Log.d("Error.Response", "error");
                     }
                 }
-        );
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
 
 // add it to the RequestQueue
         queue.add(getRequest);
@@ -1026,9 +1118,8 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
     public void deleterequestsınglesensor(String generateId) {
 
-
         RequestQueue queue = Volley.newRequestQueue(context);  // this = context
-        String urlSensor = url+"/api/sensors/" + generateId;
+        String urlSensor = url + "/api/sensors/" + generateId;
         StringRequest deletesensor = new StringRequest(Request.Method.DELETE, urlSensor,
                 new Response.Listener<String>() {
                     @Override
@@ -1044,7 +1135,16 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
                     }
                 }
-        );
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
         queue.add(deletesensor);
 
 
@@ -1059,7 +1159,7 @@ public class DeviceOverviewActivity extends AppCompatActivity {
         deleterequestactuator(deviceplattformid);
         RequestQueue queue = Volley.newRequestQueue(this);  // this = context
         //String url = url+"/api/devices/" + deviceplattformid;
-        StringRequest dr = new StringRequest(Request.Method.DELETE, url+"/api/devices/" + deviceplattformid,
+        StringRequest dr = new StringRequest(Request.Method.DELETE, url + "/api/devices/" + deviceplattformid,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -1074,11 +1174,19 @@ public class DeviceOverviewActivity extends AppCompatActivity {
 
                     }
                 }
-        );
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
         queue.add(dr);
 
     }
-
 
 
     public void deployrequest(View v) {
@@ -1097,6 +1205,92 @@ public class DeviceOverviewActivity extends AppCompatActivity {
         //super.onBackPressed();
     }
 
+    public Map<String, String> getHeaderforAuthentification() {
+        String username = "admin";
+        String password = "admin";
+        // String auth =new String(username + ":" + password);
+        String auth = new String("admin:admin");
+        byte[] data = auth.getBytes();
+        String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic " + base64);
+        //headers.put("accept-language","EN");
+        headers.put("Content-Type", "application/json");
+        //headers.put("Accept","application/json");
+        return headers;
+    }
 
+
+    /*
+    request for the Device State
+    possible states are available or unavailable
+    after the state is setting the progressbar is invisible
+     */
+    public void requestDeviceState() {
+
+        RequestQueue queue = Volley.newRequestQueue(context); // this = context
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/api/devices/state", null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+
+                        try {
+                            JSONObject mainObject = response;
+                            for (DeviceInfo deviceinfo : devicelist) {
+                                String state = mainObject.getString(deviceinfo.getPlattformid());
+                                if (state.equals("SSH_AVAILABLE")) {
+                                    deviceinfo.setState("Available");
+                                } else if (state.equals("OFFLINE")) {
+                                    deviceinfo.setState("Unavailable");
+                                } else {
+                                    deviceinfo.setState(state);
+                                }
+                                setProgressBar(true);
+
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("Error Volley requestDeviceState()" + error);
+                    }
+                }
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+        //This method is responsible that the request dont have a timeout
+        getRequest.setRetryPolicy(new DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(getRequest);
+
+
+    }
+
+
+    @Override
+    public boolean loadingProgress() {
+        return isProgressBar();
+    }
 }
 

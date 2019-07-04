@@ -82,8 +82,7 @@
     <string name="ruleenigine_setting_operatorbig"> &gt; </string>
     <string name="ruleenigine_setting_operatorlittle">&lt;</string>
 
-    <string-array
-        name="list">
+    <string-array name="list">
         <item>@string/greaterthan</item>
         <item>@string/lessthan</item>
         <item>@string/equalto</item>
@@ -100,6 +99,61 @@
     <string name="lessthan">&lt;</string>
     <string name="lessthanorequalto">&lt;=</string>
 
+
+    <string name="Temperature">Temperature</string>
+    <string name="Motion">Motion</string>
+    <string name="Camera">Camera</string>
+    <string name="Location">Location</string>
+    <string name="Gas">Gas</string>
+    <string name="Sound">Sound</string>
+    <string name="Touch">Touch</string>
+    <string name="Humidity">Humidity</string>
+    <string name="Vibration">Vibration</string>
+    <string name="Gyroscope">Gyroscope</string>
+    <string name="Proximity">Proximity</string>
+    <string name="Acceleration">Acceleration</string>
+    <string name="LightFlicker">Light Flicker</string>
+
+    <string name="Speaker">Speaker</string>
+    <string name="Light">Light</string>
+    <string name="Motor">Motor</string>
+    <string name="Heater">Heater</string>
+    <string name="AirConditioner">Air Conditioner</string>
+    <string name="Buzzer">Buzzer</string>
+    <string name="Switch">Switch</string>
+    <string name="LED">LED</string>
+
+    <string-array name="componentType">
+        <item>@string/Temperature</item>
+        <item>@string/Motion</item>
+        <item>@string/Camera</item>
+        <item>@string/Location</item>
+        <item>@string/Gas</item>
+        <item>@string/Sound</item>
+        <item>@string/Touch</item>
+        <item>@string/Humidity</item>
+        <item>@string/Vibration</item>
+        <item>@string/Gyroscope</item>
+        <item>@string/Proximity</item>
+        <item>@string/Acceleration</item>
+        <item>@string/LightFlicker</item>
+    </string-array>
+
+
+    <string-array name="actuatorcomponentType">
+        <item>@string/Speaker</item>
+        <item>@string/Light</item>
+        <item>@string/Vibration</item>
+        <item>@string/Motor</item>
+        <item>@string/Heater</item>
+        <item>@string/AirConditioner</item>
+        <item>@string/Buzzer</item>
+        <item>@string/Switch</item>
+        <item>@string/LED</item>
+    </string-array>
+    <string name="title_activity_monitoring_device_overview">MonitoringDeviceOverviewActivity
+    </string>
+    <string name="title_activity_monitoring_deploy_device">MonitoringDeployDeviceActivity</string>
 
 </resources>
 

@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -110,7 +112,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
     ArrayList<String> sensorpid = new ArrayList<>();
     SensorAdapter sensoradapter = null;
     SensorInfo sensorInfo;
-    Spinner sensorspinner, actuatorspinner;
+    Spinner sensorspinner, actuatorspinner, componenttypespinner, actuatorcomponenttypespinner;
     ArrayAdapter<String> spinnerSensorAdapter;
     Map<String, String> sensorTypeIDName = new HashMap<String, String>();
     //RequestQueue queue = Volley.newRequestQueue(context);
@@ -180,6 +182,24 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         gridView2.setAdapter(actuatoradapter);
 
         testliste2 = new ArrayList<>();
+
+
+        /*
+        This part is for the componenttype spinner
+         */
+        componenttypespinner = (Spinner) findViewById(R.id.spinner_componettype);
+        ArrayAdapter sensorspinnerArrayAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.componentType));
+        componenttypespinner.setAdapter(sensorspinnerArrayAdapter);
+
+
+        actuatorcomponenttypespinner = (Spinner) findViewById(R.id.spinneractuatortype);
+        ArrayAdapter actuatorspinnerArrayAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.actuatorcomponentType));
+        actuatorcomponenttypespinner.setAdapter(actuatorspinnerArrayAdapter);
+
 
 
         //sensorspinner = (Spinner) findViewById(R.id.spinner);
@@ -758,7 +778,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         //final String url = "http://192.168.209.189:8080/MBP/api/types";
         RequestQueue queue = Volley.newRequestQueue(context); // this = context
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url+"/api/types", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url+"/api/adapters", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -772,7 +792,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             obj = response.getJSONObject("_embedded");
 
                             Log.d("Response ", obj.toString());
-                            JSONArray jsonArray = obj.getJSONArray("types");
+                            JSONArray jsonArray = obj.getJSONArray("adapters");
                             Log.d("Response Array", jsonArray.toString());
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -800,7 +820,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         //Log.d("Error.Response", response);
                     }
                 }
-        );
+        ){
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
 
         // add it to the RequestQueue
         queue.add(getRequest);
@@ -928,7 +957,13 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     }
                                 }
                         ) {
+                            //
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                Map<String, String> authentification = getHeaderforAuthentification();
+                                return authentification;
 
+                            }
 
                         };
 
@@ -944,10 +979,10 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             //String url = "http://192.168.209.189:8080/MBP/api/sensors/";
                             //String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
                             //String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
-                            String typesurl = url+"/api/types/";
+                            String typesurl = url+"/api/adapters/";
                             String deviceurl = url+"/api/devices/";
                             paramsUpdateSensor.put("name", sensorInfo.getName());
-                            paramsUpdateSensor.put("type", typesurl + sensorInfo.getSensorTyp());
+                            paramsUpdateSensor.put("adapter", typesurl + sensorInfo.getSensorTyp());
                             paramsUpdateSensor.put("device", deviceurl + deviceInfo.getPlattformid());
 
 
@@ -969,7 +1004,13 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         }
                                     }
                             ) {
+                                //
+                                @Override
+                                public Map<String, String> getHeaders() throws AuthFailureError {
+                                    Map<String, String> authentification = getHeaderforAuthentification();
+                                    return authentification;
 
+                                }
 
                             };
 
@@ -1011,12 +1052,15 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             //String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
                             //String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
                             String urlSensors = url + "/api/sensors/";
-                            String typesurl = url+"/api/types/";
+                            String typesurl = url+"/api/adapters/";
                             String deviceurl = url+ "/api/devices/";
                             JSONObject params_sensor = new JSONObject();
                             params_sensor.put("name", sensori.getName());
-                            params_sensor.put("type", typesurl + sensori.getSensorTyp());
+                            params_sensor.put("adapter", typesurl + sensori.getSensorTyp());
                             params_sensor.put("device", deviceurl + deviceInfo.getPlattformid());
+                            //TODO
+                            params_sensor.put("componentType", componenttypespinner.getSelectedItem().toString());
+
                             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                     urlSensors, params_sensor,
                                     new Response.Listener() {
@@ -1036,6 +1080,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         }
                                     }
                             ) {
+                                    //
+                                    @Override
+                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                    Map<String, String> authentification = getHeaderforAuthentification();
+                                    return authentification;
+
+                                }
+
+
+
                                 @Override
                                 protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                                     try {
@@ -1073,12 +1127,13 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             //String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
                             //String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
                             String urlActuator = url+"/api/actuators/";
-                            String typesurl = url+"/api/types/";
+                            String typesurl = url+"/api/adapters/";
                             String deviceurl = url+"/api/devices/";
                             JSONObject params_actuator = new JSONObject();
                             params_actuator.put("name", actuatorInfo.getName());
-                            params_actuator.put("type", typesurl + actuatorInfo.getActuatorTyp());
+                            params_actuator.put("adapter", typesurl + actuatorInfo.getActuatorTyp());
                             params_actuator.put("device", deviceurl + deviceInfo.getPlattformid());
+                            params_actuator.put("componentType", actuatorcomponenttypespinner.getSelectedItem().toString());
                             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                     urlActuator, params_actuator,
                                     new Response.Listener() {
@@ -1096,6 +1151,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         }
                                     }
                             ) {
+                                    //
+                                    @Override
+                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                    Map<String, String> authentification = getHeaderforAuthentification();
+                                    return authentification;
+
+                                }
+
+
+
                                 @Override
                                 protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                                     try {
@@ -1147,9 +1212,11 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         JSONObject params = new JSONObject();
                         params.put("name", name);
                         params.put("macAddress", macid.replace("-", ""));
-                        params.put("ipAddress", url);
+                        params.put("ipAddress", optionalIP);
                         params.put("formattedMacAddress", macid);
                         params.put("username", userName);
+                        params.put("componentType", spinner.getSelectedItem().toString() );
+                        params.put("rsaKey", "-----BEGIN RSA PRIVATE KEY-----\nMIIEqgIBAAKCAQEA4zzAJS+xXz00YLyO8lvsSfY+6XX1mQs6pz7yioA6lO30mWMx\n95FP3rZiX2stId3VfEPKdPgLot7CoTMcSnQzDBR8bi1ej8c/FXzELb2kTQzZE7dX\nYaONvNfKGL27EMjhqRpL+rQeTGeyGqmr0WH7BeQ9nE6ylfxXzXAMWkTW6dv7go+j\n52xAS6dM5TZER/A2KvCgXisiQFzwqEHuXnoy9lpWHcSZzQL8Xkd9ZbGAr3ex0pEc\n8220d4KT8oATLBDZo/fJyGiQNR5sab8RlpecbGJoh0QJIdnU3Eq02HYSzAQ7a8cB\nYGEm1xtOQOxV2a4+8f/g9FSC3hjobwmSoNu/nQIDAQABAoIBACy3ytRGk3A7mjAj\nSzo0jsZrWCwXU5KfnBZHk/FflKe0QDtjQvUGOqKIX8mJTONqRVXj/VaRbbDKh6Cz\nbzDTtyv8aBRCh2Zh/m8bE3ww4sFq8tknbmG/jugHyzSdOc/uyEG/9A3NHl1I1sra\ncv6MeprJNLqq3ggYFatPDo9BFs4EZoaIxEMD3plHfENfJOu7IS0xRoe5foXYbnM3\nji7n243OBGPAdCZXJkhYNgRoZmwMeMOJWK7EmiiM60ZKpHl8C4jSuzQ132aK/NDH\n3xgr+1nI8i8CfAWBlP8hfCXJJ8EiS5lE94jnP7u49BhjbPgULaNPDDYpVh5/uTlP\nYV5iAcECggCBAO7y4xBuMc8G57lqepoZHtCjSPpXTEC6hE7+pmnwvi6gUZPV7Tx/\nC7JecekilTy3Z+MjU1jwy7Bu0L3EJsJBn2N5aGYVxGFHGqrfA/qhPeyJsIU2w2UZ\nm1BEgNjP7bMZSMCSYd2CU9mP5dt3vGpEU6oZgwe9jm5QghYVjHaB6NUNAoIAgQDz\nc+sqdCn+rIpE6uovtqXJ9l3psaz+egRLcWS0ZVtrdhmMPBz/rZ16KhqmA+aszjiP\n8JqO3uXiB1LR+ACc6tRzeCWXNWipgzJGvLfgZBwGHeFje+uMyd1nYUq3qd0zP81j\ntpZpIAlHlPc+UREqiUhJJkjP+tEwwznP4zaC4wkQ0QKCAIEA3bMRpf73y8P2X/xB\nQJSqGJ5Haa5xm2TyuXBf6s9pRU2OIwJLmOOvcJFcUxi5Kppok0AFZvITquFGX6uM\n4pOMVPkiOgVcLX2RapR81p+gGsUtuIu1AyqdBf5pJcDWJGQDMlke4Cy5q5RtihEw\nCdDXZ21AO4BOlF+yMtdPeezSoEkCggCBAIBzsiolPp8sRIxWcpgYQ+OLBUQvxjpD\nAQ8ZVmxEancJyjMO6LIS1dtGaeccedLFwFxaNAKcIykeehllRFWHJe+C/jqJKJ8A\nJT/jhRV1XL/xdiG6ma8gN5y7XeQIUTkgOeuZxETVbXACbm3H8knCQ4ytEZADI+sZ\npuBEX1eyGO9xAoIAgQCwh2QkYnGPQkY4d9ra+WcrUz8sb7CEu4IS42XNt8SFkyU4\nfkE7aE4bHufPnnTEZ4jIGk0/E1b8AhLh1suRpg3tltYEj5CJfF1UywoUGuHhQkzP\n7jZaNQ1xdB+0woK3IenLVpDjxWGZbZTxviim1v1lpLSJxfr/HfvW1DJc4x/iug==\n-----END RSA PRIVATE KEY-----");
 
 
                         final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -1157,7 +1224,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                 new Response.Listener() {
                                     @Override
                                     public void onResponse(Object response) {
-
+                                        response.toString();
                                     }
 
                                 },
@@ -1168,7 +1235,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         //Failure Callback
 
                                     }
-                                });
+                                }){
+                            //
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                Map<String, String> authentification = getHeaderforAuthentification();
+                                return authentification;
+
+                            }
+
+                        };
 
                         // Adding the request to the queue along with a unique string tag
                         queue.add(jsonObjReq);
@@ -1218,12 +1294,14 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                // String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
                                                // String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
                                                 String urlSensors = url+ "/api/sensors/";
-                                                String typesurl = url+"/api/types/";
+                                                String typesurl = url+"/api/adapters/";
                                                 String deviceurl = url+"/api/devices/";
                                                 JSONObject params_sensor = new JSONObject();
                                                 params_sensor.put("name", sensorInfo.getName());
-                                                params_sensor.put("type", typesurl + sensorInfo.getSensorTyp());
+                                                params_sensor.put("adapter", typesurl + sensorInfo.getSensorTyp());
                                                 params_sensor.put("device", deviceurl + pid);
+                                                //TODO
+                                                params_sensor.put("componentType", componenttypespinner.getSelectedItem().toString());
 
                                                 final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                                         urlSensors, params_sensor,
@@ -1244,6 +1322,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                             }
                                                         }
                                                 ) {
+                                                        //
+                                                        @Override
+                                                        public Map<String, String> getHeaders() throws AuthFailureError {
+                                                        Map<String, String> authentification = getHeaderforAuthentification();
+                                                        return authentification;
+
+                                                    }
+
+
+
                                                     @Override
                                                     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                                                         try {
@@ -1279,12 +1367,14 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                // String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
                                                // String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
                                                 String urlActuators = url+ "/api/actuators/";
-                                                String typesurl = url+"/api/types/";
+                                                String typesurl = url+"/api/adapters/";
                                                 String deviceurl = url+"/api/devices/";
                                                 JSONObject params_actuator = new JSONObject();
                                                 params_actuator.put("name", actuatorInfo.getName());
-                                                params_actuator.put("type", typesurl + actuatorInfo.getActuatorTyp());
+                                                params_actuator.put("adapter", typesurl + actuatorInfo.getActuatorTyp());
                                                 params_actuator.put("device", deviceurl + pid);
+                                                params_actuator.put("componentType", actuatorcomponenttypespinner.getSelectedItem().toString());
+
                                                 JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                                         urlActuators, params_actuator,
                                                         new Response.Listener() {
@@ -1302,6 +1392,15 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                             }
                                                         }
                                                 ) {
+                                                        //
+                                                        @Override
+                                                        public Map<String, String> getHeaders() throws AuthFailureError {
+                                                        Map<String, String> authentification = getHeaderforAuthentification();
+                                                        return authentification;
+
+                                                    }
+
+
                                                     @Override
                                                     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                                                         try {
@@ -1342,7 +1441,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         Log.d("Error.Response", "error");
                                     }
                                 }
-                        );
+                        ){
+                            //
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                Map<String, String> authentification = getHeaderforAuthentification();
+                                return authentification;
+
+                            }
+
+                        };
                         queue.add(getRequest);
                         //ToDO isinserted dont catch bugs anymore
                         isInserted[0] = true;
@@ -1382,7 +1490,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         // error.
                     }
                 }
-        );
+        ){
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
         new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -1416,7 +1533,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
                     }
                 }
-        );
+        ){
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
 
         new Response.ErrorListener() {
             @Override
@@ -1424,11 +1550,26 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                 Log.d("Error.Response", "error");
             }
         };
+        //TODO maybe ther must be the method authentification
 
 // add it to the RequestQueue
         queue.add(deleteactuator);
     }
 
+    public Map<String, String> getHeaderforAuthentification(){
+        String username = "admin";
+        String password = "admin";
+        // String auth =new String(username + ":" + password);
+        String auth = new String("admin:admin");
+        byte[] data = auth.getBytes();
+        String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic " + base64);
+        //headers.put("accept-language","EN");
+        headers.put("Content-Type", "application/json");
+        //headers.put("Accept","application/json");
+        return headers;
+    }
 
 
       /*

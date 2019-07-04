@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,6 +28,8 @@ import com.example.sedaulusal.hiwijob.R;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 
@@ -156,7 +160,16 @@ public class ActuatorDeployAdapter extends BaseAdapter {
                                     notifyDataSetChanged();
                                 }
                             }
-                    );
+                    ){
+                        //
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> authentification = getHeaderforAuthentification();
+                            return authentification;
+
+                        }
+
+                    };
 
                     queue1.add(jsonObjReqPOST);
 
@@ -193,7 +206,16 @@ public class ActuatorDeployAdapter extends BaseAdapter {
                                     notifyDataSetChanged();
                                 }
                             }
-                    );
+                    ){
+                        //
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> authentification = getHeaderforAuthentification();
+                            return authentification;
+
+                        }
+
+                    };
                     queue3.add(jsonObjReqPOST);
 
 
@@ -203,5 +225,21 @@ public class ActuatorDeployAdapter extends BaseAdapter {
         });
 
         return row;
+    }
+
+
+    public Map<String, String> getHeaderforAuthentification(){
+        String username = "admin";
+        String password = "admin";
+        // String auth =new String(username + ":" + password);
+        String auth = new String("admin:admin");
+        byte[] data = auth.getBytes();
+        String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic " + base64);
+        //headers.put("accept-language","EN");
+        headers.put("Content-Type", "application/json");
+        //headers.put("Accept","application/json");
+        return headers;
     }
 }

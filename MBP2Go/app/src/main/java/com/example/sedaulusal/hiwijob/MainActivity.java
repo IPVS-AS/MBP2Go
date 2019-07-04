@@ -21,6 +21,7 @@ import com.example.sedaulusal.hiwijob.device.SQLiteHelper;
 import com.example.sedaulusal.hiwijob.device.SensorInfo;
 import com.example.sedaulusal.hiwijob.diagramm.DiagrammActivity;
 import com.example.sedaulusal.hiwijob.historydiagramm.HistoryDiagrammActivity;
+import com.example.sedaulusal.hiwijob.monitoring.MonitoringDeviceOverviewActivity;
 import com.example.sedaulusal.hiwijob.ruleEngine.RuleEngineActivity;
 import com.example.sedaulusal.hiwijob.ruleEngine.RuleEngineOverviewActivity;
 
@@ -40,7 +41,8 @@ import java.util.List;
 
 
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity  {
+
 
     private Button btn_Device;
     String address;
@@ -88,7 +90,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //finish();
     }
 
-    public void btn_TestPublish(View v){
+    public void btn_Monitoring(View v){
+        startActivity(new Intent(MainActivity.this, MonitoringDeviceOverviewActivity.class));
+
+    }
+
+
+
+
+
+
+
+
+    /*
+    This part of code was for testing sensorvalues from smartphone
+    it is a part of a outlook
+     */
+    //TODO: it will need the interface for the smartphone sensorvalues
+    //implements SensorEventListener
+   /* public void btn_TestPublish(View v){
         Toast toast = Toast.makeText(getApplicationContext(), "Sensor data transmitted", Toast.LENGTH_SHORT);
         //toast.show();
         address = getMacAddr();
@@ -271,5 +291,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //startActivity(intent);
 
         }
-    }
+    }*/
 }
