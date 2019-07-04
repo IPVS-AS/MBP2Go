@@ -21,6 +21,11 @@ android {
         sourceCompatibility 1.8
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+	
+	//Do not abort when lint detects errors
+	lintOptions {
+		abortOnError false
+	}
 }
 
 repositories {
