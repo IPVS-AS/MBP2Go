@@ -25,9 +25,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".monitoring.MonitoringDiagrammActivity"
+            android:label="@string/title_activity_monitoring_diagramm"></activity>
+        <activity
             android:name=".monitoring.MonitoringDeployDeviceActivity"
             android:label="@string/title_activity_monitoring_deploy_device"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".monitoring.MonitoringDeviceOverviewActivity"
             android:label="@string/title_activity_monitoring_device_overview"

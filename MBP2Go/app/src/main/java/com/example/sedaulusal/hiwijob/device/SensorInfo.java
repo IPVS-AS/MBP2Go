@@ -23,15 +23,8 @@ public class SensorInfo {
     public String sensorTyp;
     public String sensorPinset;
 
-    public boolean isDeployed() {
-        return deployed;
-    }
-
-    public void setDeployed(boolean deployed) {
-        this.deployed = deployed;
-    }
-
     public boolean deployed;
+    public boolean running;
 
     protected static final String NAME_PREFIX = "Name_";
     protected static final String EMAIL_PREFIX = "email_";
@@ -40,6 +33,7 @@ public class SensorInfo {
 
     public SensorInfo(){
         this.deployed = false;
+        this.running = false;
     }
 
     //byte sensorimage gelöscht fürs testen
@@ -144,6 +138,22 @@ public class SensorInfo {
 
     public void setImage(byte[] image) {
         this.sensorimage = image;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public boolean isDeployed() {
+        return deployed;
+    }
+
+    public void setDeployed(boolean deployed) {
+        this.deployed = deployed;
     }
 }
 

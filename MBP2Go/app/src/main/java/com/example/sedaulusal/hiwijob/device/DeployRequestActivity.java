@@ -192,13 +192,18 @@ public class DeployRequestActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
 
-                    if (response.contains("DEPLOYED")) {
+                    if (response.contains("DEPLOYED")|| response.contains("RUNNING")) {
                         sensorInfo.deployed = true;
+                        sensorInfo.running = false;
                         sensorAdapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
+                        if(response.contains("RUNNING")){
+                            sensorInfo.running = true;
+                        }
 
                     } else {
                         sensorInfo.deployed = false;
+                        sensorInfo.running = false;
                         sensorAdapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
 

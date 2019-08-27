@@ -56,7 +56,8 @@
             app:f_progressColor="@android:color/holo_green_light"
             app:f_strokeColor="@android:color/white"
             app:f_text="Pause"
-            app:f_textColor="@android:color/background_light" />
+            app:f_textColor="@android:color/background_light"
+            android:onClick="runningSensor"/>
 
         <com.ekalips.fancybuttonproj.FancyButton
             android:id="@+id/btn1"

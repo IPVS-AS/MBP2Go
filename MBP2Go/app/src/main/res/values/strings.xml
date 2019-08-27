@@ -22,8 +22,12 @@
     <string name="loginintro">Already have an account? Sign in</string>
     <string name="title_activity_sign_up">SignUp</string>
 
-    <string name="device">Device</string>
-    <string name="setting">Setting</string>
+    <string name="device">Devices</string>
+    <string name="setting">Settings</string>
+    <string name="live">Live sensor values</string>
+    <string name="history">Historical sensor values</string>
+    <string name="monitoring">Monitoring operators</string>
+    <string name="rules">Rules</string>
 
 
     <string name="title_activity_device_overview">DeviceOverviewActivity</string>
@@ -154,6 +158,10 @@
     <string name="title_activity_monitoring_device_overview">MonitoringDeviceOverviewActivity
     </string>
     <string name="title_activity_monitoring_deploy_device">MonitoringDeployDeviceActivity</string>
+    <string name="title_activity_monitoring_diagramm">MonitoringDiagrammActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>
 

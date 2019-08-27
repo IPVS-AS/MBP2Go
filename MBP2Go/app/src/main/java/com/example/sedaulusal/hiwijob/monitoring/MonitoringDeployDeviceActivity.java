@@ -14,6 +14,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -159,11 +160,6 @@ public class MonitoringDeployDeviceActivity extends AppCompatActivity {
                 //mAdapter.notifyDataSetChanged();
 
                 position_stelle = position;
-                Log.d("Position in onClick", "Position ist " + position);
-
-                // Getting todos under "Watchlist" tag name
-                Log.d("ToDo", "Get todos under single Tag name");
-
 
                 //Fehlerbehebung, sonst Array -1 Error
                 if (position <= -1) {
@@ -171,10 +167,10 @@ public class MonitoringDeployDeviceActivity extends AppCompatActivity {
                     return;
                 }
 
-                //DeviceInfo deviceInfo = compareMonitoringList.get(position);
-                //Toast.makeText(getApplicationContext(), deviceInfo.getName() + " is selected! " + deviceInfo.getId() + " Plattformid" + deviceInfo.getPlattformid() + " sensorcount " + db.getSensorCount() + " actuatorcount " + db.getActuatorCount(), Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(MonitoringDeviceOverviewActivity.this, MonitoringDeployDeviceActivity.class);
-                //startActivity(intent);
+                DeviceInfo deviceInfo = devicelist.get(position);
+                Toast.makeText(getApplicationContext(), deviceInfo.getName() + " is selected! " + deviceInfo.getId() + " Plattformid" + deviceInfo.getPlattformid() + " sensorcount " + db.getSensorCount() + " actuatorcount " + db.getActuatorCount(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MonitoringDeployDeviceActivity.this, MonitoringDiagrammActivity.class);
+                startActivity(intent);
             }
 
 
