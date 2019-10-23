@@ -80,7 +80,7 @@ public class RuleEngineRuleInfo {
     private int id;
     private byte[] image;
     protected String devicetype;
-    protected String optionalIP;
+    protected String monitoringID;
     protected String username;
     protected String password;
     protected String plattformid;
@@ -103,13 +103,13 @@ public class RuleEngineRuleInfo {
         this.plattformid = plattformid;
     }
 
-    public RuleEngineRuleInfo(String name, String macid, String plattformid, byte[] image, String username, String optionalIP) {
+    public RuleEngineRuleInfo(String name, String macid, String plattformid, byte[] image, String username, String monitoringID) {
         this.name = name;
         this.macid = macid;
         this.image = image;
         this.plattformid = plattformid;
         this.username = username;
-        this.optionalIP = optionalIP;
+        this.monitoringID = monitoringID;
     }
 
     public RuleEngineRuleInfo(String name, String macid, String plattformid) {
@@ -145,49 +145,49 @@ public class RuleEngineRuleInfo {
 
     }
 
-    public RuleEngineRuleInfo(int id, String plattformid, String name, String macid, byte[] image, String devicetype, String optionalIP, String username, String password) {
+    public RuleEngineRuleInfo(int id, String plattformid, String name, String macid, byte[] image, String devicetype, String monitoringID, String username, String password) {
         this.id = id;
         this.name = name;
         this.macid = macid;
         this.image = image;
         this.devicetype = devicetype;
-        this.optionalIP = optionalIP;
+        this.monitoringID = monitoringID;
         this.username = username;
         this.password = password;
         this.plattformid =plattformid;
 
     }
 
-    public RuleEngineRuleInfo(int id, String name, String macid, byte[] image, String devicetype, String optionalIP, String username, String password) {
+    public RuleEngineRuleInfo(int id, String name, String macid, byte[] image, String devicetype, String monitoringID, String username, String password) {
         this.id = id;
         this.name = name;
         this.macid = macid;
         this.image = image;
         this.devicetype = devicetype;
-        this.optionalIP = optionalIP;
+        this.monitoringID = monitoringID;
         this.username = username;
         this.password = password;
 
     }
 
-    public RuleEngineRuleInfo(String name, String macid, String plattformid, byte[] image, String devicetype, String optionalIP, String username, String password) {
+    public RuleEngineRuleInfo(String name, String macid, String plattformid, byte[] image, String devicetype, String monitoringID, String username, String password) {
         this.name = name;
         this.macid = macid;
         this.image = image;
         this.devicetype = devicetype;
-        this.optionalIP = optionalIP;
+        this.monitoringID = monitoringID;
         this.username = username;
         this.password = password;
         this.plattformid = plattformid;
 
     }
 
-    public RuleEngineRuleInfo(String name, String macid, byte[] image, String devicetype, String optionalIP, String username, String password) {
+    public RuleEngineRuleInfo(String name, String macid, byte[] image, String devicetype, String monitoringID, String username, String password) {
         this.name = name;
         this.macid = macid;
         this.image = image;
         this.devicetype = devicetype;
-        this.optionalIP = optionalIP;
+        this.monitoringID = monitoringID;
         this.username = username;
         this.password = password;
 
@@ -228,8 +228,8 @@ public class RuleEngineRuleInfo {
         return devicetype;
     }
 
-    public String getOptionalIP() {
-        return optionalIP;
+    public String getMonitoringID() {
+        return monitoringID;
     }
 
     public String getUsername() {
@@ -244,8 +244,8 @@ public class RuleEngineRuleInfo {
         this.devicetype = devicetype;
     }
 
-    public void setOptionalIP(String optionalIP) {
-        this.optionalIP = optionalIP;
+    public void setMonitoringID(String monitoringID) {
+        this.monitoringID = monitoringID;
     }
 
     public void setUsername(String username) {

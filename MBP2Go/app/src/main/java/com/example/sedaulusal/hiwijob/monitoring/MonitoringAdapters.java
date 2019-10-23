@@ -5,9 +5,10 @@ public class MonitoringAdapters {
     protected String name;
     protected String unit;
     protected String parameter;
-    protected String optionalIP;
+    protected String monitoringID;
     protected String state;
     protected String deviceName;
+    protected String deviceId;
     public boolean deployed;
 
 
@@ -16,10 +17,14 @@ public class MonitoringAdapters {
     public MonitoringAdapters() {
     }
 
-    public MonitoringAdapters(String name, String unit, String deviceName) {
+    public MonitoringAdapters(String name, String unit,String monitoringID,String state, String deviceName, String deviceId) {
         this.name = name;
         this.unit = unit;
+        this.state = state;
+        this.monitoringID = monitoringID;
         this.deviceName = deviceName;
+        this.deviceId = deviceId;
+
     }
 
     public boolean isDeployed() {
@@ -50,8 +55,8 @@ public class MonitoringAdapters {
         this.parameter = parameter;
     }
 
-    public void setOptionalIP(String optionalIP) {
-        this.optionalIP = optionalIP;
+    public void setMonitoringID(String monitoringID) {
+        this.monitoringID = monitoringID;
     }
 
     public void setState(String state) {
@@ -62,8 +67,8 @@ public class MonitoringAdapters {
         return parameter;
     }
 
-    public String getOptionalIP() {
-        return optionalIP;
+    public String getMonitoringID() {
+        return monitoringID;
     }
 
     public String getState() {
@@ -80,4 +85,14 @@ public class MonitoringAdapters {
     public String getDeviceName() {
         return deviceName;
     }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 }
+
+

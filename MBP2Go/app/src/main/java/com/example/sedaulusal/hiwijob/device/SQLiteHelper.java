@@ -1096,7 +1096,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_RULE_STATUS, info.getRulestatus());
 
         values.put(KEY_RULE_ASSOCIATION, info.getRuleassociation());
-        //values.put(KEY_OPTIONALIP, info.getOptionalIP());
+        //values.put(KEY_OPTIONALIP, info.getMonitoringID());
         //values.put(KEY_USERNAME, info.getUsername());
         //values.put(KEY_PASSWORD, info.getPassword());
 

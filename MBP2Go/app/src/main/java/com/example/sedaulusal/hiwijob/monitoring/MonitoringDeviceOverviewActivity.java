@@ -143,7 +143,7 @@ public class MonitoringDeviceOverviewActivity extends AppCompatActivity {
                 DeviceInfo deviceInfo = devicelist.get(position);
                 //Toast.makeText(getApplicationContext(), deviceInfo.getName() + " is selected! " + deviceInfo.getId() + " Plattformid" + deviceInfo.getPlattformid() + " sensorcount " + db.getSensorCount() + " actuatorcount " + db.getActuatorCount(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MonitoringDeviceOverviewActivity.this, MonitoringDeployDeviceActivity.class);
-                intent.putExtra("deviceinfo", deviceInfo.getPlattformid());
+                intent.putExtra("deviceinfoid", deviceInfo.getPlattformid());
                 Bundle bundle = new Bundle();
                 intent.putExtras(bundle);
                 startActivity(intent);

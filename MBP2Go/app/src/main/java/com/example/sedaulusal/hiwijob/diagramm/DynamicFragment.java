@@ -28,7 +28,7 @@ public class DynamicFragment extends Fragment implements Updateable {
     private static FragmentManager fragmentManager;
     int number = 1;
     View view;
-   WebView wv;
+    WebView wv;
 
     DiagrammActivity diagrammActivity;
     ArrayList<SensorInfo> sensorlist;

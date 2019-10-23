@@ -3,19 +3,17 @@ package com.example.sedaulusal.hiwijob.monitoring;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ekalips.fancybuttonproj.FancyButton;
 import com.example.sedaulusal.hiwijob.R;
-import com.example.sedaulusal.hiwijob.device.DeviceInfo;
 
 import java.util.ArrayList;
 
@@ -61,10 +59,15 @@ public class MonitoringDeployAdapter extends RecyclerView.Adapter<MonitoringDepl
         //deviceViewHolder.itemView.setTag(R.string.key, de.getId());
 
         deviceViewHolder.vTitle.setText(de.getName());
-        deviceViewHolder.vState.setText(de.getUnit());
+        deviceViewHolder.vState.setText(de.getState());
+        deviceViewHolder.vUnit.setText(de.getUnit());
+        deviceViewHolder.vDeployButton.expand();
+
 
 
     }
+
+
 
 
 
@@ -125,9 +128,9 @@ public class MonitoringDeployAdapter extends RecyclerView.Adapter<MonitoringDepl
     public static class DeviceViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView vTitle;
-        protected TextView vState;
+        protected TextView vState, vUnit;
         protected ProgressBar vProcessbar;
-       // protected Button vDeployButton;
+        protected FancyButton vDeployButton;
 
 
         public DeviceViewHolder(View v) {
@@ -135,7 +138,8 @@ public class MonitoringDeployAdapter extends RecyclerView.Adapter<MonitoringDepl
 
             vTitle = (TextView) v.findViewById(R.id.txtMonitoringName);
             vState = (TextView) v.findViewById(R.id.txtMonitoringState);
-            //vDeployButton = (Button) v.findViewById(R.id.switch_deploy);
+            vUnit = (TextView) v.findViewById(R.id.txtMonitoringUnit);
+            vDeployButton = (FancyButton) v.findViewById(R.id.btn_monitoringdeploy);
         }
 
 
