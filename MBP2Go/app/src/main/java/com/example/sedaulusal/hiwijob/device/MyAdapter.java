@@ -128,7 +128,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.DeviceViewHolder> 
     public DeviceViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.cardview_sensor_send_item, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.cardview_deviceoverview_item, viewGroup, false);
 
         return new DeviceViewHolder(itemView);
     }

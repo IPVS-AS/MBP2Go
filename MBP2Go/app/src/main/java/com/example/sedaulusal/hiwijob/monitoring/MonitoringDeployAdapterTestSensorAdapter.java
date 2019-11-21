@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +86,9 @@ public class MonitoringDeployAdapterTestSensorAdapter extends BaseAdapter {
         TextView unit;
         TextView state;
         FancyButton monitoringDeploy;
+        ProgressBar unitProgress;
+        ProgressBar stateProgress;
+
 
     }
 
@@ -116,6 +120,8 @@ public class MonitoringDeployAdapterTestSensorAdapter extends BaseAdapter {
             holder.monitoringName = (TextView) itemView.findViewById(R.id.txtMonitoringName);
             holder.state = (TextView) itemView.findViewById(R.id.txtMonitoringState);
             holder.monitoringDeploy = (FancyButton) itemView.findViewById(R.id.btn_monitoringdeploy);
+            holder.unitProgress = (ProgressBar) itemView.findViewById(R.id.monitoring_progressBar_unit);
+            holder.stateProgress = (ProgressBar) itemView.findViewById(R.id.monitoring_progressBar_state);
             itemView.setTag(holder);
 
         } else {
@@ -128,13 +134,19 @@ public class MonitoringDeployAdapterTestSensorAdapter extends BaseAdapter {
         //TO DO: set name from spinner and hardcoded Imagins
         holder.monitoringName.setText(monitoringadapters.getName());
         holder.unit.setText(monitoringadapters.getUnit());
+        if (!monitoringadapters.getUnit().isEmpty()){
+            holder.unitProgress.setVisibility(View.INVISIBLE);
+        }
         holder.state.setText(monitoringadapters.getState());
+
+
         final ViewHolder finalHolder = holder;
         monitoringDeployDeviceActivity = getContext();
 
         if (monitoringadapters.getState().toLowerCase().equals("not_ready")) {
             //finalHolder.toggleButton.setSelected(true);
             //finalHolder.toggleButton.setChecked(true);
+            finalHolder.stateProgress.setVisibility(View.INVISIBLE);
             finalHolder.monitoringDeploy.expand();
             finalHolder.monitoringDeploy.setText("Not Ready");
            /* if(monitoringadapters.running){
@@ -145,6 +157,7 @@ public class MonitoringDeployAdapterTestSensorAdapter extends BaseAdapter {
                 finalHolder.sensorstartorpause.setText("Start");
             }*/
         } else if (monitoringadapters.getState().toLowerCase().equals("running")) {
+            finalHolder.stateProgress.setVisibility(View.INVISIBLE);
             finalHolder.monitoringDeploy.expand();
             finalHolder.monitoringDeploy.setText("Undeploy");
         }else if (monitoringadapters.getState().toLowerCase().equals("deployed")){
@@ -152,7 +165,8 @@ public class MonitoringDeployAdapterTestSensorAdapter extends BaseAdapter {
             monitoringDeployDeviceActivity.requestMonitoringAdapterState(monitoringadapters.getMonitoringID(), monitoringadapters.getDeviceId());
             notifyDataSetChanged();
         }else if ( monitoringadapters.getState().toLowerCase().equals("ready")) {
-                finalHolder.monitoringDeploy.expand();
+            finalHolder.stateProgress.setVisibility(View.INVISIBLE);
+            finalHolder.monitoringDeploy.expand();
                 finalHolder.monitoringDeploy.setText("Deploy");
                 notifyDataSetChanged();
 

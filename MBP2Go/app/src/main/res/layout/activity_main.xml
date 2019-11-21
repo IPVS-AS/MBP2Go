@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
@@ -16,7 +18,7 @@
 
         <Button
             android:id="@+id/btn_Main_device"
-            android:layout_width="176dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="0.11"
@@ -27,11 +29,15 @@
             android:padding="20dp"
             android:scaleType="fitCenter"
             android:text="@string/device"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_min="wrap"
+            tools:layout_editor_absoluteY="11dp" />
 
         <Button
             android:id="@+id/btn_GraphView"
-            android:layout_width="176dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="0.11"
@@ -42,10 +48,20 @@
             android:padding="20dp"
             android:scaleType="fitCenter"
             android:text="@string/live"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            tools:layout_editor_absoluteY="7dp" />
 
-    <LinearLayout
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
@@ -55,9 +71,10 @@
         android:padding="6dp"
         android:weightSum="1">
 
+
         <Button
             android:id="@+id/btn_RuleEngine"
-            android:layout_width="176dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:adjustViewBounds="true"
@@ -67,11 +84,14 @@
             android:padding="20dp"
             android:scaleType="fitCenter"
             android:text="@string/rules"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="6dp" />
 
         <Button
             android:id="@+id/btn_History"
-            android:layout_width="176dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:adjustViewBounds="true"
@@ -81,11 +101,22 @@
             android:padding="20dp"
             android:scaleType="fitCenter"
             android:text="@string/history"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            tools:layout_editor_absoluteY="6dp" />
 
-    </LinearLayout>
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
-    <LinearLayout
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
@@ -95,8 +126,17 @@
         android:padding="6dp"
         android:weightSum="1">
 
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
         <Button
-            android:layout_width="176dp"
+            android:id="@+id/button"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:adjustViewBounds="true"
@@ -106,21 +146,27 @@
             android:padding="20dp"
             android:scaleType="fitCenter"
             android:text="@string/monitoring"
-            android:textColor="#FFFFFFFF" />
+            android:textColor="#FFFFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="11dp" />
 
         <Button
             android:id="@+id/btn_setting"
-            android:layout_width="176dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:adjustViewBounds="true"
             android:background="@color/colorPrimaryDark"
-            android:padding="20dp"
-            android:scaleType="fitCenter"
             android:drawableTop="@drawable/ic_baseline_settings_20px"
             android:onClick="btn_Main_Setting"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
             android:text="@string/setting"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            tools:layout_editor_absoluteY="6dp" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>

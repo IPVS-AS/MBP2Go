@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtMonitoringName"
             android:layout_alignStart="@+id/txtMonitoringName"
-            android:layout_marginStart="56dp"
+            android:layout_marginStart="107dp"
             android:layout_marginTop="0dp"
             android:text="Load Unit..." />
 
@@ -63,12 +63,12 @@
 
         <TextView
             android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
+            android:layout_width="51dp"
+            android:layout_height="wrap_content"
             android:layout_alignTop="@+id/txtMonitoringUnit"
             android:layout_marginTop="-2dp"
             android:layout_marginEnd="-37dp"
-            android:layout_toStartOf="@+id/txtMonitoringUnit"
+            android:paddingLeft="10dp"
             android:text="Unit:" />
 
         <TextView
@@ -76,10 +76,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView14"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="14dp"
+            android:layout_alignStart="@+id/textView14"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="47dp"
             android:layout_toStartOf="@+id/txtMonitoringState"
+            android:paddingLeft="10dp"
             android:text="State:" />
+
+        <ProgressBar
+            android:id="@+id/monitoring_progressBar_state"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="94dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtMonitoringUnit"
+            android:layout_alignBottom="@+id/txtMonitoringState"
+            android:layout_marginStart="-47dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="1dp"
+            android:layout_toStartOf="@+id/txtMonitoringState"
+            android:layout_toEndOf="@+id/textView16"
+            android:indeterminateTint="@android:color/holo_green_dark" />
+
+        <ProgressBar
+            android:id="@+id/monitoring_progressBar_unit"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/monitoring_progressBar_state"
+            android:layout_alignTop="@+id/txtMonitoringUnit"
+            android:layout_alignBottom="@+id/txtMonitoringUnit"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_toStartOf="@+id/txtMonitoringState"
+            android:indeterminateTint="@android:color/holo_green_dark" />
 
     </RelativeLayout>
 </android.support.v7.widget.LinearLayoutCompat>

@@ -102,6 +102,7 @@ public class DiagrammActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar_diagramm);
         setSupportActionBar(myToolbar);
+        //TODO devicelist null
         getSupportActionBar().setTitle( devicelist.get(0).getName().toString());
         lastWord = devicelist.get(0).getPlattformid().toString();
 
@@ -249,7 +250,6 @@ public class DiagrammActivity extends AppCompatActivity {
      * Gets called every time the user presses the menu button.
      * Use if your menu is dynamic.
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
@@ -260,7 +260,10 @@ public class DiagrammActivity extends AppCompatActivity {
            // MenuItem mi = menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName()+ " "+ deviceInfo.getPlattformid());
             MenuItem mi = menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName());
 
-            mi.setContentDescription(deviceInfo.getPlattformid());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mi.setContentDescription(deviceInfo.getPlattformid());
+            }
+
             //menu.getItem().setContentDescription();
             //menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName());
             }
@@ -274,7 +277,6 @@ public class DiagrammActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean onOptionsItemSelected(MenuItem item) {
         // ...
 
@@ -289,7 +291,9 @@ public class DiagrammActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case MENU_ADD:
                 //doAddStuff();
-                item.getContentDescription();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    item.getContentDescription();
+                }
                 item.getTitle();
                 item.getItemId();
                 getSupportActionBar().setTitle(item.getTitle().toString());
@@ -298,7 +302,9 @@ public class DiagrammActivity extends AppCompatActivity {
                 String testString = item.getTitle().toString();
                 String[] parts = testString.split(" ");
                 //lastWord = parts[parts.length - 1];
-                lastWord = item.getContentDescription().toString();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    lastWord = item.getContentDescription().toString();
+                }
                 System.out.println(lastWord);
                 try {
                     initViews();

@@ -81,7 +81,7 @@ public class DynamicFragment extends Fragment implements Updateable {
 
         wv = (WebView) view.findViewById(R.id.webView);
         // final EditText et = (EditText) view.findViewById(R.id.editText);
-        wv.getSettings().setSafeBrowsingEnabled(false);
+//        wv.getSettings().setSafeBrowsingEnabled(true);
         WebSettings settings = wv.getSettings();
         settings.setJavaScriptEnabled(true);
         wv.loadUrl("file:///android_asset/highchart.html");

@@ -119,8 +119,9 @@ public class HistoryDiagrammActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar_historydiagramm);
         setSupportActionBar(myToolbar);
+        if(devicelist.size()!=0){
         getSupportActionBar().setTitle( devicelist.get(0).getName().toString());
-        lastWord = devicelist.get(0).getPlattformid().toString();
+        lastWord = devicelist.get(0).getPlattformid().toString();}
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -181,7 +182,9 @@ public class HistoryDiagrammActivity extends AppCompatActivity {
            // menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName()+ " "+ deviceInfo.getPlattformid());
             MenuItem mi = menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName());
 
-            mi.setContentDescription(deviceInfo.getPlattformid());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mi.setContentDescription(deviceInfo.getPlattformid());
+            }
         }
 
         return super.onPrepareOptionsMenu(menu);
@@ -211,7 +214,9 @@ public class HistoryDiagrammActivity extends AppCompatActivity {
                 String[] parts = testString.split(" ");
                 //lastWord = parts[parts.length - 1];
                 System.out.println(lastWord);
-                lastWord = item.getContentDescription().toString();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    lastWord = item.getContentDescription().toString();
+                }
                 System.out.println(lastWord);
                 try {
                     initViews();

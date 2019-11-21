@@ -17,6 +17,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.sedaulusal.hiwijob.MainActivity;
 import com.example.sedaulusal.hiwijob.R;
 import com.example.sedaulusal.hiwijob.device.DeployRequestActivity;
@@ -25,8 +33,12 @@ import com.example.sedaulusal.hiwijob.device.DeviceInfo;
 import com.example.sedaulusal.hiwijob.device.DeviceOverviewActivity;
 import com.example.sedaulusal.hiwijob.device.DeviceRegistryActivity;
 import com.example.sedaulusal.hiwijob.device.MyAdapter;
+import com.example.sedaulusal.hiwijob.device.ProgressCallback;
 import com.example.sedaulusal.hiwijob.device.RecyclerTouchListener;
 import com.example.sedaulusal.hiwijob.device.SQLiteHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +46,7 @@ import java.util.Map;
 
 import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 
-public class MonitoringDeviceOverviewActivity extends AppCompatActivity {
+public class MonitoringDeviceOverviewActivity extends AppCompatActivity implements ProgressCallback {
 
     private RecyclerView mRecyclerView;
     ArrayList<DeviceInfo> devicelist;
@@ -50,6 +62,9 @@ public class MonitoringDeviceOverviewActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String url;
     Button deployRequest;
+    boolean progressBar;
+
+
 
 
     @Override
@@ -59,14 +74,7 @@ public class MonitoringDeviceOverviewActivity extends AppCompatActivity {
         context = this;
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
 
         sharedPreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
@@ -117,6 +125,7 @@ public class MonitoringDeviceOverviewActivity extends AppCompatActivity {
         }
         cursor.close();
 
+        requestDeviceState();
 
         mAdapter.notifyDataSetChanged();
 
@@ -191,6 +200,86 @@ public class MonitoringDeviceOverviewActivity extends AppCompatActivity {
         //headers.put("Accept","application/json");
         return headers;
     }
+
+    /*
+request for the Device State
+possible states are available or unavailable
+after the state is setting the progressbar is invisible
+ */
+    public void requestDeviceState() {
+
+        RequestQueue queue = Volley.newRequestQueue(context); // this = context
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/api/devices/state", null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+
+                        try {
+                            JSONObject mainObject = response;
+                            for (DeviceInfo deviceinfo : devicelist) {
+                                String state = mainObject.getString(deviceinfo.getPlattformid());
+                                if (state.equals("SSH_AVAILABLE")) {
+                                    deviceinfo.setState("Available");
+                                } else if (state.equals("OFFLINE")) {
+                                    deviceinfo.setState("Unavailable");
+                                } else {
+                                    deviceinfo.setState(state);
+                                }
+                                setProgressBar(true);
+
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("Error Volley requestDeviceState()" + error);
+                    }
+                }
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+        //This method is responsible that the request dont have a timeout
+        getRequest.setRetryPolicy(new DefaultRetryPolicy(
+                50000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(getRequest);
+
+
+    }
+
+    public boolean isProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(boolean progressBar) {
+        this.progressBar = progressBar;
+    }
+
+    @Override
+    public boolean loadingProgress() {
+        return isProgressBar();
+    }
+
 
 
 }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,6 +60,7 @@ public class MonitoringDeployDeviceActivity extends AppCompatActivity {
     MonitoringAdapters monitoringAdapter;
     String deviceinforid = "";
     String state = "";
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     ListView listView;
     MonitoringDeployAdapterTestSensorAdapter mAdapter;
@@ -80,7 +82,17 @@ public class MonitoringDeployDeviceActivity extends AppCompatActivity {
 
 
         db = new SQLiteHelper(this);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.monitoring_swiperefresh);
 
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        requestMonitoringAdapterState(monitoringAdapter.getMonitoringID(), monitoringAdapter.getDeviceId());
+
+                    }
+                }
+        );
         //mRecyclerView = (RecyclerView) findViewById(R.id.recycler_monitoring_deploy);
 
         // use this setting to improve performance if you know that changes
@@ -282,7 +294,6 @@ public class MonitoringDeployDeviceActivity extends AppCompatActivity {
 
     public void requestMonitoringAdapterState(String monitoringId, String deviceInfoGenerateId) {
         //http://192.168.209.194:8888/deploy/master/api/monitoring-adapters/
-
         RequestQueue queue = Volley.newRequestQueue(context); // this = context
         // prepare the Request
         //http://192.168.209.194:8888/deploy/master/api/monitoring/state/5c866db2f8ea1203bc3518e8
@@ -301,6 +312,7 @@ public class MonitoringDeployDeviceActivity extends AppCompatActivity {
                                     monitoringAdapters.setState(state);
                                 }
                             }
+                            mSwipeRefreshLayout.setRefreshing(false);
                             mAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -310,6 +322,7 @@ public class MonitoringDeployDeviceActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        mSwipeRefreshLayout.setRefreshing(false);
                         System.out.println("Error Volley request monitoring state" + error);
                     }
                 }

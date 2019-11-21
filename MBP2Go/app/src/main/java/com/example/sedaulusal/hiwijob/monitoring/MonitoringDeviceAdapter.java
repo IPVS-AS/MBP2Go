@@ -10,13 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.sedaulusal.hiwijob.R;
 import com.example.sedaulusal.hiwijob.device.DeviceInfo;
+import com.example.sedaulusal.hiwijob.device.ProgressCallback;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class MonitoringDeviceAdapter extends RecyclerView.Adapter<MonitoringDeviceAdapter.DeviceViewHolder>  {
 
-
+    private ProgressCallback mProgressCallback;
     private ArrayList<DeviceInfo> deviceList;
     private ArrayList<DeviceInfo> arraylist;
 
@@ -40,6 +40,11 @@ public class MonitoringDeviceAdapter extends RecyclerView.Adapter<MonitoringDevi
         this.deviceList = deviceList;
         this.arraylist = new ArrayList<DeviceInfo>();
         this.arraylist.addAll(deviceList);
+        try {
+            this.mProgressCallback = ((ProgressCallback) mContext);
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement AdapterCallback.");
+        }
 
     }
 
@@ -67,6 +72,11 @@ public class MonitoringDeviceAdapter extends RecyclerView.Adapter<MonitoringDevi
         Bitmap bitmap = BitmapFactory.decodeByteArray(iconImage, 0, iconImage.length);
         deviceViewHolder.vIcon.setImageBitmap(bitmap);
 
+        if(mProgressCallback.loadingProgress()){
+            deviceViewHolder.vProcessbar.setVisibility(View.INVISIBLE);
+        }else{
+            deviceViewHolder.vProcessbar.setVisibility(View.VISIBLE);
+        }
 
 
     }
@@ -121,7 +131,7 @@ public class MonitoringDeviceAdapter extends RecyclerView.Adapter<MonitoringDevi
     public DeviceViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.cardview_sensor_send_item, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.cardview_monitoring_item, viewGroup, false);
 
         return new DeviceViewHolder(itemView);
     }
@@ -142,6 +152,7 @@ public class MonitoringDeviceAdapter extends RecyclerView.Adapter<MonitoringDevi
             vTitle = (TextView) v.findViewById(R.id.title);
             vState = (TextView) v.findViewById(R.id.devicestate);
             vIcon = (ImageView) v.findViewById(R.id.imageIcon);
+            vProcessbar = (ProgressBar) v.findViewById(R.id.progressBar);
             //vDeployButton = (Button) v.findViewById(R.id.switch_deploy);
         }
 

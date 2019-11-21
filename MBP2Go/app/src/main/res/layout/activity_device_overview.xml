@@ -22,8 +22,11 @@
                 android:id="@+id/imgbtn_synchrorequest"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_margin="8dp"
-                android:layout_toRightOf="@+id/searchId"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="false"
+                android:layout_margin="5dp"
+                android:layout_marginEnd="9dp"
                 android:background="@drawable/ic_sync_white_64dp_2x"
                 android:onClick="synchrorequest" />
 

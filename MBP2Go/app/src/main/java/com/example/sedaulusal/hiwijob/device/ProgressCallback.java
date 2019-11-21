@@ -1,6 +1,6 @@
 package com.example.sedaulusal.hiwijob.device;
 
-interface ProgressCallback {
+public interface ProgressCallback {
 
     public boolean loadingProgress();
 
