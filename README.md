@@ -17,6 +17,40 @@ to your smartphone.
 
 3: Open this file in your smartphone - and have fun!
 
+# QR-Code Template Example
+
+```json
+{  
+   "type":"RaspberryPi",
+   "name":"RaspberryPi",
+   "macAddress":"1234",
+   "ipAddress":"192.0.2.1",
+   "user":"username",
+   "password":"password",
+   "sensors":[  
+      {  
+         "sensorname":"TemperatureLivingRoom",
+         "pinset":"123",
+         "sensoradapter":"TemperatureAdapter",
+         "sensortype":"Temperature"
+      },
+      {  
+         "sensorname":"LightSensor",
+         "pinset":"123",
+         "sensoradapter":"LightAdapter",
+         "sensortype":"Light Flicker"
+      }
+   ],
+"actuators":[  
+      {  
+         "actuatorname":"Speaker",
+         "pinset":"123",
+         "actuatoradapter":"Speaker-MQTT",
+         "actuatortype":"Speaker"
+      }
+   ]}
+```
+
 ## Haftungsausschluss
 
 Dies ist ein Forschungsprototyp.
