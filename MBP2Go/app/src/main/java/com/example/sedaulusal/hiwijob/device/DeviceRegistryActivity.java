@@ -1556,11 +1556,12 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         queue.add(deleteactuator);
     }
 
-    public Map<String, String> getHeaderforAuthentification(){
-        String username = "admin";
-        String password = "admin";
-        // String auth =new String(username + ":" + password);
-        String auth = new String("admin:admin");
+    public Map<String, String> getHeaderforAuthentification() {
+        SharedPreferences sp1= context.getSharedPreferences("Login",0);
+        String usernameSharedpref=sp1.getString("Username", null);
+        String passwordSharedpref = sp1.getString("Password", null);
+        String auth = new String(usernameSharedpref + ":" + passwordSharedpref);
+
         byte[] data = auth.getBytes();
         String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
         HashMap<String, String> headers = new HashMap<String, String>();
@@ -1672,181 +1673,25 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
                                         }
 
+                                    byte[] bytes;
+                                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
+                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                    bytes = stream.toByteArray();
 
+                                    bytes= sensorTypeEquals(sensor, "Temperatur", 0, R.drawable.temperature_icon, bytes);
+                                    bytes=  sensorTypeEquals(sensor, "Motion", 1, R.drawable.pressure_icon, bytes);
+                                    bytes= sensorTypeEquals(sensor, "Camera", 2, R.drawable.ic_place_black_24dp, bytes);
+                                    bytes= sensorTypeEquals(sensor, "Location", 3, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    bytes= sensorTypeEquals(sensor, "Gas", 4, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    bytes= sensorTypeEquals(sensor, "Sound", 5, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    bytes= sensorTypeEquals(sensor, "Touch", 6, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    bytes= sensorTypeEquals(sensor, "Humidity", 7, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    bytes= sensorTypeEquals(sensor, "Vibration", 8, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    sensorInfo = new SensorInfo(sensorname, bytes, pinset);
+                                    sensorlist.add(sensorInfo);
 
-
-
-                                    if (sensor.getString("sensortype").equals("Temperatur")) {
-                                        componenttypespinner.setSelection(0);
-                                        sensorname = edtSensorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String sensorname = sensorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.temperature_icon);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        sensorimage = byteArray;
-
-                                        sensorInfo = new SensorInfo(sensorname, byteArray, pinset);
-                                        sensorlist.add(sensorInfo);
-
-                                        sensoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (sensor.getString("sensortype").equals("Motion")) {
-                                        componenttypespinner.setSelection(1);
-                                        String name = edtSensorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String sensorname = sensorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pressure_icon);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        sensorimage = byteArray;
-
-                                        sensorInfo = new SensorInfo(name, byteArray, pinset);
-                                        sensorlist.add(sensorInfo);
-
-                                        sensoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (sensor.getString("sensortype").equals("Camera")) {
-                                        componenttypespinner.setSelection(2);
-                                        sensorname = edtSensorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String sensorname = sensorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_place_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        sensorimage = byteArray;
-
-                                        sensorInfo = new SensorInfo(sensorname, byteArray, pinset);
-                                        sensorlist.add(sensorInfo);
-
-                                        sensoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (sensor.getString("sensortype").equals("Location")) {
-                                        componenttypespinner.setSelection(3);
-                                        sensorname = edtSensorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String sensorname = sensorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        sensorimage = byteArray;
-
-                                        sensorInfo = new SensorInfo(sensorname, byteArray, pinset);
-                                        sensorlist.add(sensorInfo);
-
-                                        sensoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (sensor.getString("sensortype").equals("Gas")) {
-                                        componenttypespinner.setSelection(4);
-                                        sensorname = edtSensorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String sensorname = sensorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        sensorimage = byteArray;
-
-                                        sensorInfo = new SensorInfo(sensorname, byteArray, pinset);
-                                        sensorlist.add(sensorInfo);
-
-                                        sensoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (sensor.getString("sensortype").equals("Sound")) {
-                                        componenttypespinner.setSelection(5);
-                                        sensorname = edtSensorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String sensorname = sensorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        sensorimage = byteArray;
-
-                                        sensorInfo = new SensorInfo(sensorname, byteArray, pinset);
-                                        sensorlist.add(sensorInfo);
-
-                                        sensoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (sensor.getString("sensortype").equals("Touch")) {
-                                        componenttypespinner.setSelection(6);
-                                        sensorname = edtSensorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String sensorname = sensorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        sensorimage = byteArray;
-
-                                        sensorInfo = new SensorInfo(sensorname, byteArray, pinset);
-                                        sensorlist.add(sensorInfo);
-
-                                        sensoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (sensor.getString("sensortype").equals("Humidity")) {
-                                        componenttypespinner.setSelection(7);
-                                        sensorname = edtSensorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String sensorname = sensorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        sensorimage = byteArray;
-
-                                        sensorInfo = new SensorInfo(sensorname, byteArray, pinset);
-                                        sensorlist.add(sensorInfo);
-
-                                        sensoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (sensor.getString("sensortype").equals("Vibration")) {
-                                        componenttypespinner.setSelection(8);
-                                        sensorname = edtSensorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String sensorname = sensorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        sensorimage = byteArray;
-
-                                        sensorInfo = new SensorInfo(sensorname, byteArray, pinset);
-                                        sensorlist.add(sensorInfo);
-
-                                        sensoradapter.notifyDataSetChanged();
-
-                                    }
+                                    sensoradapter.notifyDataSetChanged();
                                 }
                             }
 
@@ -1870,181 +1715,26 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
                                     }
 
+                                    byte[] bytes;
+                                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
+                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                    bytes = stream.toByteArray();
 
+                                    actuatorTypeEqual(actuator, "Speaker", 0, R.drawable.temperature_icon, bytes);
+                                    actuatorTypeEqual(actuator, "Light", 1, R.drawable.ic_place_black_24dp, bytes);
+                                    actuatorTypeEqual(actuator, "Vibration", 2, R.drawable.ic_place_black_24dp, bytes);
+                                    actuatorTypeEqual(actuator, "Motor", 3, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    actuatorTypeEqual(actuator, "Heater", 4, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    actuatorTypeEqual(actuator, "Air Conditioner", 5, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    actuatorTypeEqual(actuator, "Buzer", 6, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    actuatorTypeEqual(actuator, "Switch", 7, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    actuatorTypeEqual(actuator, "LED", 8, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
 
+                                    actuatorInfo = new ActuatorInfo(actuatorname, bytes, pinset);
+                                    actuatorlist.add(actuatorInfo);
 
-
-                                    if (actuator.getString("actuatortype").equals("Speaker")) {
-                                        componenttypespinner.setSelection(0);
-                                        actuatorname = edtActuatorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String actuatorname = actuatorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.temperature_icon);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        actuatorimage = byteArray;
-
-                                        actuatorInfo = new ActuatorInfo(actuatorname, byteArray, pinset);
-                                        actuatorlist.add(actuatorInfo);
-
-                                        actuatoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (actuator.getString("actuatortype").equals("Light")) {
-                                        componenttypespinner.setSelection(1);
-                                        String name = edtActuatorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String actuatorname = actuatorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pressure_icon);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        actuatorimage = byteArray;
-
-                                        actuatorInfo = new ActuatorInfo(name, byteArray, pinset);
-                                        actuatorlist.add(actuatorInfo);
-
-                                        actuatoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (actuator.getString("actuatortype").equals("Vibration")) {
-                                        componenttypespinner.setSelection(2);
-                                        actuatorname = edtActuatorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String actuatorname = actuatorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_place_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        actuatorimage = byteArray;
-
-                                        actuatorInfo = new ActuatorInfo(actuatorname, byteArray, pinset);
-                                        actuatorlist.add(actuatorInfo);
-
-                                        actuatoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (actuator.getString("actuatortype").equals("Motor")) {
-                                        componenttypespinner.setSelection(3);
-                                        actuatorname = edtActuatorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String actuatorname = actuatorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        actuatorimage = byteArray;
-
-                                        actuatorInfo = new ActuatorInfo(actuatorname, byteArray, pinset);
-                                        actuatorlist.add(actuatorInfo);
-
-                                        actuatoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (actuator.getString("actuatortype").equals("Heater")) {
-                                        componenttypespinner.setSelection(4);
-                                        actuatorname = edtActuatorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String actuatorname = actuatorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        actuatorimage = byteArray;
-
-                                        actuatorInfo = new ActuatorInfo(actuatorname, byteArray, pinset);
-                                        actuatorlist.add(actuatorInfo);
-
-                                        actuatoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (actuator.getString("actuatortype").equals("Air Conditioner")) {
-                                        componenttypespinner.setSelection(5);
-                                        actuatorname = edtActuatorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String actuatorname = actuatorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        actuatorimage = byteArray;
-
-                                        actuatorInfo = new ActuatorInfo(actuatorname, byteArray, pinset);
-                                        actuatorlist.add(actuatorInfo);
-
-                                        actuatoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (actuator.getString("actuatortype").equals("Buzer")) {
-                                        componenttypespinner.setSelection(6);
-                                        actuatorname = edtActuatorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String actuatorname = actuatorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        actuatorimage = byteArray;
-
-                                        actuatorInfo = new ActuatorInfo(actuatorname, byteArray, pinset);
-                                        actuatorlist.add(actuatorInfo);
-
-                                        actuatoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (actuator.getString("actuatortype").equals("Switch")) {
-                                        componenttypespinner.setSelection(7);
-                                        actuatorname = edtActuatorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String actuatorname = actuatorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        actuatorimage = byteArray;
-
-                                        actuatorInfo = new ActuatorInfo(actuatorname, byteArray, pinset);
-                                        actuatorlist.add(actuatorInfo);
-
-                                        actuatoradapter.notifyDataSetChanged();
-
-                                    }
-                                    if (actuator.getString("actuatortype").equals("LED")) {
-                                        componenttypespinner.setSelection(8);
-                                        actuatorname = edtActuatorname.getText().toString();
-                                        pinset = edtPinset.getText().toString();
-
-                                        //String actuatorname = actuatorspinner.getSelectedItem();
-                                        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                        byte[] byteArray = stream.toByteArray();
-
-                                        actuatorimage = byteArray;
-
-                                        actuatorInfo = new ActuatorInfo(actuatorname, byteArray, pinset);
-                                        actuatorlist.add(actuatorInfo);
-
-                                        actuatoradapter.notifyDataSetChanged();
-
-                                    }
+                                    actuatoradapter.notifyDataSetChanged();
                                 }
                             }
 
@@ -2075,6 +1765,51 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         }
     }
 
+    private byte[] actuatorTypeEqual(JSONObject actuator, String led, int i2, int p, byte[] bytes) throws JSONException {
+        String actuatorname;
+        String pinset;
+
+        if (actuator.getString("actuatortype").equals(led)) {
+            componenttypespinner.setSelection(i2);
+            actuatorname = edtActuatorname.getText().toString();
+            pinset = edtPinset.getText().toString();
+
+            //String actuatorname = actuatorspinner.getSelectedItem();
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), p);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bytes = stream.toByteArray();
+
+            actuatorimage = bytes;
+
+
+        }
+        return bytes;
+    }
+
+    private byte[] sensorTypeEquals(JSONObject sensor, String vibration, int i2, int p, byte[] bytes) throws JSONException {
+        String sensorname;
+        String pinset;
+
+        if (sensor.getString("sensortype").equals(vibration)) {
+            componenttypespinner.setSelection(i2);
+            sensorname = edtSensorname.getText().toString();
+            pinset = edtPinset.getText().toString();
+
+            //String sensorname = sensorspinner.getSelectedItem();
+
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), p);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            bytes = stream.toByteArray();
+
+            sensorimage = bytes;
+
+
+
+        }
+        return bytes;
+    }
 
 
     /**

@@ -258,11 +258,15 @@ public class DiagrammActivity extends AppCompatActivity {
 
         for(DeviceInfo deviceInfo: devicelist){
            // MenuItem mi = menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName()+ " "+ deviceInfo.getPlattformid());
-            MenuItem mi = menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName());
+           // MenuItem mi = menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                MenuItem mi = menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName());
                 mi.setContentDescription(deviceInfo.getPlattformid());
+            }else{
+                MenuItem mi = menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName()+ " "+ deviceInfo.getPlattformid());
             }
+
 
             //menu.getItem().setContentDescription();
             //menu.add(0,MENU_ADD,Menu.NONE, deviceInfo.getName());
@@ -304,7 +308,10 @@ public class DiagrammActivity extends AppCompatActivity {
                 //lastWord = parts[parts.length - 1];
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     lastWord = item.getContentDescription().toString();
+                }else{
+                    lastWord = parts[parts.length - 1];
                 }
+
                 System.out.println(lastWord);
                 try {
                     initViews();

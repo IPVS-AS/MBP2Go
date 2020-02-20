@@ -1205,10 +1205,11 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
     }
 
     public Map<String, String> getHeaderforAuthentification() {
-        String username = "admin";
-        String password = "admin";
-        // String auth =new String(username + ":" + password);
-        String auth = new String("admin:admin");
+        SharedPreferences sp1=this.getSharedPreferences("Login",0);
+        String usernameSharedpref=sp1.getString("Username", null);
+        String passwordSharedpref = sp1.getString("Password", null);
+        String auth = new String(usernameSharedpref + ":" + passwordSharedpref);
+
         byte[] data = auth.getBytes();
         String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
         HashMap<String, String> headers = new HashMap<String, String>();

@@ -2,6 +2,7 @@ package com.example.sedaulusal.hiwijob.historydiagramm;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -49,12 +51,18 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 
 /*
@@ -84,7 +92,7 @@ public class HistoryDynamicFragment extends Fragment {
 
     ArrayList<SensorInfo> sensorlist;
     static String TAG = "TAG";
-    String unit = " ";
+    //String unit = "";
 
     public static HistoryDynamicFragment newInstance() {
         return new HistoryDynamicFragment();
@@ -284,8 +292,8 @@ public class HistoryDynamicFragment extends Fragment {
 
         chart.setZoomType("x");
 
-        getSensorParam(sen);
-        getValuesfromSensor(sen, spline, options, chartView, xaxis);
+        getSensorParam(sen, spline, options, chartView, xaxis);
+       // getValuesfromSensor(sen, spline, options, chartView, xaxis);
 
         chartView.setOptions(options);
 
@@ -300,6 +308,7 @@ public class HistoryDynamicFragment extends Fragment {
 
 
     }
+
 
 
     public double test() {
@@ -350,7 +359,7 @@ public class HistoryDynamicFragment extends Fragment {
     }
 
 
-    public void getSensorParam(String sensorId) {
+    public void getSensorParam(String sensorId, HISpline spline, HIOptions options, HIChartView chartView, HIXAxis xaxis) {
         String urlSensor = historyDiagrammActivity.url + "/api/sensors/" + sensorId;
         //final String url = "http://192.168.209.189:8080/MBP/api/types";
         RequestQueue queue = Volley.newRequestQueue(getContext()); // this = context
@@ -370,8 +379,9 @@ public class HistoryDynamicFragment extends Fragment {
                             JSONObject embeddedObject = mainObject.getJSONObject("_embedded");
                             JSONObject adapterObject = embeddedObject.getJSONObject("adapter");
                             //JSONArray parameterObject = adapterObject.getJSONArray("parameters");
-                            unit = adapterObject.getString("unit");
-
+                            String unit = adapterObject.getString("unit");
+                            unit.length();
+                            getValuesfromSensor(sensorId, spline, options, chartView, xaxis, unit);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -384,7 +394,7 @@ public class HistoryDynamicFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Error.Response", "errorrrrr");
+                        Log.e("Error.Response", "errorrrrr"+ error);
                         // dialog.dismiss();
 
                     }
@@ -404,17 +414,30 @@ public class HistoryDynamicFragment extends Fragment {
     }
 
 
-    public void getValuesfromSensor(String sensorId, HISpline spline, HIOptions options, HIChartView chartView, HIXAxis xaxis) {
+    public void getValuesfromSensor(String sensorId, HISpline spline, HIOptions options, HIChartView chartView, HIXAxis xaxis, String unit) {
 
         sensorValueList = new ArrayList<>();
         sensorTimeValueList = new ArrayList<>();
-
+        String url_forsensorvalues;
         max.setText("");
         min.setText("");
         average.setText("");
+        //if unit is null set ""
+        //if (unit.contains("null")) {
+         //   unit = "";
+        //}
 
-        String url_forsensorvalues = historyDiagrammActivity.url + "/api/valueLogs/search/findAllByIdref?idref=" + sensorId + "&page=0&size=10000&sort=date,desc";
+        //String url_forsensorvalues = historyDiagrammActivity.url + "/api/valueLogs/search/findAllByIdref?idref=" + sensorId + "&page=0&size=10000&sort=date,desc";
+        if(unit.equals("null") || unit.equals("") ) {
+            url_forsensorvalues = historyDiagrammActivity.url + "/api/sensors/5c7fd6d3f8ea1203bcf381b9/valueLogs?size=200&sort=time,desc&unit=%C2%B0C";
+            //url_forsensorvalues = historyDiagrammActivity.url + "/api/valueLogs/sensors/" + sensorId + "/valueLogs?size=10000&sort=time,desc";
+        }else{
+            url_forsensorvalues = historyDiagrammActivity.url + "/api/sensors/5c7fd6d3f8ea1203bcf381b9/valueLogs?size=200&sort=time,desc&unit=%C2%B0C";
+
+           // url_forsensorvalues = historyDiagrammActivity.url + "/api/valueLogs/sensors/" + sensorId + "/valueLogs?size=10000&sort=time,desc&unit=%C2%B0C";
+        }
         //final String url = "http://192.168.209.189:8080/MBP/api/types";
+        //http://192.168.209.194:8888/deploy/master/api/sensors/5da88741b1c4d32a862fadf0/valueLogs?size=200&sort=time,desc
         RequestQueue queue = Volley.newRequestQueue(getContext()); // this = context
         // prepare the Request
         JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url_forsensorvalues, null,
@@ -423,24 +446,30 @@ public class HistoryDynamicFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         // display response
                         Log.d("Response", response.toString());
-                        JSONObject obj = null;
 
                         try {
                             JSONObject mainObject = response;
 
-                            obj = response.getJSONObject("_embedded");
+                           // obj = response.getJSONObject("content");
 
-                            Log.d("Response ", obj.toString());
-                            JSONArray jsonArray = obj.getJSONArray("valueLogs");
+                            JSONArray jsonArray = response.getJSONArray("content");
                             Log.d("Response Array", jsonArray.toString());
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject explrObject = jsonArray.getJSONObject(i);
-                                String name = explrObject.getString("value");
-                                String time = explrObject.getString("date");
+                                String value = explrObject.getString("value");
 
-                                sensorValueList.add(Double.parseDouble(name));
-                                sensorTimeValueList.add(time);
+                                JSONObject time = explrObject.getJSONObject("time");
+                                String epochsecound = time.getString("epochSecond");
+
+                                Date date = new Date(epochsecound);
+                                SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
+                                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                String formattedDate = sdf.format(date);
+                                System.out.println(formattedDate);
+
+                                sensorValueList.add(Double.parseDouble(value));
+                                sensorTimeValueList.add(formattedDate);
 
                             }
                             Collections.reverse(sensorTimeValueList);
@@ -479,10 +508,7 @@ public class HistoryDynamicFragment extends Fragment {
 
                                     Double averageValue = calculateAverage(historicValueList);
 
-                                    //if unit is null set ""
-                                    if (unit.contains("null")) {
-                                        unit = "";
-                                    }
+
 
 
                                     max.setText(new DecimalFormat("##.##", new DecimalFormatSymbols(Locale.US))
@@ -500,6 +526,7 @@ public class HistoryDynamicFragment extends Fragment {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            e.getMessage();
                         }
 
 
@@ -509,6 +536,10 @@ public class HistoryDynamicFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error.
+                        //TODO
+                        error.printStackTrace();
+                        error.getMessage();
+                        Log.e("Error.Response", "ERROR"+ error);
 
                     }
                 }
@@ -524,7 +555,6 @@ public class HistoryDynamicFragment extends Fragment {
         };
 
 
-        // add it to the RequestQueue
         queue.add(getRequest);
     }
 
@@ -608,10 +638,11 @@ public class HistoryDynamicFragment extends Fragment {
     }
 
     public Map<String, String> getHeaderforAuthentification() {
-        String username = "admin";
-        String password = "admin";
-        // String auth =new String(username + ":" + password);
-        String auth = new String("admin:admin");
+        SharedPreferences sp1= getContext().getSharedPreferences("Login",0);
+        String usernameSharedpref=sp1.getString("Username", null);
+        String passwordSharedpref = sp1.getString("Password", null);
+        String auth = new String(usernameSharedpref + ":" + passwordSharedpref);
+
         byte[] data = auth.getBytes();
         String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
         HashMap<String, String> headers = new HashMap<String, String>();

@@ -3,6 +3,7 @@ package com.example.sedaulusal.hiwijob;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -20,6 +21,7 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -34,11 +36,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
+
 
 public class LoginActivity extends AppCompatActivity {
-
+    SharedPreferences sharedpreferences;
+    public static final String URL = "URL";
     private Button btn_Login_SignIn;
-    EditText username, password;
+    EditText username, password,ip;
     Context context;
 
     @Override
@@ -57,7 +62,10 @@ public class LoginActivity extends AppCompatActivity {
         btn_Login_SignIn = (Button) findViewById(R.id.btn_activitylogin_signin);
         username = (EditText) findViewById(R.id.txt_login_username);
         password = (EditText) findViewById(R.id.txt_login_password);
+        ip = (EditText) findViewById(R.id.txt_login_ip);
 
+        sharedpreferences = getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
 
     }
 
@@ -74,31 +82,96 @@ public class LoginActivity extends AppCompatActivity {
         //String urlSensors = url + "/api/sensors/";
         //String typesurl = url+"/api/types/";
         //String deviceurl = url+ "/api/devices/";
-        String url = "http://192.168.209.194:8888/deploy/master/api/authenticate";
+        //String url = "http://192.168.178.61:8080/MBP/api/authenticate";
+        String usernameString = username.getText().toString();
+        String passwordString = password.getText().toString();
+        String ipUrl =  ip.getText().toString();
+        String url = ipUrl +"/api/authenticate";
+        final JSONObject jsonBody = new JSONObject("{\n" +
+                "  \"password\":\""+passwordString+"\",\"username\":\""+usernameString+"\"}");
 
 
+        JSONObject params_sensor = new JSONObject();
+       // params_sensor.put("name", sensori.getName());
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, jsonBody,
+                new Response.Listener() {
                     @Override
-                    public void onResponse(String response) {
-                        Log.d("TAG", "response = "+ response);
+                    public void onResponse(Object o) {
+                        Log.d("Response Sensor", o.toString());
+
+                        //Save url from Setting Activity
+                        String url = ip.getText().toString();
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString(URL, url);
+                        editor.putString("historyURLS", sharedpreferences.getString("historyURLS","")+"|"+url);
+                        editor.commit();
+
+                        SharedPreferences sp=getSharedPreferences("Login", 0);
+                        SharedPreferences.Editor Ed=sp.edit();
+                        Ed.putString("Username",usernameString );
+                        Ed.putString("Password",passwordString);
+                        Ed.commit();
+
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("TAG", "Error = "+ error);
-            }
-        })
-        {
+
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                    }
+                }
+        ){
             //
-            @Override
+           /* @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                    String username ="admin";
-                    String password = "admin";
-                   // String auth =new String(username + ":" + password);
-                    String auth =new String("admin:admin");
-                    byte[] data = auth.getBytes();
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }*/
+        };
+        jsonObjReq.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+                Log.d("Error.retry", error.toString());
+
+
+            }
+        });
+    queue2.add(jsonObjReq);
+
+
+
+         //{
+            //
+           /* @Override
+            public Map<String, String> getHeaders()  {
+                    //String username ="admin";
+                    //String password = "admin";
+                String usernameString = username.getText().toString();
+                String passwordString = password.getText().toString();
+
+                // String auth =new String(username + ":" + password);
+                   // String auth =new String("admin:admin");
+                   String auth =new String(usernameString+":"+passwordString);
+
+                byte[] data = auth.getBytes();
                     String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Authorization","Basic "+base64);
@@ -107,11 +180,11 @@ public class LoginActivity extends AppCompatActivity {
                     //headers.put("Accept","application/json");
                     return headers;
 
-            }
+            }*/
 
-        };
+       // };
         // Add the request to the RequestQueue.
-        queue2.add(stringRequest);
+       // queue2.add(jsonRequest);
 
 
 
@@ -177,8 +250,20 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    }
 
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        finish();
+    public Map<String, String> getHeaderforAuthentification(){
+        String username = "admin";
+        String password = "admin";
+        // String auth =new String(username + ":" + password);
+        String auth = new String("admin:admin");
+        byte[] data = auth.getBytes();
+        String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic " + base64);
+        //headers.put("accept-language","EN");
+        headers.put("Content-Type", "application/json");
+        //headers.put("Accept","application/json");
+        return headers;
     }
 }

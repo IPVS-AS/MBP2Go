@@ -19,6 +19,19 @@
 
 
         <EditText
+            android:id="@+id/txt_login_ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="?android:attr/colorPressedHighlight"
+            android:drawablePadding="16dp"
+            android:drawableTint="@android:color/white"
+            android:hint="http://192.168.178.61:8080/MBP"
+            android:padding="10dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
+
+        <EditText
             android:id="@+id/txt_login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
