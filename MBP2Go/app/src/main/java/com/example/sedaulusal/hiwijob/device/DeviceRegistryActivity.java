@@ -201,7 +201,6 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         actuatorcomponenttypespinner.setAdapter(actuatorspinnerArrayAdapter);
 
 
-
         //sensorspinner = (Spinner) findViewById(R.id.spinner);
         btnaddActuator = (Button) findViewById(R.id.btn_addActuator);
 
@@ -483,8 +482,27 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         deviceImage.setImageResource(R.drawable.raspberry_pi);
 
                     } else if (deviceType.getSelectedItem().equals("Arduino")) {
-
                         deviceImage.setImageResource(R.drawable.arduino);
+                    } else if (deviceType.getSelectedItem().equals("Computer")) {
+                        deviceImage.setImageResource(R.drawable.devicetype_computer_black_48dp);
+                    } else if (deviceType.getSelectedItem().equals("Audio System")) {
+                        deviceImage.setImageResource(R.drawable.baseline_speaker_group_black_48dp);
+                    } else if (deviceType.getSelectedItem().equals("Camera")) {
+                        deviceImage.setImageResource(R.drawable.baseline_photo_camera_black_48dp);
+                    } else if (deviceType.getSelectedItem().equals("Gateway")) {
+                        deviceImage.setImageResource(R.mipmap.ic_launcher);
+                    } else if (deviceType.getSelectedItem().equals("Laptop")) {
+                        deviceImage.setImageResource(R.drawable.baseline_laptop_black_48dp);
+                    } else if (deviceType.getSelectedItem().equals("NodeMCU")) {
+                        deviceImage.setImageResource(R.mipmap.ic_launcher);
+                    } else if (deviceType.getSelectedItem().equals("Smartphone")) {
+                        deviceImage.setImageResource(R.drawable.baseline_smartphone_black_48dp);
+                    } else if (deviceType.getSelectedItem().equals("Smartwatch")) {
+                        deviceImage.setImageResource(R.drawable.baseline_watch_black_48dp);
+                    } else if (deviceType.getSelectedItem().equals("TV")) {
+                        deviceImage.setImageResource(R.drawable.baseline_tv_black_48dp);
+                    } else if (deviceType.getSelectedItem().equals("Voice Controller")) {
+                        deviceImage.setImageResource(R.mipmap.ic_launcher);
                     } else if (deviceType.getSelectedItem().equals("Other")) {
                         deviceImage.setImageResource(R.mipmap.ic_launcher);
 
@@ -613,55 +631,92 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
                 String selectedItem = parent.getItemAtPosition(position).toString();
                 if (selectedItem.equals("Raspberry Pi")) {
-                    Toast.makeText(getApplicationContext(), "Raspberry wurde gewählt", Toast.LENGTH_SHORT).show();
-                    vf.setDisplayedChild(1);
+                    //Toast.makeText(getApplicationContext(), "Raspberry wurde gewählt", Toast.LENGTH_SHORT).show();
                     imageView.setImageResource(R.drawable.raspberry_pi);
 
-
-                    //TO DO: Look to a other solution to resize view
-                    startHeight = 700;
-                    targetHeight = 700;
-                    ResizeAnimation resizeAnimation = new ResizeAnimation(
-                            relativeLayout,
-                            targetHeight,
-                            startHeight
-                    );
-                    resizeAnimation.setDuration(duration);
-                    relativeLayout.startAnimation(resizeAnimation);
+                    setDisplazAnimation();
 
 
                 }
                 if (selectedItem.equals("Arduino")) {
-                    startHeight = 100;
+                 /*   startHeight = 100;
                     targetHeight = 100;
 
-                    Toast.makeText(getApplicationContext(), "Arduino wurde gewählt", Toast.LENGTH_SHORT).show();
-                    vf.setDisplayedChild(2);
+                    //Toast.makeText(getApplicationContext(), "Arduino wurde gewählt", Toast.LENGTH_SHORT).show();
+                    vf.setDisplayedChild(1);*/
                     imageView.setImageResource(R.drawable.arduino);
-                    ResizeAnimation resizeAnimation = new ResizeAnimation(
+                    setDisplazAnimation();
+                   /* ResizeAnimation resizeAnimation = new ResizeAnimation(
                             relativeLayout,
                             targetHeight,
                             startHeight
                     );
                     resizeAnimation.setDuration(duration);
-                    relativeLayout.startAnimation(resizeAnimation);
+                    relativeLayout.startAnimation(resizeAnimation);*/
 
 
                 }
+                if (selectedItem.equals("Computer")) {
+                    imageView.setImageResource(R.drawable.devicetype_computer_black_48dp);
+                    setDisplazAnimation();
+                }
+                if (selectedItem.equals("Audio System")) {
+                    imageView.setImageResource(R.drawable.baseline_speaker_group_black_48dp);
+                    setDisplazAnimation();
+                }
+                if (selectedItem.equals("Camera")) {
+                    imageView.setImageResource(R.drawable.baseline_photo_camera_black_48dp);
+                    setDisplazAnimation();
+                }
+                if (selectedItem.equals("Gateway")) {
+                    imageView.setImageResource(R.mipmap.ic_launcher);
+                    setDisplazAnimation();
+                }
+                if (selectedItem.equals("Laptop")) {
+                    imageView.setImageResource(R.drawable.baseline_laptop_black_48dp);
+                    setDisplazAnimation();
+                }
+                if (selectedItem.equals("NodeMCU")) {
+                    imageView.setImageResource(R.mipmap.ic_launcher);
+                }
+                if (selectedItem.equals("Smartphone")) {
+                    imageView.setImageResource(R.drawable.baseline_smartphone_black_48dp);
+                    setDisplazAnimation();
+
+
+                }
+                if (selectedItem.equals("Smartwatch")) {
+                    imageView.setImageResource(R.drawable.baseline_watch_black_48dp);
+                    setDisplazAnimation();
+
+                }
+                if (selectedItem.equals("TV")) {
+                    imageView.setImageResource(R.drawable.baseline_tv_black_48dp);
+                    setDisplazAnimation();
+
+                }
+                if (selectedItem.equals("Voice Controller")) {
+                    imageView.setImageResource(R.mipmap.ic_launcher);
+                    setDisplazAnimation();
+
+                }
+
                 if (selectedItem.equals("Other")) {
-                    startHeight = 100;
+                  /*  startHeight = 100;
                     targetHeight = 100;
 
-                    Toast.makeText(getApplicationContext(), "Other wurde gewählt", Toast.LENGTH_SHORT).show();
-                    vf.setDisplayedChild(2);
+                   // Toast.makeText(getApplicationContext(), "Other wurde gewählt", Toast.LENGTH_SHORT).show();
+                    vf.setDisplayedChild(1);*/
                     imageView.setImageResource(R.mipmap.ic_launcher);
-                    ResizeAnimation resizeAnimation = new ResizeAnimation(
+                    setDisplazAnimation();
+
+                  /*  ResizeAnimation resizeAnimation = new ResizeAnimation(
                             relativeLayout,
                             targetHeight,
                             startHeight
                     );
                     resizeAnimation.setDuration(duration);
-                    relativeLayout.startAnimation(resizeAnimation);
+                    relativeLayout.startAnimation(resizeAnimation);*/
 
 
                 }
@@ -716,6 +771,21 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         sqLiteHelper = new SQLiteHelper(this);
 
 
+    }
+
+    public void setDisplazAnimation() {
+        vf.setDisplayedChild(1);
+
+        //TO DO: Look to a other solution to resize view
+        startHeight = 700;
+        targetHeight = 700;
+        ResizeAnimation resizeAnimation = new ResizeAnimation(
+                relativeLayout,
+                targetHeight,
+                startHeight
+        );
+        resizeAnimation.setDuration(duration);
+        relativeLayout.startAnimation(resizeAnimation);
     }
 
     /*
@@ -778,7 +848,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         //final String url = "http://192.168.209.189:8080/MBP/api/types";
         RequestQueue queue = Volley.newRequestQueue(context); // this = context
         // prepare the Request
-        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url+"/api/adapters", null,
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url + "/api/adapters", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -820,7 +890,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         //Log.d("Error.Response", response);
                     }
                 }
-        ){
+        ) {
             //
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -940,7 +1010,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
 
                         //String urlUpdate = "http://192.168.209.189:8080/MBP/api/devices/" + deviceInfo.getPlattformid();
-                        String urlUpdate = url+ "/api/devices/" + deviceInfo.getPlattformid();
+                        String urlUpdate = url + "/api/devices/" + deviceInfo.getPlattformid();
                         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, urlUpdate, paramsUpdate,
                                 new Response.Listener() {
                                     @Override
@@ -973,21 +1043,21 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         //sqLiteHelper.updateSensor(sensorInfo, deviceInfo);
 
                         ArrayList<SensorInfo> deviceWatchList = sqLiteHelper.getAllSensorsByPlattformId(deviceInfo.getPlattformid());
-                        for(SensorInfo sensorInfo: deviceWatchList){
+                        for (SensorInfo sensorInfo : deviceWatchList) {
                             RequestQueue queueUpdateSensor = Volley.newRequestQueue(context);
                             JSONObject paramsUpdateSensor = new JSONObject();
                             //String url = "http://192.168.209.189:8080/MBP/api/sensors/";
                             //String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
                             //String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
-                            String typesurl = url+"/api/adapters/";
-                            String deviceurl = url+"/api/devices/";
+                            String typesurl = url + "/api/adapters/";
+                            String deviceurl = url + "/api/devices/";
                             paramsUpdateSensor.put("name", sensorInfo.getName());
                             paramsUpdateSensor.put("adapter", typesurl + sensorInfo.getSensorTyp());
                             paramsUpdateSensor.put("device", deviceurl + deviceInfo.getPlattformid());
 
 
                             //String urlUpdateSensor = "http://192.168.209.189:8080/MBP/api/sensors/" + sensorInfo.getGeneratesensorid();
-                            String urlUpdateSensor = url+ "/api/sensors/" + sensorInfo.getGeneratesensorid();
+                            String urlUpdateSensor = url + "/api/sensors/" + sensorInfo.getGeneratesensorid();
                             JsonObjectRequest putRequestSensor = new JsonObjectRequest(Request.Method.PUT, urlUpdateSensor, paramsUpdateSensor,
                                     new Response.Listener() {
                                         @Override
@@ -1017,7 +1087,6 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             queueUpdateSensor.add(putRequestSensor);
 
                         }
-
 
 
                         if (remove) {
@@ -1052,8 +1121,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             //String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
                             //String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
                             String urlSensors = url + "/api/sensors/";
-                            String typesurl = url+"/api/adapters/";
-                            String deviceurl = url+ "/api/devices/";
+                            String typesurl = url + "/api/adapters/";
+                            String deviceurl = url + "/api/devices/";
                             JSONObject params_sensor = new JSONObject();
                             params_sensor.put("name", sensori.getName());
                             params_sensor.put("adapter", typesurl + sensori.getSensorTyp());
@@ -1068,7 +1137,6 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         public void onResponse(Object response) {
                                             // response
                                             Log.d("Response Sensor", (String) response);
-                                            //sqLiteHelper.createSensor(sensori, deviceInfo);
 
                                         }
                                     },
@@ -1080,14 +1148,13 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         }
                                     }
                             ) {
-                                    //
-                                    @Override
-                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                //
+                                @Override
+                                public Map<String, String> getHeaders() throws AuthFailureError {
                                     Map<String, String> authentification = getHeaderforAuthentification();
                                     return authentification;
 
                                 }
-
 
 
                                 @Override
@@ -1126,9 +1193,9 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             //String urlActuator = "http://192.168.209.189:8080/MBP/api/actuators/";
                             //String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
                             //String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
-                            String urlActuator = url+"/api/actuators/";
-                            String typesurl = url+"/api/adapters/";
-                            String deviceurl = url+"/api/devices/";
+                            String urlActuator = url + "/api/actuators/";
+                            String typesurl = url + "/api/adapters/";
+                            String deviceurl = url + "/api/devices/";
                             JSONObject params_actuator = new JSONObject();
                             params_actuator.put("name", actuatorInfo.getName());
                             params_actuator.put("adapter", typesurl + actuatorInfo.getActuatorTyp());
@@ -1151,14 +1218,13 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         }
                                     }
                             ) {
-                                    //
-                                    @Override
-                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                //
+                                @Override
+                                public Map<String, String> getHeaders() throws AuthFailureError {
                                     Map<String, String> authentification = getHeaderforAuthentification();
                                     return authentification;
 
                                 }
-
 
 
                                 @Override
@@ -1193,6 +1259,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
                     } else {
 
+
                         final boolean[] isInserted = new boolean[1];
                         final String name = edtName.getText().toString();
                         final String macid = edtMacid.getText().toString();
@@ -1205,256 +1272,312 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         if (myToast != null) {
                             myToast.cancel();
                         }
-
-                        //String url = "http://192.168.209.189:8080/MBP/api/devices/";
-                        String urlDevices = url+"/api/devices/";
-                        final RequestQueue queue = Volley.newRequestQueue(this); // this = context
-                        JSONObject params = new JSONObject();
-                        params.put("name", name);
-                        params.put("macAddress", macid.replace("-", ""));
-                        params.put("ipAddress", optionalIP);
-                        params.put("formattedMacAddress", macid);
-                        params.put("username", userName);
-                        params.put("componentType", spinner.getSelectedItem().toString() );
-                        params.put("rsaKey", "-----BEGIN RSA PRIVATE KEY-----\nMIIEqgIBAAKCAQEA4zzAJS+xXz00YLyO8lvsSfY+6XX1mQs6pz7yioA6lO30mWMx\n95FP3rZiX2stId3VfEPKdPgLot7CoTMcSnQzDBR8bi1ej8c/FXzELb2kTQzZE7dX\nYaONvNfKGL27EMjhqRpL+rQeTGeyGqmr0WH7BeQ9nE6ylfxXzXAMWkTW6dv7go+j\n52xAS6dM5TZER/A2KvCgXisiQFzwqEHuXnoy9lpWHcSZzQL8Xkd9ZbGAr3ex0pEc\n8220d4KT8oATLBDZo/fJyGiQNR5sab8RlpecbGJoh0QJIdnU3Eq02HYSzAQ7a8cB\nYGEm1xtOQOxV2a4+8f/g9FSC3hjobwmSoNu/nQIDAQABAoIBACy3ytRGk3A7mjAj\nSzo0jsZrWCwXU5KfnBZHk/FflKe0QDtjQvUGOqKIX8mJTONqRVXj/VaRbbDKh6Cz\nbzDTtyv8aBRCh2Zh/m8bE3ww4sFq8tknbmG/jugHyzSdOc/uyEG/9A3NHl1I1sra\ncv6MeprJNLqq3ggYFatPDo9BFs4EZoaIxEMD3plHfENfJOu7IS0xRoe5foXYbnM3\nji7n243OBGPAdCZXJkhYNgRoZmwMeMOJWK7EmiiM60ZKpHl8C4jSuzQ132aK/NDH\n3xgr+1nI8i8CfAWBlP8hfCXJJ8EiS5lE94jnP7u49BhjbPgULaNPDDYpVh5/uTlP\nYV5iAcECggCBAO7y4xBuMc8G57lqepoZHtCjSPpXTEC6hE7+pmnwvi6gUZPV7Tx/\nC7JecekilTy3Z+MjU1jwy7Bu0L3EJsJBn2N5aGYVxGFHGqrfA/qhPeyJsIU2w2UZ\nm1BEgNjP7bMZSMCSYd2CU9mP5dt3vGpEU6oZgwe9jm5QghYVjHaB6NUNAoIAgQDz\nc+sqdCn+rIpE6uovtqXJ9l3psaz+egRLcWS0ZVtrdhmMPBz/rZ16KhqmA+aszjiP\n8JqO3uXiB1LR+ACc6tRzeCWXNWipgzJGvLfgZBwGHeFje+uMyd1nYUq3qd0zP81j\ntpZpIAlHlPc+UREqiUhJJkjP+tEwwznP4zaC4wkQ0QKCAIEA3bMRpf73y8P2X/xB\nQJSqGJ5Haa5xm2TyuXBf6s9pRU2OIwJLmOOvcJFcUxi5Kppok0AFZvITquFGX6uM\n4pOMVPkiOgVcLX2RapR81p+gGsUtuIu1AyqdBf5pJcDWJGQDMlke4Cy5q5RtihEw\nCdDXZ21AO4BOlF+yMtdPeezSoEkCggCBAIBzsiolPp8sRIxWcpgYQ+OLBUQvxjpD\nAQ8ZVmxEancJyjMO6LIS1dtGaeccedLFwFxaNAKcIykeehllRFWHJe+C/jqJKJ8A\nJT/jhRV1XL/xdiG6ma8gN5y7XeQIUTkgOeuZxETVbXACbm3H8knCQ4ytEZADI+sZ\npuBEX1eyGO9xAoIAgQCwh2QkYnGPQkY4d9ra+WcrUz8sb7CEu4IS42XNt8SFkyU4\nfkE7aE4bHufPnnTEZ4jIGk0/E1b8AhLh1suRpg3tltYEj5CJfF1UywoUGuHhQkzP\n7jZaNQ1xdB+0woK3IenLVpDjxWGZbZTxviim1v1lpLSJxfr/HfvW1DJc4x/iug==\n-----END RSA PRIVATE KEY-----");
-
-
-                        final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                                urlDevices, params,
-                                new Response.Listener() {
-                                    @Override
-                                    public void onResponse(Object response) {
-                                        response.toString();
-                                    }
-
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                        //Failure Callback
-
-                                    }
-                                }){
-                            //
-                            @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String, String> authentification = getHeaderforAuthentification();
-                                return authentification;
-
+                        if (name.isEmpty() || devicetype.isEmpty() || optionalIP.isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                    "The Devicename and IP address can not be empty", Toast.LENGTH_SHORT);
+                            toast.show();
+                        } else {
+                            if (!macid.isEmpty() && macid.length() < 12) {
+                                Toast toast = Toast.makeText(getApplicationContext(),
+                                        "Invalid Mac address", Toast.LENGTH_SHORT);
+                                toast.show();
                             }
-
-                        };
-
-                        // Adding the request to the queue along with a unique string tag
-                        queue.add(jsonObjReq);
-
-
-                        testliste.removeAll(sensorlist);
-
-
-
-                             /*
-                    get request to get the id
-                    */
-                        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, urlDevices, null,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        // display response
-                                        Log.d("Response", response.toString());
-                                        JSONObject obj = null;
-
-                                        try {
-                                            JSONObject mainObject = response;
-
-                                            obj = response.getJSONObject("_embedded");
-
-                                            Log.d("Response ", obj.toString());
-                                            JSONArray jsonArray = obj.getJSONArray("devices");
-                                            Log.d("Response Array", jsonArray.toString());
-                                            for (int i = 0; i < jsonArray.length(); i++) {
-                                                JSONObject explrObject = jsonArray.getJSONObject(i);
-                                                String namejson = explrObject.getString("name");
-                                                String macidjson = explrObject.getString("macAddress");
-                                                String plattformid = explrObject.getString("id");
-                                                Log.d("Plattformid", "id:" + plattformid);
-                                                pid = plattformid;
-                                            }
-                                            deviceInfo = new DeviceInfo(name, macid, pid, image, devicetype, optionalIP, userName, password);
-                                            deviceid = sqLiteHelper.createDevice(deviceInfo);
-
-                                            final String[] text = {""};
+                            //String url = "http://192.168.209.189:8080/MBP/api/devices/";
+                            String urlDevices = url + "/api/devices/";
+                            final RequestQueue queue = Volley.newRequestQueue(this); // this = context
+                            JSONObject params = new JSONObject();
+                            params.put("name", name);
+                            params.put("macAddress", macid.replace("-", ""));
+                            params.put("ipAddress", optionalIP);
+                            //params.put("formattedMacAddress", macid);
+                            params.put("username", userName);
+                            params.put("componentType", spinner.getSelectedItem().toString());
+                            params.put("rsaKey", "-----BEGIN RSA PRIVATE KEY-----\nMIIEqgIBAAKCAQEA4zzAJS+xXz00YLyO8lvsSfY+6XX1mQs6pz7yioA6lO30mWMx\n95FP3rZiX2stId3VfEPKdPgLot7CoTMcSnQzDBR8bi1ej8c/FXzELb2kTQzZE7dX\nYaONvNfKGL27EMjhqRpL+rQeTGeyGqmr0WH7BeQ9nE6ylfxXzXAMWkTW6dv7go+j\n52xAS6dM5TZER/A2KvCgXisiQFzwqEHuXnoy9lpWHcSZzQL8Xkd9ZbGAr3ex0pEc\n8220d4KT8oATLBDZo/fJyGiQNR5sab8RlpecbGJoh0QJIdnU3Eq02HYSzAQ7a8cB\nYGEm1xtOQOxV2a4+8f/g9FSC3hjobwmSoNu/nQIDAQABAoIBACy3ytRGk3A7mjAj\nSzo0jsZrWCwXU5KfnBZHk/FflKe0QDtjQvUGOqKIX8mJTONqRVXj/VaRbbDKh6Cz\nbzDTtyv8aBRCh2Zh/m8bE3ww4sFq8tknbmG/jugHyzSdOc/uyEG/9A3NHl1I1sra\ncv6MeprJNLqq3ggYFatPDo9BFs4EZoaIxEMD3plHfENfJOu7IS0xRoe5foXYbnM3\nji7n243OBGPAdCZXJkhYNgRoZmwMeMOJWK7EmiiM60ZKpHl8C4jSuzQ132aK/NDH\n3xgr+1nI8i8CfAWBlP8hfCXJJ8EiS5lE94jnP7u49BhjbPgULaNPDDYpVh5/uTlP\nYV5iAcECggCBAO7y4xBuMc8G57lqepoZHtCjSPpXTEC6hE7+pmnwvi6gUZPV7Tx/\nC7JecekilTy3Z+MjU1jwy7Bu0L3EJsJBn2N5aGYVxGFHGqrfA/qhPeyJsIU2w2UZ\nm1BEgNjP7bMZSMCSYd2CU9mP5dt3vGpEU6oZgwe9jm5QghYVjHaB6NUNAoIAgQDz\nc+sqdCn+rIpE6uovtqXJ9l3psaz+egRLcWS0ZVtrdhmMPBz/rZ16KhqmA+aszjiP\n8JqO3uXiB1LR+ACc6tRzeCWXNWipgzJGvLfgZBwGHeFje+uMyd1nYUq3qd0zP81j\ntpZpIAlHlPc+UREqiUhJJkjP+tEwwznP4zaC4wkQ0QKCAIEA3bMRpf73y8P2X/xB\nQJSqGJ5Haa5xm2TyuXBf6s9pRU2OIwJLmOOvcJFcUxi5Kppok0AFZvITquFGX6uM\n4pOMVPkiOgVcLX2RapR81p+gGsUtuIu1AyqdBf5pJcDWJGQDMlke4Cy5q5RtihEw\nCdDXZ21AO4BOlF+yMtdPeezSoEkCggCBAIBzsiolPp8sRIxWcpgYQ+OLBUQvxjpD\nAQ8ZVmxEancJyjMO6LIS1dtGaeccedLFwFxaNAKcIykeehllRFWHJe+C/jqJKJ8A\nJT/jhRV1XL/xdiG6ma8gN5y7XeQIUTkgOeuZxETVbXACbm3H8knCQ4ytEZADI+sZ\npuBEX1eyGO9xAoIAgQCwh2QkYnGPQkY4d9ra+WcrUz8sb7CEu4IS42XNt8SFkyU4\nfkE7aE4bHufPnnTEZ4jIGk0/E1b8AhLh1suRpg3tltYEj5CJfF1UywoUGuHhQkzP\n7jZaNQ1xdB+0woK3IenLVpDjxWGZbZTxviim1v1lpLSJxfr/HfvW1DJc4x/iug==\n-----END RSA PRIVATE KEY-----");
 
 
-                                            for (final SensorInfo sensorInfo : sensorlist) {
-
-                                                RequestQueue queue2 = Volley.newRequestQueue(context); // this = context
-                                               // String urlSensors = "http://192.168.209.189:8080/MBP/api/sensors/";
-                                               // String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
-                                               // String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
-                                                String urlSensors = url+ "/api/sensors/";
-                                                String typesurl = url+"/api/adapters/";
-                                                String deviceurl = url+"/api/devices/";
-                                                JSONObject params_sensor = new JSONObject();
-                                                params_sensor.put("name", sensorInfo.getName());
-                                                params_sensor.put("adapter", typesurl + sensorInfo.getSensorTyp());
-                                                params_sensor.put("device", deviceurl + pid);
-                                                //TODO
-                                                params_sensor.put("componentType", componenttypespinner.getSelectedItem().toString());
-
-                                                final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                                                        urlSensors, params_sensor,
-                                                        new Response.Listener<JSONObject>() {
-                                                            @Override
-                                                            public void onResponse(JSONObject response) {
-                                                                // response
-                                                                Log.d("Response Sensor show ", response.toString());
-                                                                posttrue = true;
-                                                                //post = response.toString();
-                                                            }
-                                                        },
-                                                        new Response.ErrorListener() {
-                                                            @Override
-                                                            public void onErrorResponse(VolleyError error) {
-                                                                // error
-                                                                // Log.d("Error.Response", response);
-                                                            }
-                                                        }
-                                                ) {
-                                                        //
-                                                        @Override
-                                                        public Map<String, String> getHeaders() throws AuthFailureError {
-                                                        Map<String, String> authentification = getHeaderforAuthentification();
-                                                        return authentification;
-
-                                                    }
-
-
-
-                                                    @Override
-                                                    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                                                        try {
-                                                            // Sensoren id bekommen im Head
-                                                            String jsonString2 = new String(response.data, "UTF-8");
-                                                            //String post = response.allHeaders.get(2).toString();
-                                                            String location = response.headers.get("Location");
-                                                            post = location.substring(location.lastIndexOf("/") + 1);
-                                                            SensorInfo sensorInf = new SensorInfo(post, sensorInfo.getName(), sensorInfo.getImage(), sensorInfo.getSensorPinset(), sensorInfo.getSensorTyp());
-                                                            sensorid = sqLiteHelper.createSensor(sensorInf, deviceInfo);
-
-                                                            return Response.success(new JSONObject(jsonString2),
-                                                                    HttpHeaderParser.parseCacheHeaders(response));
-                                                        } catch (UnsupportedEncodingException e) {
-                                                            return Response.error(new ParseError(e));
-                                                        } catch (JSONException je) {
-                                                            return Response.error(new ParseError(je));
-                                                        }
-                                                    }
-                                                };
-
-                                                queue2.add(jsonObjReq);
-
-
-                                            }
-
-                                            for (final ActuatorInfo actuatorInfo : actuatorlist) {
-                                                // actuatorid = sqLiteHelper.createActuator(actuatorInfo, deviceInfo);
-                                                // Log.e("Actuator Count", "Actuator count: " + sqLiteHelper.getActuatorCount());
-
-                                                RequestQueue queue2 = Volley.newRequestQueue(context); // this = context
-                                               // String url = "http://192.168.209.189:8080/MBP/api/actuators/";
-                                               // String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
-                                               // String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
-                                                String urlActuators = url+ "/api/actuators/";
-                                                String typesurl = url+"/api/adapters/";
-                                                String deviceurl = url+"/api/devices/";
-                                                JSONObject params_actuator = new JSONObject();
-                                                params_actuator.put("name", actuatorInfo.getName());
-                                                params_actuator.put("adapter", typesurl + actuatorInfo.getActuatorTyp());
-                                                params_actuator.put("device", deviceurl + pid);
-                                                params_actuator.put("componentType", actuatorcomponenttypespinner.getSelectedItem().toString());
-
-                                                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                                                        urlActuators, params_actuator,
-                                                        new Response.Listener() {
-                                                            @Override
-                                                            public void onResponse(Object response) {
-                                                                // response
-                                                                Log.d("Response Actuator", (String) response);
-                                                            }
-                                                        },
-                                                        new Response.ErrorListener() {
-                                                            @Override
-                                                            public void onErrorResponse(VolleyError error) {
-                                                                // error
-                                                                //Log.d("Error.Response", response);
-                                                            }
-                                                        }
-                                                ) {
-                                                        //
-                                                        @Override
-                                                        public Map<String, String> getHeaders() throws AuthFailureError {
-                                                        Map<String, String> authentification = getHeaderforAuthentification();
-                                                        return authentification;
-
-                                                    }
-
-
-                                                    @Override
-                                                    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                                                        try {
-                                                            // Sensoren id bekommen im Head
-                                                            String jsonString2 = new String(response.data, "UTF-8");
-                                                            //String post = response.allHeaders.get(2).toString();
-                                                            String location = response.headers.get("Location");
-                                                            post = location.substring(location.lastIndexOf("/") + 1);
-                                                            ActuatorInfo aktuInf = new ActuatorInfo(post, actuatorInfo.getName(), actuatorInfo.getImage(), actuatorInfo.getActuatorPinset(), actuatorInfo.getActuatorTyp());
-                                                            actuatorid = sqLiteHelper.createActuator(aktuInf, deviceInfo);
-
-                                                            return Response.success(new JSONObject(jsonString2),
-                                                                    HttpHeaderParser.parseCacheHeaders(response));
-                                                        } catch (UnsupportedEncodingException e) {
-                                                            return Response.error(new ParseError(e));
-                                                        } catch (JSONException je) {
-                                                            return Response.error(new ParseError(je));
-                                                        }
-                                                    }
-                                                };
-                                                queue2.add(jsonObjReq);
-
-                                            }
-
-                                            startActivity(new Intent(DeviceRegistryActivity.this, DeviceOverviewActivity.class));
-                                            finish();
-
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+                            final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                                    urlDevices, params,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            //response.toString();
+                                            System.out.print("RESPONSE von POST in Device Registry 1");
+                                            //System.out.print(response.toString());
                                         }
 
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Log.d("Error.Response", "error");
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            System.out.print("Error Post in Device Registry" + error.getMessage());
+                                            //Failure Callback
+
+                                        }
+                                    }) {
+                                //
+                                @Override
+                                public Map<String, String> getHeaders() throws AuthFailureError {
+                                    Map<String, String> authentification = getHeaderforAuthentification();
+                                    return authentification;
+
+                                }
+
+                                @Override
+                                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                                    try {
+                                        // Sensoren id bekommen im Head
+                                        JSONObject result = null;
+
+                                        // String jsonStringResponse = new String(response.data, "UTF-8");
+                                        String jsonString2 = new String(response.data, "UTF-8");
+                                        //String post = response.allHeaders.get(2).toString();
+                                        String location = response.headers.get("Location");
+                                        post = location.substring(location.lastIndexOf("/") + 1);
+                                        deviceInfo = new DeviceInfo(name, macid, post, image, devicetype, optionalIP, userName, password);
+                                        deviceid = sqLiteHelper.createDevice(deviceInfo);
+                                        pid = post;
+
+                                        System.out.print("RESPONSE von POST in Device Registry 2");
+                                        System.out.print(jsonString2.toString());
+
+
+                                        ////////////////////////////
+
+
+                                        System.out.print("TESSSST DeVICE NAme und Platt");
+                                        JsonObjectRequest getRequest= new JsonObjectRequest(Request.Method.GET, urlDevices, null,
+                                                new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        // display response
+                                                        Log.d("Response", response.toString());
+                                                        JSONObject obj = null;
+
+                                                        try {
+                                                            JSONObject mainObject = response;
+
+                                                            obj = response.getJSONObject("_embedded");
+
+                                                            Log.d("Response ", obj.toString());
+                                                            JSONArray jsonArray = obj.getJSONArray("devices");
+                                                            Log.d("Response Array", jsonArray.toString());
+                                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                                JSONObject explrObject = jsonArray.getJSONObject(i);
+                                                                // String namejson = explrObject.getString("name");
+                                                                //  String macidjson = explrObject.getString("macAddress");
+                                                                String plattformid = explrObject.getString("id");
+                                                                // Log.d("Plattformid", "id:" + plattformid);
+                                                                //pid = plattformid;
+                                                            }
+                                                            ArrayList<DeviceInfo> dev = sqLiteHelper.getAllDevice();
+                                                            //deviceInfo= dev.get(dev.size());
+                                                            deviceInfo = new DeviceInfo(name, macid, pid, image, devicetype, optionalIP, userName, password);
+                                                            // deviceid = sqLiteHelper.createDevice(deviceInfo);
+
+                                                            final String[] text = {""};
+
+
+                                                            for (final SensorInfo sensorInfo : sensorlist) {
+
+                                                                RequestQueue queue2 = Volley.newRequestQueue(context); // this = context
+                                                                // String urlSensors = "http://192.168.209.189:8080/MBP/api/sensors/";
+                                                                // String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
+                                                                // String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
+                                                                String urlSensors = url + "/api/sensors/";
+                                                                String typesurl = url + "/api/adapters/";
+                                                                String deviceurl = url + "/api/devices/";
+                                                                JSONObject params_sensor = new JSONObject();
+                                                                params_sensor.put("name", sensorInfo.getName());
+                                                                params_sensor.put("adapter", typesurl + sensorInfo.getSensorTyp());
+                                                                params_sensor.put("device", deviceurl + pid);
+                                                                //params_sensor.put("device", deviceurl + deviceInfo.getPlattformid());
+                                                                sensorInfo.setSensoradapter(componenttypespinner.getSelectedItem().toString());
+                                                                //TODO
+                                                                params_sensor.put("componentType", sensorInfo.getSensoradapter());
+
+                                                                final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                                                                        urlSensors, params_sensor,
+                                                                        new Response.Listener<JSONObject>() {
+                                                                            @Override
+                                                                            public void onResponse(JSONObject response) {
+                                                                                // response
+                                                                                Log.d("Response Sensor show ", response.toString());
+                                                                                posttrue = true;
+                                                                                //post = response.toString();
+                                                                            }
+                                                                        },
+                                                                        new Response.ErrorListener() {
+                                                                            @Override
+                                                                            public void onErrorResponse(VolleyError error) {
+                                                                                // error
+                                                                                System.out.print("ERROR addind Sensor"+ error.getMessage());
+                                                                                // Log.d("Error.Response", response);
+                                                                            }
+                                                                        }
+                                                                ) {
+                                                                    //
+                                                                    @Override
+                                                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                                                        Map<String, String> authentification = getHeaderforAuthentification();
+                                                                        return authentification;
+
+                                                                    }
+
+
+                                                                    @Override
+                                                                    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                                                                        try {
+                                                                            // Sensoren id bekommen im Head
+                                                                            String jsonString2 = new String(response.data, "UTF-8");
+                                                                            //String post = response.allHeaders.get(2).toString();
+                                                                            String location = response.headers.get("Location");
+                                                                            post = location.substring(location.lastIndexOf("/") + 1);
+                                                                            SensorInfo sensorInf = new SensorInfo(post, sensorInfo.getName(), sensorInfo.getImage(), sensorInfo.getSensorPinset(), sensorInfo.getSensorTyp());
+                                                                            sensorid = sqLiteHelper.createSensor(sensorInf, deviceInfo);
+
+                                                                            return Response.success(new JSONObject(jsonString2),
+                                                                                    HttpHeaderParser.parseCacheHeaders(response));
+                                                                        } catch (UnsupportedEncodingException e) {
+                                                                            return Response.error(new ParseError(e));
+                                                                        } catch (JSONException je) {
+                                                                            return Response.error(new ParseError(je));
+                                                                        }
+                                                                    }
+                                                                };
+
+                                                                queue2.add(jsonObjReq);
+
+
+                                                            }
+
+                                                            for (final ActuatorInfo actuatorInfo : actuatorlist) {
+                                                                // actuatorid = sqLiteHelper.createActuator(actuatorInfo, deviceInfo);
+                                                                // Log.e("Actuator Count", "Actuator count: " + sqLiteHelper.getActuatorCount());
+
+                                                                RequestQueue queue2 = Volley.newRequestQueue(context); // this = context
+                                                                // String url = "http://192.168.209.189:8080/MBP/api/actuators/";
+                                                                // String typesurl = "http://192.168.209.189:8080/MBP/api/types/";
+                                                                // String deviceurl = "http://192.168.209.189:8080/MBP/api/devices/";
+                                                                String urlActuators = url + "/api/actuators/";
+                                                                String typesurl = url + "/api/adapters/";
+                                                                String deviceurl = url + "/api/devices/";
+                                                                JSONObject params_actuator = new JSONObject();
+                                                                params_actuator.put("name", actuatorInfo.getName());
+                                                                params_actuator.put("adapter", typesurl + actuatorInfo.getActuatorTyp());
+                                                                params_actuator.put("device", deviceurl + pid);
+                                                                params_actuator.put("componentType", actuatorcomponenttypespinner.getSelectedItem().toString());
+
+                                                                JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                                                                        urlActuators, params_actuator,
+                                                                        new Response.Listener() {
+                                                                            @Override
+                                                                            public void onResponse(Object response) {
+                                                                                // response
+                                                                                Log.d("Response Actuator", (String) response);
+                                                                            }
+                                                                        },
+                                                                        new Response.ErrorListener() {
+                                                                            @Override
+                                                                            public void onErrorResponse(VolleyError error) {
+                                                                                // error
+                                                                                //Log.d("Error.Response", response);
+                                                                            }
+                                                                        }
+                                                                ) {
+                                                                    //
+                                                                    @Override
+                                                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                                                        Map<String, String> authentification = getHeaderforAuthentification();
+                                                                        return authentification;
+
+                                                                    }
+
+
+                                                                    @Override
+                                                                    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                                                                        try {
+                                                                            // Sensoren id bekommen im Head
+                                                                            String jsonString2 = new String(response.data, "UTF-8");
+                                                                            //String post = response.allHeaders.get(2).toString();
+                                                                            String location = response.headers.get("Location");
+                                                                            post = location.substring(location.lastIndexOf("/") + 1);
+                                                                            ActuatorInfo aktuInf = new ActuatorInfo(post, actuatorInfo.getName(), actuatorInfo.getImage(), actuatorInfo.getActuatorPinset(), actuatorInfo.getActuatorTyp());
+                                                                            actuatorid = sqLiteHelper.createActuator(aktuInf, deviceInfo);
+
+                                                                            return Response.success(new JSONObject(jsonString2),
+                                                                                    HttpHeaderParser.parseCacheHeaders(response));
+                                                                        } catch (UnsupportedEncodingException e) {
+                                                                            return Response.error(new ParseError(e));
+                                                                        } catch (JSONException je) {
+                                                                            return Response.error(new ParseError(je));
+                                                                        }
+                                                                    }
+                                                                };
+                                                                queue2.add(jsonObjReq);
+
+                                                            }
+
+                                                            startActivity(new Intent(DeviceRegistryActivity.this, DeviceOverviewActivity.class));
+                                                            finish();
+
+
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+
+                                                    }
+                                                },
+                                                new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Log.d("Error.Response", "error");
+                                                    }
+                                                }
+                                        ) {
+                                            //
+                                            @Override
+                                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                                Map<String, String> authentification = getHeaderforAuthentification();
+                                                return authentification;
+
+                                            }
+
+                                        };
+
+
+                                        queue.add(getRequest);
+
+
+                                        ////////////
+
+
+
+                                        return Response.success(new JSONObject(jsonString2),
+                                                HttpHeaderParser.parseCacheHeaders(response));
+                                    } catch (UnsupportedEncodingException e) {
+                                        return Response.error(new ParseError(e));
+                                    } catch (JSONException je) {
+                                        return Response.error(new ParseError(je));
                                     }
                                 }
-                        ){
-                            //
-                            @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String, String> authentification = getHeaderforAuthentification();
-                                return authentification;
 
-                            }
+                            };
 
-                        };
-                        queue.add(getRequest);
-                        //ToDO isinserted dont catch bugs anymore
-                        isInserted[0] = true;
+                            // Adding the request to the queue along with a unique string tag
+                            queue.add(jsonObjReq);
 
+
+                            testliste.removeAll(sensorlist);
+                            // JsonObjectRequest getRequest = getJsonObjectRequestForID(name, macid, image, devicetype, optionalIP, userName, password, urlDevices);
+                            //JsonObjectRequest getRequest = getJsonObjectRequestForID(name, macid, image, devicetype, optionalIP, userName, password, urlDevices);
+
+
+
+                            //queue.add(getRequest);
+                            //ToDO isinserted dont catch bugs anymore
+                            isInserted[0] = true;
+
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1470,11 +1593,13 @@ public class DeviceRegistryActivity extends AppCompatActivity {
     }
 
 
+
+
     public void deleterequestsensor(final String sensorid) {
 
         RequestQueue queue = Volley.newRequestQueue(this);  // this = context
         //String urlSensor = "http://192.168.209.189:8080/MBP/api/sensors/" + sensorid;
-        String urlSensor = url+"/api/sensors/" + sensorid;
+        String urlSensor = url + "/api/sensors/" + sensorid;
 
         StringRequest deletesensor = new StringRequest(Request.Method.DELETE, urlSensor,
                 new Response.Listener<String>() {
@@ -1490,7 +1615,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         // error.
                     }
                 }
-        ){
+        ) {
             //
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -1516,7 +1641,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);  // this = context
         //String urlActuator = "http://192.168.209.189:8080/MBP/api/actuators/" + actuatorid;
-        String urlActuator = url+"/api/actuators/" + actuatorid;
+        String urlActuator = url + "/api/actuators/" + actuatorid;
 
         StringRequest deleteactuator = new StringRequest(Request.Method.DELETE, urlActuator,
                 new Response.Listener<String>() {
@@ -1533,7 +1658,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
                     }
                 }
-        ){
+        ) {
             //
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -1557,8 +1682,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
     }
 
     public Map<String, String> getHeaderforAuthentification() {
-        SharedPreferences sp1= context.getSharedPreferences("Login",0);
-        String usernameSharedpref=sp1.getString("Username", null);
+        SharedPreferences sp1 = context.getSharedPreferences("Login", 0);
+        String usernameSharedpref = sp1.getString("Username", null);
         String passwordSharedpref = sp1.getString("Password", null);
         String auth = new String(usernameSharedpref + ":" + passwordSharedpref);
 
@@ -1661,56 +1786,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     JSONObject sensor = cast.getJSONObject(j);
                                     String sensorname = sensor.getString("sensorname");
                                     String pinset = sensor.getString("pinset");
+                                    String sensorapt ="";
                                     edtSensorname.setText(sensorname);
                                     edtPinset.setText(pinset);
 
 
-                                        for(int x = 0 ; x < sensorspinner.getCount();  x++){
-                                            String sensorspinnerItem= sensorspinner.getItemAtPosition(x).toString();
-                                            if( sensorspinnerItem.equals(sensor.getString("sensoradapter"))){
-                                                sensorspinner.setSelection(x);
-                                            }
-
-                                        }
-
-                                    byte[] bytes;
-                                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
-                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                    bytes = stream.toByteArray();
-
-                                    bytes= sensorTypeEquals(sensor, "Temperatur", 0, R.drawable.temperature_icon, bytes);
-                                    bytes=  sensorTypeEquals(sensor, "Motion", 1, R.drawable.pressure_icon, bytes);
-                                    bytes= sensorTypeEquals(sensor, "Camera", 2, R.drawable.ic_place_black_24dp, bytes);
-                                    bytes= sensorTypeEquals(sensor, "Location", 3, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    bytes= sensorTypeEquals(sensor, "Gas", 4, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    bytes= sensorTypeEquals(sensor, "Sound", 5, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    bytes= sensorTypeEquals(sensor, "Touch", 6, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    bytes= sensorTypeEquals(sensor, "Humidity", 7, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    bytes= sensorTypeEquals(sensor, "Vibration", 8, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    sensorInfo = new SensorInfo(sensorname, bytes, pinset);
-                                    sensorlist.add(sensorInfo);
-
-                                    sensoradapter.notifyDataSetChanged();
-                                }
-                            }
-
-                            else if (tokens[i].contains("actuators")) {
-                                ArrayList<String> allNames = new ArrayList<String>();
-
-                                JSONArray cast = mainObject.getJSONArray("actuators");
-                                for (int j = 0; j < cast.length(); j++) {
-                                    JSONObject actuator = cast.getJSONObject(j);
-                                    String actuatorname = actuator.getString("actuatorname");
-                                    String pinset = actuator.getString("pinset");
-                                    edtActuatorname.setText(actuatorname);
-                                    edtPinset.setText(pinset);
-
-
-                                    for(int x = 0 ; x < actuatorspinner.getCount();  x++){
-                                        String actuatorspinnerItem= actuatorspinner.getItemAtPosition(x).toString();
-                                        if( actuatorspinnerItem.equals(actuator.getString("actuatoradapter"))){
-                                            actuatorspinner.setSelection(x);
+                                    for (int x = 0; x < sensorspinner.getCount(); x++) {
+                                        String sensorspinnerItem = sensorspinner.getItemAtPosition(x).toString();
+                                        if (sensorspinnerItem.equals(sensor.getString("sensoradapter"))) {
+                                            sensorspinner.setSelection(x);
+                                            sensorapt = sensorspinnerItem;
                                         }
 
                                     }
@@ -1720,24 +1805,65 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                                     bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                                     bytes = stream.toByteArray();
+                                    String sensortypee = "";
+                                     sensorTypeEquals(sensor, "Temperature", sensortypee,0, R.drawable.temperature_icon, bytes);
+                                    sensorTypeEquals(sensor, "Motion",sensortypee, 1, R.drawable.pressure_icon, bytes);
+                                    sensorTypeEquals(sensor, "Camera", sensortypee,2, R.drawable.ic_place_black_24dp, bytes);
+                                     sensorTypeEquals(sensor, "Location", sensortypee,3, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    sensorTypeEquals(sensor, "Gas", sensortypee,4, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    sensorTypeEquals(sensor, "Sound", sensortypee,5, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    sensorTypeEquals(sensor, "Touch", sensortypee,6, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    sensorTypeEquals(sensor, "Humidity",sensortypee, 7, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    sensorTypeEquals(sensor, "Vibration", sensortypee,8, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                   // sensorInfo = new SensorInfo(sensorname, bytes, pinset, );
+                                    sensorInfo = new SensorInfo(post, sensorname, bytes, pinset, sensortypee, sensorapt);
 
-                                    actuatorTypeEqual(actuator, "Speaker", 0, R.drawable.temperature_icon, bytes);
-                                    actuatorTypeEqual(actuator, "Light", 1, R.drawable.ic_place_black_24dp, bytes);
-                                    actuatorTypeEqual(actuator, "Vibration", 2, R.drawable.ic_place_black_24dp, bytes);
-                                    actuatorTypeEqual(actuator, "Motor", 3, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    actuatorTypeEqual(actuator, "Heater", 4, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    actuatorTypeEqual(actuator, "Air Conditioner", 5, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    actuatorTypeEqual(actuator, "Buzer", 6, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    actuatorTypeEqual(actuator, "Switch", 7, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    actuatorTypeEqual(actuator, "LED", 8, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    sensorlist.add(sensorInfo);
 
-                                    actuatorInfo = new ActuatorInfo(actuatorname, bytes, pinset);
+                                    sensoradapter.notifyDataSetChanged();
+                                }
+                            } else if (tokens[i].contains("actuators")) {
+                                ArrayList<String> allNames = new ArrayList<String>();
+
+                                JSONArray cast = mainObject.getJSONArray("actuators");
+                                for (int j = 0; j < cast.length(); j++) {
+                                    JSONObject actuator = cast.getJSONObject(j);
+                                    String actuatorname = actuator.getString("actuatorname");
+                                    String pinset = actuator.getString("pinset");
+                                    edtActuatorname.setText(actuatorname);
+                                    edtPinsetActuator.setText(pinset);
+
+
+                                    for (int x = 0; x < actuatorspinner.getCount(); x++) {
+                                        String actuatorspinnerItem = actuatorspinner.getItemAtPosition(x).toString();
+                                        if (actuatorspinnerItem.equals(actuator.getString("actuatoradapter"))) {
+                                            actuatorspinner.setSelection(x);
+                                        }
+
+                                    }
+
+                                    byte[] actuatorimageqr;
+                                    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_lightbulb_outline_black_24dp);
+                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                    bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                    actuatorimageqr = stream.toByteArray();
+
+                                    actuatorimageqr = actuatorTypeEqual(actuator, "Speaker", 0, R.drawable.temperature_icon, actuatorimageqr);
+                                    actuatorimageqr = actuatorTypeEqual(actuator, "Light", 1, R.drawable.ic_place_black_24dp, actuatorimageqr);
+                                    actuatorimageqr = actuatorTypeEqual(actuator, "Vibration", 2, R.drawable.ic_place_black_24dp, actuatorimageqr);
+                                    actuatorimageqr = actuatorTypeEqual(actuator, "Motor", 3, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
+                                    actuatorimageqr = actuatorTypeEqual(actuator, "Heater", 4, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
+                                    actuatorimageqr = actuatorTypeEqual(actuator, "Air Conditioner", 5, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
+                                    actuatorimageqr = actuatorTypeEqual(actuator, "Buzer", 6, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
+                                    actuatorimageqr = actuatorTypeEqual(actuator, "Switch", 7, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
+                                    actuatorimageqr = actuatorTypeEqual(actuator, "LED", 8, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
+
+                                    actuatorInfo = new ActuatorInfo(actuatorname, actuatorimageqr, pinset);
                                     actuatorlist.add(actuatorInfo);
 
                                     actuatoradapter.notifyDataSetChanged();
                                 }
                             }
-
 
 
                         }
@@ -1787,11 +1913,12 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         return bytes;
     }
 
-    private byte[] sensorTypeEquals(JSONObject sensor, String vibration, int i2, int p, byte[] bytes) throws JSONException {
+    private void sensorTypeEquals(JSONObject sensor, String vibration,String sensortyp, int i2, int p, byte[] bytes) throws JSONException {
         String sensorname;
         String pinset;
 
         if (sensor.getString("sensortype").equals(vibration)) {
+            sensortyp = vibration;
             componenttypespinner.setSelection(i2);
             sensorname = edtSensorname.getText().toString();
             pinset = edtPinset.getText().toString();
@@ -1806,9 +1933,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
             sensorimage = bytes;
 
 
-
         }
-        return bytes;
     }
 
 

@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="10dp"
-            android:text="Mac-ID" />
+            android:text="Mac address" />
 
         <TextView
             android:id="@+id/textViewmacID"
@@ -144,8 +144,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/viewspinnerdetailactiviy"
         android:orientation="horizontal"
-        >
+        android:paddingTop="15dp">
 
         <TextView
             android:id="@+id/detailssensorliste"
@@ -153,6 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="Sensors" />
 
         <TextView

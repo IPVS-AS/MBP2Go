@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,8 +13,8 @@
             android:id="@+id/textoptionalid"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:hint="12345678"
             android:inputType="textPersonName" />
 
@@ -21,20 +22,20 @@
             android:id="@+id/view_deviceregistry_spinner2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/textoptionalid"
-            android:text="Optional-IP:" />
+            android:text="IP address:" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/view_deviceregistry_spinner2"
         android:layout_alignBottom="@+id/editText"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/view_deviceregistry_spinner2">
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/textuserName"
@@ -47,8 +48,8 @@
             android:id="@+id/textView31"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/edt_userName"
             android:text="Username:" />
@@ -58,15 +59,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/textView31">
+        android:layout_alignTop="@+id/textView31"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/textPassword"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:text="raspberry" />
 
         <TextView
@@ -75,8 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/edit_password"
             android:layout_alignBottom="@+id/edit_password"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_toStartOf="@+id/edit_password"
             android:text="Password:" />
 

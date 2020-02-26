@@ -125,6 +125,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         // error
                         Log.d("Error.Response", error.toString());
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Error! Wrong Ip, Username or Password", Toast.LENGTH_SHORT);
+                        toast.show();
                     }
                 }
         ){

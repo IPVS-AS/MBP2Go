@@ -130,7 +130,7 @@
                             android:layout_alignBottom="@+id/edtSurname"
                             android:layout_alignParentStart="true"
                             android:paddingLeft="10dp"
-                            android:text="Mac-ID:"
+                            android:text="Mac address:"
                             android:textSize="18sp" />
 
                         <EditText

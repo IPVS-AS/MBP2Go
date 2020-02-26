@@ -23,6 +23,16 @@ public class SensorInfo {
     public String sensorTyp;
     public String sensorPinset;
 
+    public String getSensoradapter() {
+        return sensoradapter;
+    }
+
+    public void setSensoradapter(String sensoradapter) {
+        this.sensoradapter = sensoradapter;
+    }
+
+    public String sensoradapter;
+
     public boolean deployed;
     public boolean running;
 
@@ -75,6 +85,15 @@ public class SensorInfo {
         this.generatesensorid = generatesensorid;
         this.sensorPinset = sensorPinset;
         this.sensorTyp = sensortype;
+    }
+
+    public SensorInfo(String generatesensorid, String sensorname, byte[] sensorimage, String sensorPinset, String sensortype, String sensoradapter) {
+        this.sensorname = sensorname;
+        this.sensorimage = sensorimage;
+        this.generatesensorid = generatesensorid;
+        this.sensorPinset = sensorPinset;
+        this.sensorTyp = sensortype;
+        this.sensoradapter = sensoradapter;
     }
 
     //byte sensorimage gelöscht fürs testen

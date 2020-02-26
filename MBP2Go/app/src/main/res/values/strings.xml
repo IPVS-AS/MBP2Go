@@ -66,6 +66,16 @@
     <string-array name="devicetype">
         <item>@string/device_raspberrypie</item>
         <item>@string/device_arduino</item>
+        <item>@string/device_computer</item>
+        <item>@string/device_audiosystem</item>
+        <item>@string/device_camera</item>
+        <item>@string/device_gateway</item>
+        <item>@string/device_Laptop</item>
+        <item>@string/device_NodeMCU</item>
+        <item>@string/device_Smartphone</item>
+        <item>@string/device_Smartwatch</item>
+        <item>@string/device_TV</item>
+        <item>@string/device_VoiceController</item>
         <item>@string/device_other</item>
 
     </string-array>
@@ -73,6 +83,17 @@
     <string name="device_raspberrypie">Raspberry Pi</string>
     <string name="device_arduino">Arduino</string>
     <string name="device_other">Other</string>
+    <string name="device_computer">Computer</string>
+    <string name="device_audiosystem">Audio System</string>
+    <string name="device_camera">Camera</string>
+    <string name="device_gateway">Gateway</string>
+    <string name="device_Laptop">Laptop</string>
+    <string name="device_NodeMCU">NodeMCU</string>
+    <string name="device_Smartphone">Smartphone</string>
+    <string name="device_Smartwatch">Smartwatch</string>
+    <string name="device_TV">TV</string>
+    <string name="device_VoiceController">Voice Controller</string>
+
     <string name="title_activity_test">test</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>

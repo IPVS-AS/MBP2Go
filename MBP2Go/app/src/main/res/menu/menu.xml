@@ -6,7 +6,7 @@
         <!-- "Mark Favorite", should appear as action button if possible -->
         <item
             android:id="@+id/action_qrscann"
-            android:icon="@drawable/ic_dashboard_white_24dp"
+            android:icon="@drawable/deviceregister_qrcode"
             android:title="@string/action_qrscann"
             app:showAsAction="ifRoom"/>
 

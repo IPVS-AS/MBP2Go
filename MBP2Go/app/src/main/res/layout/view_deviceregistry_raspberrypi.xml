@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:text="Optional-IP:"
+            android:text="IP address:"
             android:textSize="18sp" />
 
     </RelativeLayout>

@@ -138,7 +138,7 @@ public class DetailActivity extends AppCompatActivity {
                 if(devicetype == null){
 
                 }
-               else if(devicetype.equals("Raspberry Pi")){
+               else {
                     Log.d("rasp", "rasp");
                                 Toast.makeText(getApplicationContext(), "Raspberry wurde gewählt", Toast.LENGTH_SHORT).show();
                                 vf.setDisplayedChild(1);
@@ -154,7 +154,7 @@ public class DetailActivity extends AppCompatActivity {
                                 relativeLayout.startAnimation(resizeAnimation);
 
                 }
-                else {
+               /* else {
                     startHeight = 30;
                     targetHeight = 30;
 
@@ -166,7 +166,7 @@ public class DetailActivity extends AppCompatActivity {
                     );
                     resizeAnimation.setDuration(duration);
                     relativeLayout.startAnimation(resizeAnimation);
-                }
+                }*/
 
 
                 byte[] iconImage =  extras.getByteArray("imagebitmap");

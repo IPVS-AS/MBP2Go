@@ -477,17 +477,14 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
                                 String plattformid = explrObject.getString("id");
                                 String username = explrObject.getString("username");
                                 String ipAddress = explrObject.getString("ipAddress");
-                                Log.d("Plattformid", "id:" + plattformid);
-                                byte[] image;
+                                String componentType = explrObject.getString("componentType");
 
-                                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                byte[] byteArray = stream.toByteArray();
-                                image = byteArray;
+                                Log.d("Plattformid", "id:" + plattformid);
+                                byte[] image = getDeviceTypeImage(componentType);
 
                                 //TODO device username
-                                deviceInfo = new DeviceInfo(name, macid, plattformid, image, username, ipAddress);
+                                //deviceInfo = new DeviceInfo(name, macid, plattformid, image, username, ipAddress);
+                                deviceInfo = new DeviceInfo(name, macid, plattformid, image, componentType, ipAddress, username, "");
                                 //neues DeviceInfo weil das Image beim compare nicht übereinstimmt
                                 devicein = new DeviceInfo(name, macid, plattformid);
 
@@ -549,6 +546,101 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
 
     }
 
+    public byte[] getDeviceTypeImage(String componentType) {
+        byte[] image = null;
+
+        if (componentType.equals("Raspberry Pi")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.raspberry_pi);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else if (componentType.equals("Arduino")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.arduino);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else if (componentType.equals("Computer")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.devicetype_computer_black_48dp);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+
+        } else if (componentType.equals("Audio System")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.baseline_speaker_group_black_48dp);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else if (componentType.equals("Camera")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.baseline_photo_camera_black_48dp);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+
+        } else if (componentType.equals("Gateway")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else if (componentType.equals("Laptop")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.baseline_laptop_black_48dp);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else if (componentType.equals("NodeMCU")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else if (componentType.equals("Smartphone")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.baseline_smartphone_black_36);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else if (componentType.equals("Smartwatch")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.baseline_watch_black_48dp);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else if (componentType.equals("TV")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.baseline_tv_black_48dp);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else if (componentType.equals("Voice Controller")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+
+        } else if (componentType.equals("Other")) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        } else {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            image = byteArray;
+        }
+
+        return image;
+    }
+
 
     public void adaptLocalDataModeltoRequest() {
         //synchronizeDeviceEntries(db.getAllDeviceNameMacPlattform(), deviceListWithDevicesFromPlattfrom);
@@ -582,14 +674,15 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
     }
 
 
-    private void synchronizeDeviceEntries(ArrayList<DeviceInfo> listOfDevicesFromDatabase, ArrayList<DeviceInfo> listOfDevicesFromPlattform) {
+    private void synchronizeDeviceEntries
+            (ArrayList<DeviceInfo> listOfDevicesFromDatabase, ArrayList<DeviceInfo> listOfDevicesFromPlattform) {
 
         // make a copy of the list so the original list is not changed, and remove() is supported
         ArrayList<DeviceInfo> cp = new ArrayList<>();
         for (DeviceInfo d : listOfDevicesFromDatabase) {
             for (DeviceInfo o : listOfDevicesFromPlattform) {
                 if (d.getPlattformid().equals(o.getPlattformid())) {
-                    System.out.println("object" + o);
+                    System.out.println("object" + o.getName());
                     cp.add(d);
                 }
             }
@@ -608,7 +701,8 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
     }
 
 
-    private void compareTwoSensorList(ArrayList<SensorInfo> listOfSensorFromDatabase, ArrayList<SensorInfo> listOfSensorFromPlattform) {
+    private void compareTwoSensorList
+            (ArrayList<SensorInfo> listOfSensorFromDatabase, ArrayList<SensorInfo> listOfSensorFromPlattform) {
 
         // make a copy of the list so the original list is not changed, and remove() is supported
         ArrayList<SensorInfo> cp = new ArrayList<>();
@@ -631,7 +725,8 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
     }
 
 
-    private void compareTwoActuatorList(ArrayList<ActuatorInfo> listOfActuatorFromDatabase, ArrayList<ActuatorInfo> listOfActuatorFromPlattform) {
+    private void compareTwoActuatorList
+            (ArrayList<ActuatorInfo> listOfActuatorFromDatabase, ArrayList<ActuatorInfo> listOfActuatorFromPlattform) {
         // make a copy of the list so the original list is not changed, and remove() is supported
         ArrayList<ActuatorInfo> cp = new ArrayList<>();
         for (ActuatorInfo d : listOfActuatorFromDatabase) {
@@ -691,14 +786,7 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
 
 
                                 Log.d("Plattformid", "id:" + plattformid);
-                                byte[] image;
-
-                                //String sensorname = sensorspinner.getSelectedItem();
-                                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                byte[] byteArray = stream.toByteArray();
-                                image = byteArray;
+                                byte[] image = getDeviceTypeImage(name);
 
 
                                 SensorInfo sensorInfo = new SensorInfo(plattformid, name, image);
@@ -801,14 +889,7 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
                                 //JSONArray jsonArrayData = objectDetails2.getJSONArray("data");
 
                                 Log.d("Plattformid", "id:" + plattformid);
-                                byte[] image;
-
-                                //String sensorname = sensorspinner.getSelectedItem();
-                                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                byte[] byteArray = stream.toByteArray();
-                                image = byteArray;
+                                byte[] image = getDeviceTypeImage(name);
 
 
                                 SensorInfo sensorInfo = new SensorInfo(plattformid, name, image);
@@ -1205,8 +1286,8 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
     }
 
     public Map<String, String> getHeaderforAuthentification() {
-        SharedPreferences sp1=this.getSharedPreferences("Login",0);
-        String usernameSharedpref=sp1.getString("Username", null);
+        SharedPreferences sp1 = this.getSharedPreferences("Login", 0);
+        String usernameSharedpref = sp1.getString("Username", null);
         String passwordSharedpref = sp1.getString("Password", null);
         String auth = new String(usernameSharedpref + ":" + passwordSharedpref);
 
@@ -1245,6 +1326,8 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
                                     deviceinfo.setState("Available");
                                 } else if (state.equals("OFFLINE")) {
                                     deviceinfo.setState("Unavailable");
+                                } else if (state.equals("ONLINE")) {
+                                    deviceinfo.setState("No SSH");
                                 } else {
                                     deviceinfo.setState(state);
                                 }
