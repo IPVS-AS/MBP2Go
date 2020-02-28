@@ -1,7 +1,7 @@
 # MBP2Go
 Mobile client application for the [Multi-purpose Binding and Provisioning Platform (MBP)](https://github.com/IPVS-AS/MBP).
 
-![MBP2Go App](resources/mbp-app-ui.jpg)
+<img src="resources/mbp-app-ui.jpg" alt="drawing" width="300"/>
 
 ## Installation
 
