@@ -1,7 +1,9 @@
 # MBP2Go
-Mobile client application for the Multi-purpose Binding and Provisioning Platform
+Mobile client application for the [Multi-purpose Binding and Provisioning Platform (MBP)](https://github.com/IPVS-AS/MBP).
 
-Installation
+![MBP2Go App](resources/mbp-app-ui.jpg)
+
+## Installation
 
 For Developers:
 1: Install Android Studio https://developer.android.com/studio/
@@ -17,7 +19,7 @@ to your smartphone.
 
 3: Open this file in your smartphone - and have fun!
 
-# QR-Code Template Example
+## QR-Code Template Example
 
 ```json
 {  
