@@ -5,7 +5,7 @@ The **MBP2Go** is an android-based mobile client application for the [Multi-purp
 
 For Developers:  
 1. install Android Studio https://developer.android.com/studio/  
-2. Download the project MBP2Go and open the directory MBP2Go in Android Studio.  
+2. Download the project `MBP2Go` and open the directory `MBP2Go` in Android Studio.  
 
 For Users:  
 1. download the project `MBP2Go`.  
@@ -18,7 +18,7 @@ For Users:
 <img src="resources/login.jpg" alt="drawing" width="250"/>
 <img src="resources/mbp-app-ui.jpg" alt="drawing" width="250"/>
 
-2. add a new device: `Devices > + > open QR-Code Scanner or fill in attributes`  
+2. add a new device: `Devices > + > Register Manually > Press QR-Code Icon or fill in attributes`  
 <img src="resources/add-device.jpg" alt="drawing" width="250"/>
 <img src="resources/add-device-manually.jpg" alt="drawing" width="250"/>
 
@@ -30,29 +30,23 @@ For Users:
 {  
    "type":"RaspberryPi",
    "name":"RaspberryPi",
-   "macAddress":"1234",
+   "macAddress":"b827eb8109a4",
    "ipAddress":"192.0.2.1",
-   "user":"username",
-   "password":"password",
+   "user":"",
+   "password":"",
    "sensors":[  
       {  
-         "sensorname":"TemperatureLivingRoom",
-         "pinset":"123",
-         "sensoradapter":"TemperatureAdapter",
+         "sensorname":"TemperatureSensor",
+         "pinset":"A0",
+         "sensoradapter":"temperature_stub",
          "sensortype":"Temperature"
-      },
-      {  
-         "sensorname":"LightSensor",
-         "pinset":"123",
-         "sensoradapter":"LightAdapter",
-         "sensortype":"Light Flicker"
       }
    ],
 "actuators":[  
       {  
-         "actuatorname":"Speaker",
-         "pinset":"123",
-         "actuatoradapter":"Speaker-MQTT",
+         "actuatorname":"SpeakerActuator",
+         "pinset":"",
+         "actuatoradapter":"speaker_computer",
          "actuatortype":"Speaker"
       }
    ]}
