@@ -13,21 +13,25 @@ For Users:
 3. open this file in your smartphone - and have fun!
 
 ## Quick Start
-1. connect to the **MBP**
+1. connect to the **MBP**  
+
 <div>
 <img src="resources/start.jpg" alt="drawing" width="250"/>
 <img src="resources/login.jpg" alt="drawing" width="250"/>
 <img src="resources/mbp-app-ui.jpg" alt="drawing" width="250"/>
 </div>
+
 2. add a new device: `Devices > + > Register Manually > Press QR-Code Icon or fill in attributes`  
+
 <div>
 <img src="resources/add-device.jpg" alt="drawing" width="250"/>
 <img src="resources/add-device-manually.jpg" alt="drawing" width="250"/>
 </div>
 
-3. visualize sensor values: `Live Sensor Values > <Device> `
+3. visualize sensor values: `Live Sensor Values > <Device>`  
 
-## QR-Code Template Examples
+
+### QR-Code Template Examples
 
 <img src="resources/qr-code-example.png" alt="drawing" width="250"/>
 
