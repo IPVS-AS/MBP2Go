@@ -1,25 +1,30 @@
 # MBP2Go
-Mobile client application for the [Multi-purpose Binding and Provisioning Platform (MBP)](https://github.com/IPVS-AS/MBP).
-
-<img src="resources/mbp-app-ui.jpg" alt="drawing" width="300"/>
+The **MBP2Go** is an android-based mobile client application for the [Multi-purpose Binding and Provisioning Platform (MBP)](https://github.com/IPVS-AS/MBP).
 
 ## Installation
 
-For Developers:
-1: Install Android Studio https://developer.android.com/studio/
+For Developers:  
+1. install Android Studio https://developer.android.com/studio/  
+2. Download the project MBP2Go and open the directory MBP2Go in Android Studio.  
 
-2: Download the project MBP2Go and open the directory MBP2Go in Android Studio.
+For Users:  
+1. download the project `MBP2Go`.  
+2. transfer the file `MBP2Go/MBP2Go/app/build/outputs/apkapp-debug.apk` to your smartphone. 
+3. open this file in your smartphone - and have fun!
 
+## Quick Start
+1. connect to the **MBP**
+<img src="resources/start.jpg" alt="drawing" width="250"/>
+<img src="resources/login.jpg" alt="drawing" width="250"/>
+<img src="resources/mbp-app-ui.jpg" alt="drawing" width="250"/>
 
-For Users:
-1: Download the project MBP2Go
+2. add a new device: `Devices > + > open QR-Code Scanner or fill in attributes`  
+<img src="resources/add-device.jpg" alt="drawing" width="250"/>
+<img src="resources/add-device-manually.jpg" alt="drawing" width="250"/>
 
-2: Transfer the file MBP2Go/MBP2Go/app/build/outputs/apkapp-debug.apk
-to your smartphone. 
+3. visualize sensor values: `Live Sensor Values > <Device> `
 
-3: Open this file in your smartphone - and have fun!
-
-## QR-Code Template Example
+## QR-Code Template Examples
 
 ```json
 {  
