@@ -1,51 +1,61 @@
 # MBP2Go
-Mobile client application for the Multi-purpose Binding and Provisioning Platform
+The **MBP2Go** is an android-based mobile client application for the [Multi-purpose Binding and Provisioning Platform (MBP)](https://github.com/IPVS-AS/MBP).
 
-Installation
+## Installation
 
-For Developers:
-1: Install Android Studio https://developer.android.com/studio/
+For Developers:  
+1. install Android Studio https://developer.android.com/studio/  
+2. Download the project `MBP2Go` and open the directory `MBP2Go` in Android Studio.  
 
-2: Download the project MBP2Go and open the directory MBP2Go in Android Studio.
+For Users:  
+1. download the project `MBP2Go`.  
+2. transfer the file `MBP2Go/MBP2Go/app/build/outputs/apkapp-debug.apk` to your smartphone. 
+3. open this file in your smartphone - and have fun!
+
+## Quick Start
+1. connect to the **MBP**  
+
+<div>
+<img src="resources/start.jpg" alt="drawing" width="250"/>
+<img src="resources/login.jpg" alt="drawing" width="250"/>
+<img src="resources/mbp-app-ui.jpg" alt="drawing" width="250"/>
+</div>
+
+2. add a new device: `Devices > + > Register Manually > Press QR-Code Icon or fill in attributes`  
+
+<div>
+<img src="resources/add-device.jpg" alt="drawing" width="250"/>
+<img src="resources/add-device-manually.jpg" alt="drawing" width="250"/>
+</div>
+
+3. visualize sensor values: `Live Sensor Values > <Device>`  
 
 
-For Users:
-1: Download the project MBP2Go
+### QR-Code Template Examples
 
-2: Transfer the file MBP2Go/MBP2Go/app/build/outputs/apkapp-debug.apk
-to your smartphone. 
-
-3: Open this file in your smartphone - and have fun!
-
-# QR-Code Template Example
+<img src="resources/qr-code-example.png" alt="drawing" width="250"/>
 
 ```json
 {  
    "type":"RaspberryPi",
    "name":"RaspberryPi",
-   "macAddress":"1234",
+   "macAddress":"b827eb8109a4",
    "ipAddress":"192.0.2.1",
-   "user":"username",
-   "password":"password",
+   "user":"",
+   "password":"",
    "sensors":[  
       {  
-         "sensorname":"TemperatureLivingRoom",
-         "pinset":"123",
-         "sensoradapter":"TemperatureAdapter",
+         "sensorname":"TemperatureSensor",
+         "pinset":"A0",
+         "sensoradapter":"temperature_stub",
          "sensortype":"Temperature"
-      },
-      {  
-         "sensorname":"LightSensor",
-         "pinset":"123",
-         "sensoradapter":"LightAdapter",
-         "sensortype":"Light Flicker"
       }
    ],
 "actuators":[  
       {  
-         "actuatorname":"Speaker",
-         "pinset":"123",
-         "actuatoradapter":"Speaker-MQTT",
+         "actuatorname":"SpeakerActuator",
+         "pinset":"",
+         "actuatoradapter":"speaker_computer",
          "actuatortype":"Speaker"
       }
    ]}
