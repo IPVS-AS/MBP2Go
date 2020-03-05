@@ -43,7 +43,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="11dp"
             android:onClick="deployrequest"
-            android:text="Deploy" />
+            android:text="@string/deployoptions" />
 
         <TextView
             android:id="@+id/devicestate"

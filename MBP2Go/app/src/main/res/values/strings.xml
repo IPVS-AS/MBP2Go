@@ -10,6 +10,7 @@
 
 
     <string name="next">Next</string>
+    <string name="deployoptions">Deploy &#10; options</string>
     <string name="skip">Skip</string>
     <string name="start">Start</string>
     <string name="title_slide1">Connecting Devices</string>

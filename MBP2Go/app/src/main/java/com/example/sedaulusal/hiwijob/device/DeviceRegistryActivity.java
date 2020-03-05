@@ -318,6 +318,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         sensoradapter = new SensorAdapter(this, R.layout.sensor_items, sensorlist);
         gridView.setAdapter(sensoradapter);
 
+        //TODO ist componenttypespinner ok
         sensorspinner = (Spinner) findViewById(R.id.spinner);
         btnaddSensor = (Button) findViewById(R.id.btn_addSensor);
 
@@ -337,6 +338,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                     btnaddSensor.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            String test = sensorspinner.getSelectedItem().toString();
+                            test.length();
                             sensorbtnAddclicked(selectedItem, R.drawable.temperature_icon);
 
                         }
@@ -806,7 +809,12 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
         // sensorimage = byteArray;
 
+
         sensorInfo = new SensorInfo(name, byteArray, pinset, type);
+        sensorInfo.setSensoradapter(componenttypespinner.getSelectedItem().toString());
+        //sensorspinner.getSelectedItem().toString();
+       // SensorInfo sensorInf = new SensorInfo(post, sensorInfo.getName(), sensorInfo.getImage(), sensorInfo.getSensorPinset(), sensorInfo.getSensorTyp(), sensorInfo.getSensoradapter());
+
         sensorlist.add(sensorInfo);
         testliste.add(sensorInfo);
 
@@ -834,6 +842,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         actuatorimage = byteArray;
 
         actuatorInfo = new ActuatorInfo(name, byteArray, pinset, type);
+        actuatorInfo.setActuatoradapter(actuatorcomponenttypespinner.getSelectedItem().toString());
         actuatorlist.add(actuatorInfo);
         testliste2.add(actuatorInfo);
         actuatoradapter.notifyDataSetChanged();
@@ -1128,7 +1137,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             params_sensor.put("adapter", typesurl + sensori.getSensorTyp());
                             params_sensor.put("device", deviceurl + deviceInfo.getPlattformid());
                             //TODO
-                            params_sensor.put("componentType", componenttypespinner.getSelectedItem().toString());
+                           // params_sensor.put("componentType", componenttypespinner.getSelectedItem().toString());
+                            params_sensor.put("componentType", sensori.getSensoradapter());
 
                             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                     urlSensors, params_sensor,
@@ -1165,7 +1175,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         //String post = response.allHeaders.get(2).toString();
                                         String location = response.headers.get("Location");
                                         post = location.substring(location.lastIndexOf("/") + 1);
-                                        SensorInfo sensorInf = new SensorInfo(post, sensorInfo.getName(), sensorInfo.getImage(), sensorInfo.getSensorPinset(), sensorInfo.getSensorTyp());
+                                        SensorInfo sensorInf = new SensorInfo(post, sensorInfo.getName(), sensorInfo.getImage(), sensorInfo.getSensorPinset(), sensorInfo.getSensorTyp(), sensorInfo.getSensoradapter());
                                         sensorid = sqLiteHelper.createSensor(sensorInf, deviceInfo);
                                         //sensorid = sqLiteHelper.createSensor(sensorInfo, deviceInfo);
 
@@ -1200,7 +1210,9 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             params_actuator.put("name", actuatorInfo.getName());
                             params_actuator.put("adapter", typesurl + actuatorInfo.getActuatorTyp());
                             params_actuator.put("device", deviceurl + deviceInfo.getPlattformid());
-                            params_actuator.put("componentType", actuatorcomponenttypespinner.getSelectedItem().toString());
+                            params_actuator.put("componentType", actuatorInfo.getActuatoradapter());
+
+                            // params_actuator.put("componentType", actuatorcomponenttypespinner.getSelectedItem().toString());
                             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                     urlActuator, params_actuator,
                                     new Response.Listener() {
@@ -1236,6 +1248,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         String location = response.headers.get("Location");
                                         post = location.substring(location.lastIndexOf("/") + 1);
                                         ActuatorInfo aktuInf = new ActuatorInfo(post, actuatorInfo.getName(), actuatorInfo.getImage(), actuatorInfo.getActuatorPinset(), actuatorInfo.getActuatorTyp());
+                                        aktuInf.setActuatoradapter(actuatorInfo.getActuatoradapter());
                                         actuatorid = sqLiteHelper.createActuator(aktuInf, deviceInfo);
 
                                         return Response.success(new JSONObject(jsonString2),
@@ -1256,7 +1269,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         Intent intent = new Intent(DeviceRegistryActivity.this, DeviceOverviewActivity.class);
                         startActivity(intent);
                         finish();
-
+                    //HERE is the normal regirsty (not Edit version)
                     } else {
 
 
@@ -1277,11 +1290,11 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     "The Devicename and IP address can not be empty", Toast.LENGTH_SHORT);
                             toast.show();
                         } else {
-                            if (!macid.isEmpty() && macid.length() < 12) {
+                            /*if (!macid.isEmpty() && macid.length() < 12) {
                                 Toast toast = Toast.makeText(getApplicationContext(),
                                         "Invalid Mac address", Toast.LENGTH_SHORT);
                                 toast.show();
-                            }
+                            }*/
                             //String url = "http://192.168.209.189:8080/MBP/api/devices/";
                             String urlDevices = url + "/api/devices/";
                             final RequestQueue queue = Volley.newRequestQueue(this); // this = context
@@ -1289,11 +1302,11 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             params.put("name", name);
                             params.put("macAddress", macid.replace("-", ""));
                             params.put("ipAddress", optionalIP);
-                            //params.put("formattedMacAddress", macid);
+                            params.put("formattedMacAddress", macid);
                             params.put("username", userName);
                             params.put("componentType", spinner.getSelectedItem().toString());
                             params.put("rsaKey", "-----BEGIN RSA PRIVATE KEY-----\nMIIEqgIBAAKCAQEA4zzAJS+xXz00YLyO8lvsSfY+6XX1mQs6pz7yioA6lO30mWMx\n95FP3rZiX2stId3VfEPKdPgLot7CoTMcSnQzDBR8bi1ej8c/FXzELb2kTQzZE7dX\nYaONvNfKGL27EMjhqRpL+rQeTGeyGqmr0WH7BeQ9nE6ylfxXzXAMWkTW6dv7go+j\n52xAS6dM5TZER/A2KvCgXisiQFzwqEHuXnoy9lpWHcSZzQL8Xkd9ZbGAr3ex0pEc\n8220d4KT8oATLBDZo/fJyGiQNR5sab8RlpecbGJoh0QJIdnU3Eq02HYSzAQ7a8cB\nYGEm1xtOQOxV2a4+8f/g9FSC3hjobwmSoNu/nQIDAQABAoIBACy3ytRGk3A7mjAj\nSzo0jsZrWCwXU5KfnBZHk/FflKe0QDtjQvUGOqKIX8mJTONqRVXj/VaRbbDKh6Cz\nbzDTtyv8aBRCh2Zh/m8bE3ww4sFq8tknbmG/jugHyzSdOc/uyEG/9A3NHl1I1sra\ncv6MeprJNLqq3ggYFatPDo9BFs4EZoaIxEMD3plHfENfJOu7IS0xRoe5foXYbnM3\nji7n243OBGPAdCZXJkhYNgRoZmwMeMOJWK7EmiiM60ZKpHl8C4jSuzQ132aK/NDH\n3xgr+1nI8i8CfAWBlP8hfCXJJ8EiS5lE94jnP7u49BhjbPgULaNPDDYpVh5/uTlP\nYV5iAcECggCBAO7y4xBuMc8G57lqepoZHtCjSPpXTEC6hE7+pmnwvi6gUZPV7Tx/\nC7JecekilTy3Z+MjU1jwy7Bu0L3EJsJBn2N5aGYVxGFHGqrfA/qhPeyJsIU2w2UZ\nm1BEgNjP7bMZSMCSYd2CU9mP5dt3vGpEU6oZgwe9jm5QghYVjHaB6NUNAoIAgQDz\nc+sqdCn+rIpE6uovtqXJ9l3psaz+egRLcWS0ZVtrdhmMPBz/rZ16KhqmA+aszjiP\n8JqO3uXiB1LR+ACc6tRzeCWXNWipgzJGvLfgZBwGHeFje+uMyd1nYUq3qd0zP81j\ntpZpIAlHlPc+UREqiUhJJkjP+tEwwznP4zaC4wkQ0QKCAIEA3bMRpf73y8P2X/xB\nQJSqGJ5Haa5xm2TyuXBf6s9pRU2OIwJLmOOvcJFcUxi5Kppok0AFZvITquFGX6uM\n4pOMVPkiOgVcLX2RapR81p+gGsUtuIu1AyqdBf5pJcDWJGQDMlke4Cy5q5RtihEw\nCdDXZ21AO4BOlF+yMtdPeezSoEkCggCBAIBzsiolPp8sRIxWcpgYQ+OLBUQvxjpD\nAQ8ZVmxEancJyjMO6LIS1dtGaeccedLFwFxaNAKcIykeehllRFWHJe+C/jqJKJ8A\nJT/jhRV1XL/xdiG6ma8gN5y7XeQIUTkgOeuZxETVbXACbm3H8knCQ4ytEZADI+sZ\npuBEX1eyGO9xAoIAgQCwh2QkYnGPQkY4d9ra+WcrUz8sb7CEu4IS42XNt8SFkyU4\nfkE7aE4bHufPnnTEZ4jIGk0/E1b8AhLh1suRpg3tltYEj5CJfF1UywoUGuHhQkzP\n7jZaNQ1xdB+0woK3IenLVpDjxWGZbZTxviim1v1lpLSJxfr/HfvW1DJc4x/iug==\n-----END RSA PRIVATE KEY-----");
-
+                            System.out.println("TEST REQUEST DEVICE REGISTRY "+ params.get("name").toString() + " "+ urlDevices);
 
                             final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                     urlDevices, params,
@@ -1309,7 +1322,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
-                                            System.out.print("Error Post in Device Registry" + error.getMessage());
+                                            System.out.print("Error Post in Device Registry" + error.getMessage()+ error.getCause());
                                             //Failure Callback
 
                                         }
@@ -1391,9 +1404,11 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                                 params_sensor.put("adapter", typesurl + sensorInfo.getSensorTyp());
                                                                 params_sensor.put("device", deviceurl + pid);
                                                                 //params_sensor.put("device", deviceurl + deviceInfo.getPlattformid());
-                                                                sensorInfo.setSensoradapter(componenttypespinner.getSelectedItem().toString());
+                                                                //sensorInfo.setSensoradapter(componenttypespinner.getSelectedItem().toString());
                                                                 //TODO
                                                                 params_sensor.put("componentType", sensorInfo.getSensoradapter());
+
+
 
                                                                 final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                                                         urlSensors, params_sensor,
@@ -1401,7 +1416,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                                             @Override
                                                                             public void onResponse(JSONObject response) {
                                                                                 // response
-                                                                                Log.d("Response Sensor show ", response.toString());
+                                                                                //Log.d("Response Sensor show ", response.toString());
                                                                                 posttrue = true;
                                                                                 //post = response.toString();
                                                                             }
@@ -1432,7 +1447,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                                             //String post = response.allHeaders.get(2).toString();
                                                                             String location = response.headers.get("Location");
                                                                             post = location.substring(location.lastIndexOf("/") + 1);
-                                                                            SensorInfo sensorInf = new SensorInfo(post, sensorInfo.getName(), sensorInfo.getImage(), sensorInfo.getSensorPinset(), sensorInfo.getSensorTyp());
+                                                                            SensorInfo sensorInf = new SensorInfo(post, sensorInfo.getName(), sensorInfo.getImage(), sensorInfo.getSensorPinset(), sensorInfo.getSensorTyp(), sensorInfo.getSensoradapter());
                                                                             sensorid = sqLiteHelper.createSensor(sensorInf, deviceInfo);
 
                                                                             return Response.success(new JSONObject(jsonString2),
@@ -1465,7 +1480,10 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                                 params_actuator.put("name", actuatorInfo.getName());
                                                                 params_actuator.put("adapter", typesurl + actuatorInfo.getActuatorTyp());
                                                                 params_actuator.put("device", deviceurl + pid);
-                                                                params_actuator.put("componentType", actuatorcomponenttypespinner.getSelectedItem().toString());
+                                                                //params_actuator.put("componentType", actuatorcomponenttypespinner.getSelectedItem().toString());
+                                                                //params_actuator.put("componentType", actuatorInfo.getActuatorTyp());
+                                                                params_actuator.put("componentType", actuatorInfo.getActuatoradapter());
+
 
                                                                 JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                                                         urlActuators, params_actuator,
@@ -1502,6 +1520,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                                             String location = response.headers.get("Location");
                                                                             post = location.substring(location.lastIndexOf("/") + 1);
                                                                             ActuatorInfo aktuInf = new ActuatorInfo(post, actuatorInfo.getName(), actuatorInfo.getImage(), actuatorInfo.getActuatorPinset(), actuatorInfo.getActuatorTyp());
+                                                                            aktuInf.setActuatoradapter(actuatorInfo.getActuatoradapter());
                                                                             actuatorid = sqLiteHelper.createActuator(aktuInf, deviceInfo);
 
                                                                             return Response.success(new JSONObject(jsonString2),
@@ -1786,14 +1805,14 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     JSONObject sensor = cast.getJSONObject(j);
                                     String sensorname = sensor.getString("sensorname");
                                     String pinset = sensor.getString("pinset");
-                                    String sensorapt ="";
+                                    String sensorapt =sensorspinner.getSelectedItem().toString();
                                     edtSensorname.setText(sensorname);
                                     edtPinset.setText(pinset);
 
 
                                     for (int x = 0; x < sensorspinner.getCount(); x++) {
                                         String sensorspinnerItem = sensorspinner.getItemAtPosition(x).toString();
-                                        if (sensorspinnerItem.equals(sensor.getString("sensoradapter"))) {
+                                        if (sensorspinnerItem.toLowerCase().equals(sensor.getString("sensoradapter").toLowerCase())) {
                                             sensorspinner.setSelection(x);
                                             sensorapt = sensorspinnerItem;
                                         }
@@ -1816,9 +1835,9 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     sensorTypeEquals(sensor, "Humidity",sensortypee, 7, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
                                     sensorTypeEquals(sensor, "Vibration", sensortypee,8, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
                                    // sensorInfo = new SensorInfo(sensorname, bytes, pinset, );
-                                    sensorInfo = new SensorInfo(post, sensorname, bytes, pinset, sensortypee, sensorapt);
-
-                                    sensorlist.add(sensorInfo);
+                                    //sensorInfo = new SensorInfo(post, sensorname, bytes, pinset, sensortypee, sensorapt);
+                                    sensorbtnAddclicked(sensorapt, R.drawable.temperature_icon);
+                                    //sensorlist.add(sensorInfo);
 
                                     sensoradapter.notifyDataSetChanged();
                                 }
@@ -1830,6 +1849,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     JSONObject actuator = cast.getJSONObject(j);
                                     String actuatorname = actuator.getString("actuatorname");
                                     String pinset = actuator.getString("pinset");
+                                    String actuatorapt =actuatorspinner.getSelectedItem().toString();
                                     edtActuatorname.setText(actuatorname);
                                     edtPinsetActuator.setText(pinset);
 
@@ -1838,6 +1858,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         String actuatorspinnerItem = actuatorspinner.getItemAtPosition(x).toString();
                                         if (actuatorspinnerItem.equals(actuator.getString("actuatoradapter"))) {
                                             actuatorspinner.setSelection(x);
+                                            actuatorapt = actuatorspinnerItem;
+
                                         }
 
                                     }
@@ -1858,8 +1880,10 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     actuatorimageqr = actuatorTypeEqual(actuator, "Switch", 7, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
                                     actuatorimageqr = actuatorTypeEqual(actuator, "LED", 8, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
 
-                                    actuatorInfo = new ActuatorInfo(actuatorname, actuatorimageqr, pinset);
-                                    actuatorlist.add(actuatorInfo);
+                                    //actuatorInfo = new ActuatorInfo(actuatorname, actuatorimageqr, pinset);
+                                    //actuatorlist.add(actuatorInfo);
+                                    actuatorbtnAddclicked(actuatorapt, R.drawable.temperature_icon);
+
 
                                     actuatoradapter.notifyDataSetChanged();
                                 }

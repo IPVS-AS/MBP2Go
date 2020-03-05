@@ -17,6 +17,16 @@ public class ActuatorInfo {
     public String actuatorTyp;
     public String actuatorPinset;
 
+    public String getActuatoradapter() {
+        return actuatoradapter;
+    }
+
+    public void setActuatoradapter(String actuatoradapter) {
+        this.actuatoradapter = actuatoradapter;
+    }
+
+    public String actuatoradapter;
+
 
 
 
