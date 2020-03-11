@@ -1304,6 +1304,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             params.put("ipAddress", optionalIP);
                             params.put("formattedMacAddress", macid);
                             params.put("username", userName);
+                            params.put("password", password);
                             params.put("componentType", spinner.getSelectedItem().toString());
                             params.put("rsaKey", "-----BEGIN RSA PRIVATE KEY-----\nMIIEqgIBAAKCAQEA4zzAJS+xXz00YLyO8lvsSfY+6XX1mQs6pz7yioA6lO30mWMx\n95FP3rZiX2stId3VfEPKdPgLot7CoTMcSnQzDBR8bi1ej8c/FXzELb2kTQzZE7dX\nYaONvNfKGL27EMjhqRpL+rQeTGeyGqmr0WH7BeQ9nE6ylfxXzXAMWkTW6dv7go+j\n52xAS6dM5TZER/A2KvCgXisiQFzwqEHuXnoy9lpWHcSZzQL8Xkd9ZbGAr3ex0pEc\n8220d4KT8oATLBDZo/fJyGiQNR5sab8RlpecbGJoh0QJIdnU3Eq02HYSzAQ7a8cB\nYGEm1xtOQOxV2a4+8f/g9FSC3hjobwmSoNu/nQIDAQABAoIBACy3ytRGk3A7mjAj\nSzo0jsZrWCwXU5KfnBZHk/FflKe0QDtjQvUGOqKIX8mJTONqRVXj/VaRbbDKh6Cz\nbzDTtyv8aBRCh2Zh/m8bE3ww4sFq8tknbmG/jugHyzSdOc/uyEG/9A3NHl1I1sra\ncv6MeprJNLqq3ggYFatPDo9BFs4EZoaIxEMD3plHfENfJOu7IS0xRoe5foXYbnM3\nji7n243OBGPAdCZXJkhYNgRoZmwMeMOJWK7EmiiM60ZKpHl8C4jSuzQ132aK/NDH\n3xgr+1nI8i8CfAWBlP8hfCXJJ8EiS5lE94jnP7u49BhjbPgULaNPDDYpVh5/uTlP\nYV5iAcECggCBAO7y4xBuMc8G57lqepoZHtCjSPpXTEC6hE7+pmnwvi6gUZPV7Tx/\nC7JecekilTy3Z+MjU1jwy7Bu0L3EJsJBn2N5aGYVxGFHGqrfA/qhPeyJsIU2w2UZ\nm1BEgNjP7bMZSMCSYd2CU9mP5dt3vGpEU6oZgwe9jm5QghYVjHaB6NUNAoIAgQDz\nc+sqdCn+rIpE6uovtqXJ9l3psaz+egRLcWS0ZVtrdhmMPBz/rZ16KhqmA+aszjiP\n8JqO3uXiB1LR+ACc6tRzeCWXNWipgzJGvLfgZBwGHeFje+uMyd1nYUq3qd0zP81j\ntpZpIAlHlPc+UREqiUhJJkjP+tEwwznP4zaC4wkQ0QKCAIEA3bMRpf73y8P2X/xB\nQJSqGJ5Haa5xm2TyuXBf6s9pRU2OIwJLmOOvcJFcUxi5Kppok0AFZvITquFGX6uM\n4pOMVPkiOgVcLX2RapR81p+gGsUtuIu1AyqdBf5pJcDWJGQDMlke4Cy5q5RtihEw\nCdDXZ21AO4BOlF+yMtdPeezSoEkCggCBAIBzsiolPp8sRIxWcpgYQ+OLBUQvxjpD\nAQ8ZVmxEancJyjMO6LIS1dtGaeccedLFwFxaNAKcIykeehllRFWHJe+C/jqJKJ8A\nJT/jhRV1XL/xdiG6ma8gN5y7XeQIUTkgOeuZxETVbXACbm3H8knCQ4ytEZADI+sZ\npuBEX1eyGO9xAoIAgQCwh2QkYnGPQkY4d9ra+WcrUz8sb7CEu4IS42XNt8SFkyU4\nfkE7aE4bHufPnnTEZ4jIGk0/E1b8AhLh1suRpg3tltYEj5CJfF1UywoUGuHhQkzP\n7jZaNQ1xdB+0woK3IenLVpDjxWGZbZTxviim1v1lpLSJxfr/HfvW1DJc4x/iug==\n-----END RSA PRIVATE KEY-----");
                             System.out.println("TEST REQUEST DEVICE REGISTRY "+ params.get("name").toString() + " "+ urlDevices);
@@ -1763,12 +1764,52 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                 if (tokens[i].contains("RaspberryPi")) {
                                     spinner.setSelection(0);
                                 }
-                                if (tokens[i].contains("Arduino")) {
+                                else if (tokens[i].contains("Arduino")) {
                                     spinner.setSelection(1);
 
                                 }
-                                if (tokens[i].contains("Other")) {
+                                else if (tokens[i].contains("Computer")) {
                                     spinner.setSelection(2);
+
+                                }
+                                else if (tokens[i].contains("Audio System")) {
+                                    spinner.setSelection(3);
+
+                                }
+                                else if (tokens[i].contains("Camera")) {
+                                    spinner.setSelection(4);
+
+                                }
+                                else if (tokens[i].contains("Gateway")) {
+                                    spinner.setSelection(5);
+
+                                }
+                                else if (tokens[i].contains("Laptop")) {
+                                    spinner.setSelection(6);
+
+                                }
+                                else if (tokens[i].contains("NodeMCU")) {
+                                    spinner.setSelection(7);
+
+                                }
+                                else if (tokens[i].contains("Smartphone")) {
+                                    spinner.setSelection(8);
+
+                                }
+                                else if (tokens[i].contains("Smartwatch")) {
+                                    spinner.setSelection(9);
+
+                                }
+                                else if (tokens[i].contains("TV")) {
+                                    spinner.setSelection(10);
+
+                                }
+                                else if (tokens[i].contains("Voice Controller")) {
+                                    spinner.setSelection(11);
+
+                                }
+                                else{
+                                    spinner.setSelection(12);
 
                                 }
                             } else if (tokens[i].contains("name")) {
@@ -1825,18 +1866,19 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                                     bytes = stream.toByteArray();
                                     String sensortypee = "";
-                                     sensorTypeEquals(sensor, "Temperature", sensortypee,0, R.drawable.temperature_icon, bytes);
-                                    sensorTypeEquals(sensor, "Motion",sensortypee, 1, R.drawable.pressure_icon, bytes);
-                                    sensorTypeEquals(sensor, "Camera", sensortypee,2, R.drawable.ic_place_black_24dp, bytes);
-                                     sensorTypeEquals(sensor, "Location", sensortypee,3, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    sensorTypeEquals(sensor, "Gas", sensortypee,4, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    sensorTypeEquals(sensor, "Sound", sensortypee,5, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    sensorTypeEquals(sensor, "Touch", sensortypee,6, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    sensorTypeEquals(sensor, "Humidity",sensortypee, 7, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
-                                    sensorTypeEquals(sensor, "Vibration", sensortypee,8, R.drawable.ic_lightbulb_outline_black_24dp, bytes);
+                                    int image =  R.mipmap.ic_launcher;
+                                     image= sensorTypeEquals(sensor, "Temperature", sensortypee,0, R.drawable.temperature_icon, bytes,image);
+                                   image=  sensorTypeEquals(sensor, "Motion",sensortypee, 1,  R.mipmap.ic_launcher , bytes,image);
+                                    image= sensorTypeEquals(sensor, "Camera", sensortypee,2, R.drawable.baseline_photo_camera_black_48dp, bytes,image);
+                                    image=sensorTypeEquals(sensor, "Location", sensortypee,3, R.drawable.baseline_location_searching_black_48dp, bytes,image);
+                                    image=sensorTypeEquals(sensor, "Gas", sensortypee,4, R.drawable.baseline_local_gas_station_black_48dp, bytes,image);
+                                    image=sensorTypeEquals(sensor, "Sound", sensortypee,5, R.drawable.baseline_music_note_black_48dp, bytes,image);
+                                    image=sensorTypeEquals(sensor, "Touch", sensortypee,6, R.drawable.baseline_touch_app_black_48dp, bytes,image);
+                                    image=sensorTypeEquals(sensor, "Humidity",sensortypee, 7,  R.mipmap.ic_launcher, bytes,image);
+                                    image=sensorTypeEquals(sensor, "Vibration", sensortypee,8, R.drawable.baseline_vibration_black_48dp, bytes,image);
                                    // sensorInfo = new SensorInfo(sensorname, bytes, pinset, );
                                     //sensorInfo = new SensorInfo(post, sensorname, bytes, pinset, sensortypee, sensorapt);
-                                    sensorbtnAddclicked(sensorapt, R.drawable.temperature_icon);
+                                    sensorbtnAddclicked(sensorapt, image);
                                     //sensorlist.add(sensorInfo);
 
                                     sensoradapter.notifyDataSetChanged();
@@ -1869,20 +1911,20 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                                     bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                                     actuatorimageqr = stream.toByteArray();
-
-                                    actuatorimageqr = actuatorTypeEqual(actuator, "Speaker", 0, R.drawable.temperature_icon, actuatorimageqr);
-                                    actuatorimageqr = actuatorTypeEqual(actuator, "Light", 1, R.drawable.ic_place_black_24dp, actuatorimageqr);
-                                    actuatorimageqr = actuatorTypeEqual(actuator, "Vibration", 2, R.drawable.ic_place_black_24dp, actuatorimageqr);
-                                    actuatorimageqr = actuatorTypeEqual(actuator, "Motor", 3, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
-                                    actuatorimageqr = actuatorTypeEqual(actuator, "Heater", 4, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
-                                    actuatorimageqr = actuatorTypeEqual(actuator, "Air Conditioner", 5, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
-                                    actuatorimageqr = actuatorTypeEqual(actuator, "Buzer", 6, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
-                                    actuatorimageqr = actuatorTypeEqual(actuator, "Switch", 7, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
-                                    actuatorimageqr = actuatorTypeEqual(actuator, "LED", 8, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr);
+                                    int image = R.mipmap.ic_launcher;
+                                    image = actuatorTypeEqual(actuator, "Speaker", 0, R.drawable.baseline_speaker_black_48dp, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Light", 1, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Vibration", 2, R.drawable.baseline_vibration_black_48dp, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Motor", 3, R.mipmap.ic_launcher, actuatorimageqr,image);
+                                    image = actuatorTypeEqual(actuator, "Heater", 4, R.mipmap.ic_launcher, actuatorimageqr,image);
+                                    image = actuatorTypeEqual(actuator, "Air Conditioner", 5, R.mipmap.ic_launcher, actuatorimageqr,image);
+                                    image = actuatorTypeEqual(actuator, "Buzer", 6, R.mipmap.ic_launcher, actuatorimageqr,image);
+                                    image = actuatorTypeEqual(actuator, "Switch", 7, R.mipmap.ic_launcher, actuatorimageqr,image);
+                                    image = actuatorTypeEqual(actuator, "LED", 8, R.mipmap.ic_launcher, actuatorimageqr,image);
 
                                     //actuatorInfo = new ActuatorInfo(actuatorname, actuatorimageqr, pinset);
                                     //actuatorlist.add(actuatorInfo);
-                                    actuatorbtnAddclicked(actuatorapt, R.drawable.temperature_icon);
+                                    actuatorbtnAddclicked(actuatorapt, image);
 
 
                                     actuatoradapter.notifyDataSetChanged();
@@ -1915,36 +1957,36 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         }
     }
 
-    private byte[] actuatorTypeEqual(JSONObject actuator, String led, int i2, int p, byte[] bytes) throws JSONException {
-        String actuatorname;
-        String pinset;
-
+    private int actuatorTypeEqual(JSONObject actuator, String led, int i2, int p, byte[] bytes, int image) throws JSONException {
+        //String actuatorname;
+        //String pinset;
+        //int image = R.mipmap.ic_launcher;
         if (actuator.getString("actuatortype").equals(led)) {
             componenttypespinner.setSelection(i2);
-            actuatorname = edtActuatorname.getText().toString();
-            pinset = edtPinset.getText().toString();
+          //  actuatorname = edtActuatorname.getText().toString();
+            //pinset = edtPinset.getText().toString();
 
             //String actuatorname = actuatorspinner.getSelectedItem();
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), p);
+          /*  Bitmap bmp = BitmapFactory.decodeResource(getResources(), p);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             bytes = stream.toByteArray();
 
-            actuatorimage = bytes;
-
+            actuatorimage = bytes;*/
+            image = p;
 
         }
-        return bytes;
+        return image;
     }
 
-    private void sensorTypeEquals(JSONObject sensor, String vibration,String sensortyp, int i2, int p, byte[] bytes) throws JSONException {
+    private int sensorTypeEquals(JSONObject sensor, String vibration,String sensortyp, int i2, int p, byte[] bytes, int image) throws JSONException {
         String sensorname;
         String pinset;
-
+        //int image = R.mipmap.ic_launcher;
         if (sensor.getString("sensortype").equals(vibration)) {
             sensortyp = vibration;
             componenttypespinner.setSelection(i2);
-            sensorname = edtSensorname.getText().toString();
+            /*sensorname = edtSensorname.getText().toString();
             pinset = edtPinset.getText().toString();
 
             //String sensorname = sensorspinner.getSelectedItem();
@@ -1954,10 +1996,12 @@ public class DeviceRegistryActivity extends AppCompatActivity {
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             bytes = stream.toByteArray();
 
-            sensorimage = bytes;
+            sensorimage = bytes;*/
+            image = p;
 
 
         }
+        return image;
     }
 
 
