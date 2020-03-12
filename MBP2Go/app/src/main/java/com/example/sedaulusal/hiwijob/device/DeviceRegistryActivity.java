@@ -213,58 +213,65 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                 final String selectedItem = parent.getItemAtPosition(position).toString();
                 //edtSensorname.setText(selectedItem);
 
+                btnaddActuator.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Speaker")) {
 
-                if (selectedItem.contains("Temperature")) {
-
-                    btnaddActuator.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            actuatorbtnAddclicked(selectedItem, R.drawable.temperature_icon);
-
-
-                        }
-                    });
+                            actuatorbtnAddclicked(selectedItem, R.drawable.baseline_speaker_black_48dp);
 
 
-                } else if (selectedItem.contains("Pressure")) {
-                    Toast.makeText(getApplicationContext(), "Pressure wurde gewählt", Toast.LENGTH_SHORT).show();
+                        } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Light")) {
 
-                    btnaddActuator.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            actuatorbtnAddclicked(selectedItem, R.drawable.pressure_icon);
-
-
-                        }
-                    });
-                } else if (selectedItem.contains("GPS")) {
-
-                    btnaddActuator.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            actuatorbtnAddclicked(selectedItem, R.drawable.ic_place_black_24dp);
-
-                        }
-                    });
-                } else if (selectedItem.contains("Light")) {
-
-                    btnaddActuator.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
                             actuatorbtnAddclicked(selectedItem, R.drawable.ic_lightbulb_outline_black_24dp);
 
-                        }
-                    });
-                } else {
-                    btnaddActuator.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+                        } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Vibration")) {
+
+                            actuatorbtnAddclicked(selectedItem, R.drawable.baseline_vibration_black_48dp);
+
+
+                        } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Motor")) {
+
+
                             actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
 
+
+                        } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Heater")) {
+
+
+                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+                        } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Air Conditioner")) {
+
+
+                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+
+                        } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Buzzer")) {
+
+
+                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+                        } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Switch")) {
+
+
+                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+
+                        } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("LED")) {
+
+
+                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+
+                        } else {
+
+                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+
                         }
-                    })
-                    ;
-                }
+                    }
+                });
             } // to close the onItemSelected
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -331,61 +338,85 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                 //edtSensorname.setText(selectedItem);
                 //Toast.makeText(getApplicationContext(), "Temperatur wurde gewählt", Toast.LENGTH_SHORT).show();
 
+                btnaddSensor.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                if (selectedItem.contains("Temperature")) {
-                    Toast.makeText(getApplicationContext(), "Temperatur wurde gewählt", Toast.LENGTH_SHORT).show();
+                        if (componenttypespinner.getSelectedItem().toString().equals("Temperature")) {
+                            //Toast.makeText(getApplicationContext(), "Temperatur wurde gewählt", Toast.LENGTH_SHORT).show();
 
-                    btnaddSensor.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+
                             String test = sensorspinner.getSelectedItem().toString();
                             test.length();
+                            String comp = componenttypespinner.getSelectedItem().toString();
+                            comp.length();
                             sensorbtnAddclicked(selectedItem, R.drawable.temperature_icon);
 
-                        }
-                    });
 
+                        } else if (componenttypespinner.getSelectedItem().toString().equals("Motion")) {
 
-                } else if (selectedItem.contains("Pressure")) {
-                    Toast.makeText(getApplicationContext(), "Pressure wurde gewählt", Toast.LENGTH_SHORT).show();
-
-                    btnaddSensor.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
                             sensorbtnAddclicked(selectedItem, R.drawable.pressure_icon);
 
 
-                        }
-                    });
-                } else if (selectedItem.contains("GPS")) {
-
-                    btnaddSensor.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            sensorbtnAddclicked(selectedItem, R.drawable.ic_place_black_24dp);
+                        } else if (componenttypespinner.getSelectedItem().toString().equals("Camera")) {
 
 
-                        }
-                    });
-                } else if (selectedItem.contains("Light")) {
-                    btnaddSensor.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_photo_camera_black_48dp);
+
+
+                        } else if (componenttypespinner.getSelectedItem().toString().equals("Location")) {
+
+                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_location_searching_black_48dp);
+
+                        } else if (componenttypespinner.getSelectedItem().toString().equals("Gas")) {
+
+                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_local_gas_station_black_48dp);
+
+
+                        } else if (componenttypespinner.getSelectedItem().equals("Sound")) {
+
+                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_music_note_black_48dp);
+
+                        } else if (componenttypespinner.getSelectedItem().toString().equals("Touch")) {
+
+                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_touch_app_black_48dp);
+
+                        } else if (componenttypespinner.getSelectedItem().toString().contains("Humidity")) {
+
+                            sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+
+                        } else if (componenttypespinner.getSelectedItem().toString().contains("Vibration")) {
+
+                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_vibration_black_48dp);
+
+                        } else if (componenttypespinner.getSelectedItem().toString().contains("Gyroscope")) {
+
+                            sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+
+                        } else if (componenttypespinner.getSelectedItem().toString().contains("Proximity")) {
+
+                            sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+
+                        } else if (componenttypespinner.getSelectedItem().toString().contains("Acceleration")) {
+
+                            sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+
+
+                        } else if (componenttypespinner.getSelectedItem().toString().contains("Light Flicker")) {
+
                             sensorbtnAddclicked(selectedItem, R.drawable.ic_lightbulb_outline_black_24dp);
 
 
-                        }
-                    });
-                } else {
-                    btnaddSensor.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+                        } else {
                             sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
 
 
                         }
-                    });
-                }
+                    }
+                });
             } // to close the onItemSelected
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -813,7 +844,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         sensorInfo = new SensorInfo(name, byteArray, pinset, type);
         sensorInfo.setSensoradapter(componenttypespinner.getSelectedItem().toString());
         //sensorspinner.getSelectedItem().toString();
-       // SensorInfo sensorInf = new SensorInfo(post, sensorInfo.getName(), sensorInfo.getImage(), sensorInfo.getSensorPinset(), sensorInfo.getSensorTyp(), sensorInfo.getSensoradapter());
+        // SensorInfo sensorInf = new SensorInfo(post, sensorInfo.getName(), sensorInfo.getImage(), sensorInfo.getSensorPinset(), sensorInfo.getSensorTyp(), sensorInfo.getSensoradapter());
 
         sensorlist.add(sensorInfo);
         testliste.add(sensorInfo);
@@ -978,7 +1009,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
             case R.id.action_add:
 
                 try {
-                    myToast.makeText(getApplicationContext(), "is clicked", Toast.LENGTH_SHORT).show();
+                    //myToast.makeText(getApplicationContext(), "is clicked", Toast.LENGTH_SHORT).show();
 
 
                     if (getIntent().hasExtra("macid") || getIntent().hasExtra("maciddetail")) {
@@ -1033,6 +1064,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     public void onErrorResponse(VolleyError error) {
                                         // error
                                         Log.d("Error.Response", error.toString());
+                                        myToast.makeText(getApplicationContext(), "Error please check your configuration ", Toast.LENGTH_SHORT).show();
+
                                     }
                                 }
                         ) {
@@ -1080,6 +1113,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         public void onErrorResponse(VolleyError error) {
                                             // error
                                             Log.d("Error.Response", error.toString());
+                                            myToast.makeText(getApplicationContext(), "Error please check your configuration ", Toast.LENGTH_SHORT).show();
+
                                         }
                                     }
                             ) {
@@ -1137,7 +1172,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             params_sensor.put("adapter", typesurl + sensori.getSensorTyp());
                             params_sensor.put("device", deviceurl + deviceInfo.getPlattformid());
                             //TODO
-                           // params_sensor.put("componentType", componenttypespinner.getSelectedItem().toString());
+                            // params_sensor.put("componentType", componenttypespinner.getSelectedItem().toString());
                             params_sensor.put("componentType", sensori.getSensoradapter());
 
                             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -1154,7 +1189,9 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
                                             // error
-                                            //Log.d("Error.Response", response);
+                                            Log.d("Error.Response", error.toString());
+                                            myToast.makeText(getApplicationContext(), "Error please check your configuration ", Toast.LENGTH_SHORT).show();
+
                                         }
                                     }
                             ) {
@@ -1183,6 +1220,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         return Response.success(new JSONObject(jsonString2),
                                                 HttpHeaderParser.parseCacheHeaders(response));
                                     } catch (UnsupportedEncodingException e) {
+                                        myToast.makeText(getApplicationContext(), "Error please check your configuration ", Toast.LENGTH_SHORT).show();
                                         return Response.error(new ParseError(e));
                                     } catch (JSONException je) {
                                         return Response.error(new ParseError(je));
@@ -1269,7 +1307,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         Intent intent = new Intent(DeviceRegistryActivity.this, DeviceOverviewActivity.class);
                         startActivity(intent);
                         finish();
-                    //HERE is the normal regirsty (not Edit version)
+                        //HERE is the normal regirsty (not Edit version)
                     } else {
 
 
@@ -1307,7 +1345,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             params.put("password", password);
                             params.put("componentType", spinner.getSelectedItem().toString());
                             params.put("rsaKey", "-----BEGIN RSA PRIVATE KEY-----\nMIIEqgIBAAKCAQEA4zzAJS+xXz00YLyO8lvsSfY+6XX1mQs6pz7yioA6lO30mWMx\n95FP3rZiX2stId3VfEPKdPgLot7CoTMcSnQzDBR8bi1ej8c/FXzELb2kTQzZE7dX\nYaONvNfKGL27EMjhqRpL+rQeTGeyGqmr0WH7BeQ9nE6ylfxXzXAMWkTW6dv7go+j\n52xAS6dM5TZER/A2KvCgXisiQFzwqEHuXnoy9lpWHcSZzQL8Xkd9ZbGAr3ex0pEc\n8220d4KT8oATLBDZo/fJyGiQNR5sab8RlpecbGJoh0QJIdnU3Eq02HYSzAQ7a8cB\nYGEm1xtOQOxV2a4+8f/g9FSC3hjobwmSoNu/nQIDAQABAoIBACy3ytRGk3A7mjAj\nSzo0jsZrWCwXU5KfnBZHk/FflKe0QDtjQvUGOqKIX8mJTONqRVXj/VaRbbDKh6Cz\nbzDTtyv8aBRCh2Zh/m8bE3ww4sFq8tknbmG/jugHyzSdOc/uyEG/9A3NHl1I1sra\ncv6MeprJNLqq3ggYFatPDo9BFs4EZoaIxEMD3plHfENfJOu7IS0xRoe5foXYbnM3\nji7n243OBGPAdCZXJkhYNgRoZmwMeMOJWK7EmiiM60ZKpHl8C4jSuzQ132aK/NDH\n3xgr+1nI8i8CfAWBlP8hfCXJJ8EiS5lE94jnP7u49BhjbPgULaNPDDYpVh5/uTlP\nYV5iAcECggCBAO7y4xBuMc8G57lqepoZHtCjSPpXTEC6hE7+pmnwvi6gUZPV7Tx/\nC7JecekilTy3Z+MjU1jwy7Bu0L3EJsJBn2N5aGYVxGFHGqrfA/qhPeyJsIU2w2UZ\nm1BEgNjP7bMZSMCSYd2CU9mP5dt3vGpEU6oZgwe9jm5QghYVjHaB6NUNAoIAgQDz\nc+sqdCn+rIpE6uovtqXJ9l3psaz+egRLcWS0ZVtrdhmMPBz/rZ16KhqmA+aszjiP\n8JqO3uXiB1LR+ACc6tRzeCWXNWipgzJGvLfgZBwGHeFje+uMyd1nYUq3qd0zP81j\ntpZpIAlHlPc+UREqiUhJJkjP+tEwwznP4zaC4wkQ0QKCAIEA3bMRpf73y8P2X/xB\nQJSqGJ5Haa5xm2TyuXBf6s9pRU2OIwJLmOOvcJFcUxi5Kppok0AFZvITquFGX6uM\n4pOMVPkiOgVcLX2RapR81p+gGsUtuIu1AyqdBf5pJcDWJGQDMlke4Cy5q5RtihEw\nCdDXZ21AO4BOlF+yMtdPeezSoEkCggCBAIBzsiolPp8sRIxWcpgYQ+OLBUQvxjpD\nAQ8ZVmxEancJyjMO6LIS1dtGaeccedLFwFxaNAKcIykeehllRFWHJe+C/jqJKJ8A\nJT/jhRV1XL/xdiG6ma8gN5y7XeQIUTkgOeuZxETVbXACbm3H8knCQ4ytEZADI+sZ\npuBEX1eyGO9xAoIAgQCwh2QkYnGPQkY4d9ra+WcrUz8sb7CEu4IS42XNt8SFkyU4\nfkE7aE4bHufPnnTEZ4jIGk0/E1b8AhLh1suRpg3tltYEj5CJfF1UywoUGuHhQkzP\n7jZaNQ1xdB+0woK3IenLVpDjxWGZbZTxviim1v1lpLSJxfr/HfvW1DJc4x/iug==\n-----END RSA PRIVATE KEY-----");
-                            System.out.println("TEST REQUEST DEVICE REGISTRY "+ params.get("name").toString() + " "+ urlDevices);
+                            System.out.println("TEST REQUEST DEVICE REGISTRY " + params.get("name").toString() + " " + urlDevices);
 
                             final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                     urlDevices, params,
@@ -1323,7 +1361,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
-                                            System.out.print("Error Post in Device Registry" + error.getMessage()+ error.getCause());
+                                            System.out.print("Error Post in Device Registry" + error.getMessage() + error.getCause());
                                             //Failure Callback
 
                                         }
@@ -1359,7 +1397,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
 
                                         System.out.print("TESSSST DeVICE NAme und Platt");
-                                        JsonObjectRequest getRequest= new JsonObjectRequest(Request.Method.GET, urlDevices, null,
+                                        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, urlDevices, null,
                                                 new Response.Listener<JSONObject>() {
                                                     @Override
                                                     public void onResponse(JSONObject response) {
@@ -1410,7 +1448,6 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                                 params_sensor.put("componentType", sensorInfo.getSensoradapter());
 
 
-
                                                                 final JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                                                                         urlSensors, params_sensor,
                                                                         new Response.Listener<JSONObject>() {
@@ -1426,7 +1463,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                                                             @Override
                                                                             public void onErrorResponse(VolleyError error) {
                                                                                 // error
-                                                                                System.out.print("ERROR addind Sensor"+ error.getMessage());
+                                                                                System.out.print("ERROR addind Sensor" + error.getMessage());
                                                                                 // Log.d("Error.Response", response);
                                                                             }
                                                                         }
@@ -1571,7 +1608,6 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         ////////////
 
 
-
                                         return Response.success(new JSONObject(jsonString2),
                                                 HttpHeaderParser.parseCacheHeaders(response));
                                     } catch (UnsupportedEncodingException e) {
@@ -1592,7 +1628,6 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             //JsonObjectRequest getRequest = getJsonObjectRequestForID(name, macid, image, devicetype, optionalIP, userName, password, urlDevices);
 
 
-
                             //queue.add(getRequest);
                             //ToDO isinserted dont catch bugs anymore
                             isInserted[0] = true;
@@ -1611,8 +1646,6 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
         }
     }
-
-
 
 
     public void deleterequestsensor(final String sensorid) {
@@ -1764,54 +1797,54 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                 if (tokens[i].contains("RaspberryPi")) {
                                     spinner.setSelection(0);
                                 }
-                                else if (tokens[i].contains("Arduino")) {
+                                if (tokens[i].contains("Arduino")) {
                                     spinner.setSelection(1);
 
                                 }
-                                else if (tokens[i].contains("Computer")) {
+                                if (tokens[i].contains("Computer")) {
                                     spinner.setSelection(2);
 
                                 }
-                                else if (tokens[i].contains("Audio System")) {
+                                if (tokens[i].contains("Audio System")) {
                                     spinner.setSelection(3);
 
                                 }
-                                else if (tokens[i].contains("Camera")) {
+                                if (tokens[i].contains("Camera")) {
                                     spinner.setSelection(4);
 
                                 }
-                                else if (tokens[i].contains("Gateway")) {
+                                if (tokens[i].contains("Gateway")) {
                                     spinner.setSelection(5);
 
                                 }
-                                else if (tokens[i].contains("Laptop")) {
+                                if (tokens[i].contains("Laptop")) {
                                     spinner.setSelection(6);
 
                                 }
-                                else if (tokens[i].contains("NodeMCU")) {
+                                if (tokens[i].contains("NodeMCU")) {
                                     spinner.setSelection(7);
 
                                 }
-                                else if (tokens[i].contains("Smartphone")) {
+                                if (tokens[i].contains("Smartphone")) {
                                     spinner.setSelection(8);
 
                                 }
-                                else if (tokens[i].contains("Smartwatch")) {
+                                if (tokens[i].contains("Smartwatch")) {
                                     spinner.setSelection(9);
 
                                 }
-                                else if (tokens[i].contains("TV")) {
+                                if (tokens[i].contains("TV")) {
                                     spinner.setSelection(10);
 
                                 }
-                                else if (tokens[i].contains("Voice Controller")) {
+                                if (tokens[i].contains("Voice Controller")) {
                                     spinner.setSelection(11);
 
                                 }
-                                else{
+                               /* else{
                                     spinner.setSelection(12);
 
-                                }
+                                }*/
                             } else if (tokens[i].contains("name")) {
                                 //roomNumber = tokens[i].substring(tokens[i].indexOf(":") + 3, tokens[i].indexOf(",") -1);
                                 String devicename = mainObject.getString("name");
@@ -1846,7 +1879,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     JSONObject sensor = cast.getJSONObject(j);
                                     String sensorname = sensor.getString("sensorname");
                                     String pinset = sensor.getString("pinset");
-                                    String sensorapt =sensorspinner.getSelectedItem().toString();
+                                    String sensorapt = sensorspinner.getSelectedItem().toString();
                                     edtSensorname.setText(sensorname);
                                     edtPinset.setText(pinset);
 
@@ -1866,17 +1899,17 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                                     bytes = stream.toByteArray();
                                     String sensortypee = "";
-                                    int image =  R.mipmap.ic_launcher;
-                                     image= sensorTypeEquals(sensor, "Temperature", sensortypee,0, R.drawable.temperature_icon, bytes,image);
-                                   image=  sensorTypeEquals(sensor, "Motion",sensortypee, 1,  R.mipmap.ic_launcher , bytes,image);
-                                    image= sensorTypeEquals(sensor, "Camera", sensortypee,2, R.drawable.baseline_photo_camera_black_48dp, bytes,image);
-                                    image=sensorTypeEquals(sensor, "Location", sensortypee,3, R.drawable.baseline_location_searching_black_48dp, bytes,image);
-                                    image=sensorTypeEquals(sensor, "Gas", sensortypee,4, R.drawable.baseline_local_gas_station_black_48dp, bytes,image);
-                                    image=sensorTypeEquals(sensor, "Sound", sensortypee,5, R.drawable.baseline_music_note_black_48dp, bytes,image);
-                                    image=sensorTypeEquals(sensor, "Touch", sensortypee,6, R.drawable.baseline_touch_app_black_48dp, bytes,image);
-                                    image=sensorTypeEquals(sensor, "Humidity",sensortypee, 7,  R.mipmap.ic_launcher, bytes,image);
-                                    image=sensorTypeEquals(sensor, "Vibration", sensortypee,8, R.drawable.baseline_vibration_black_48dp, bytes,image);
-                                   // sensorInfo = new SensorInfo(sensorname, bytes, pinset, );
+                                    int image = R.mipmap.ic_launcher;
+                                    image = sensorTypeEquals(sensor, "Temperature", sensortypee, 0, R.drawable.temperature_icon, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Motion", sensortypee, 1, R.mipmap.ic_launcher, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Camera", sensortypee, 2, R.drawable.baseline_photo_camera_black_48dp, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Location", sensortypee, 3, R.drawable.baseline_location_searching_black_48dp, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Gas", sensortypee, 4, R.drawable.baseline_local_gas_station_black_48dp, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Sound", sensortypee, 5, R.drawable.baseline_music_note_black_48dp, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Touch", sensortypee, 6, R.drawable.baseline_touch_app_black_48dp, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Humidity", sensortypee, 7, R.mipmap.ic_launcher, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Vibration", sensortypee, 8, R.drawable.baseline_vibration_black_48dp, bytes, image);
+                                    // sensorInfo = new SensorInfo(sensorname, bytes, pinset, );
                                     //sensorInfo = new SensorInfo(post, sensorname, bytes, pinset, sensortypee, sensorapt);
                                     sensorbtnAddclicked(sensorapt, image);
                                     //sensorlist.add(sensorInfo);
@@ -1891,7 +1924,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     JSONObject actuator = cast.getJSONObject(j);
                                     String actuatorname = actuator.getString("actuatorname");
                                     String pinset = actuator.getString("pinset");
-                                    String actuatorapt =actuatorspinner.getSelectedItem().toString();
+                                    String actuatorapt = actuatorspinner.getSelectedItem().toString();
                                     edtActuatorname.setText(actuatorname);
                                     edtPinsetActuator.setText(pinset);
 
@@ -1915,12 +1948,12 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     image = actuatorTypeEqual(actuator, "Speaker", 0, R.drawable.baseline_speaker_black_48dp, actuatorimageqr, image);
                                     image = actuatorTypeEqual(actuator, "Light", 1, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr, image);
                                     image = actuatorTypeEqual(actuator, "Vibration", 2, R.drawable.baseline_vibration_black_48dp, actuatorimageqr, image);
-                                    image = actuatorTypeEqual(actuator, "Motor", 3, R.mipmap.ic_launcher, actuatorimageqr,image);
-                                    image = actuatorTypeEqual(actuator, "Heater", 4, R.mipmap.ic_launcher, actuatorimageqr,image);
-                                    image = actuatorTypeEqual(actuator, "Air Conditioner", 5, R.mipmap.ic_launcher, actuatorimageqr,image);
-                                    image = actuatorTypeEqual(actuator, "Buzer", 6, R.mipmap.ic_launcher, actuatorimageqr,image);
-                                    image = actuatorTypeEqual(actuator, "Switch", 7, R.mipmap.ic_launcher, actuatorimageqr,image);
-                                    image = actuatorTypeEqual(actuator, "LED", 8, R.mipmap.ic_launcher, actuatorimageqr,image);
+                                    image = actuatorTypeEqual(actuator, "Motor", 3, R.mipmap.ic_launcher, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Heater", 4, R.mipmap.ic_launcher, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Air Conditioner", 5, R.mipmap.ic_launcher, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Buzer", 6, R.mipmap.ic_launcher, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Switch", 7, R.mipmap.ic_launcher, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "LED", 8, R.mipmap.ic_launcher, actuatorimageqr, image);
 
                                     //actuatorInfo = new ActuatorInfo(actuatorname, actuatorimageqr, pinset);
                                     //actuatorlist.add(actuatorInfo);
@@ -1963,7 +1996,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         //int image = R.mipmap.ic_launcher;
         if (actuator.getString("actuatortype").equals(led)) {
             componenttypespinner.setSelection(i2);
-          //  actuatorname = edtActuatorname.getText().toString();
+            //  actuatorname = edtActuatorname.getText().toString();
             //pinset = edtPinset.getText().toString();
 
             //String actuatorname = actuatorspinner.getSelectedItem();
@@ -1979,7 +2012,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         return image;
     }
 
-    private int sensorTypeEquals(JSONObject sensor, String vibration,String sensortyp, int i2, int p, byte[] bytes, int image) throws JSONException {
+    private int sensorTypeEquals(JSONObject sensor, String vibration, String sensortyp, int i2, int p, byte[] bytes, int image) throws JSONException {
         String sensorname;
         String pinset;
         //int image = R.mipmap.ic_launcher;

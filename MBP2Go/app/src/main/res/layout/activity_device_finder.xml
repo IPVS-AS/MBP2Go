@@ -11,34 +11,56 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.sedaulusal.hiwijob.device.advertise.DeviceFinderActivity">
 
-    <Button
-        android:id="@+id/btn_activitydevicefinder_registrysensor"
-        android:layout_width="124dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/lblSensorlist"
-        android:layout_alignTop="@+id/btn_activitydevicefinder_registrymanually"
-        android:text="register sensor"
-        android:onClick="btn_registerSensorDeviceFinder"
-        />
 
-    <Button
-        android:id="@+id/btn_activitydevicefinder_registrymanually"
-        android:layout_width="124dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="btn_registrymanuallyClick"
-        android:text="@string/btn_activity_device_finder" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Smartphone sensors:" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btn_activitydevicefinder_registrysensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="btn_registerSensorDeviceFinder"
+            android:text="@string/btn_smartphonesensors_activity_device_finder" />
+
+        <Button
+            android:id="@+id/btn_activitydevicefinder_registrymanually"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="btn_registrymanuallyClick"
+            android:text="@string/btn_activity_device_finder" />
+
+    </LinearLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/devicefinder_recyclerview_sensoren"
-        android:layout_width="match_parent"
-        android:layout_height="382dp"
+        android:layout_width="376dp"
+        android:layout_height="586dp"
+        android:layout_above="@+id/LinearLayout02"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="2dp"
         android:textColor="@color/zxinglegacy_status_text"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="92dp" />
+        tools:layout_editor_absoluteY="92dp">
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

@@ -34,7 +34,9 @@
     <string name="title_activity_device_overview">DeviceOverviewActivity</string>
     <string name="title_activity_device_finder">DeviceFinderActivity</string>
 
-    <string name="btn_activity_device_finder">register manually</string>
+    <string name="btn_activity_device_finder">register other device</string>
+    <string name="btn_smartphonesensors_activity_device_finder">register \n smartphone and sensors</string>
+
 
     <string-array name="action_dialog_sensors">
         <item>Edit</item>

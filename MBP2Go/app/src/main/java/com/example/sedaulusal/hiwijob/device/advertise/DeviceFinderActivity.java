@@ -252,7 +252,7 @@ public class DeviceFinderActivity extends AppCompatActivity  {
 
 
     public void showDeployConf() {
-        final ListView lblSensorlist = (ListView) findViewById(R.id.lblSensorlist);
+        //final ListView lblSensorlist = (ListView) findViewById(R.id.lblSensorlist);
        // lblSensorlist.setText("test");
 
         String appendText = "\n\n";
