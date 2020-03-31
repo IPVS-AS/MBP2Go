@@ -218,55 +218,55 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Speaker")) {
 
-                            actuatorbtnAddclicked(selectedItem, R.drawable.baseline_speaker_black_48dp);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_speaker_actuator);
 
 
                         } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Light")) {
 
-                            actuatorbtnAddclicked(selectedItem, R.drawable.ic_lightbulb_outline_black_24dp);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_light_actuator);
 
                         } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Vibration")) {
 
-                            actuatorbtnAddclicked(selectedItem, R.drawable.baseline_vibration_black_48dp);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_vibration_actuator);
 
 
                         } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Motor")) {
 
 
-                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_motor_actuator);
 
 
                         } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Heater")) {
 
 
-                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_heater_actuator);
 
                         } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Air Conditioner")) {
 
 
-                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_air_conditioner_actuator);
 
 
                         } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Buzzer")) {
 
 
-                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_buzzer_actuator);
 
                         } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("Switch")) {
 
 
-                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_switch_actuator);
 
 
                         } else if (actuatorcomponenttypespinner.getSelectedItem().toString().contains("LED")) {
 
 
-                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_led_actuator);
 
 
                         } else {
 
-                            actuatorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            actuatorbtnAddclicked(selectedItem, R.drawable.icon_default_actuator);
 
 
                         }
@@ -350,59 +350,59 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             test.length();
                             String comp = componenttypespinner.getSelectedItem().toString();
                             comp.length();
-                            sensorbtnAddclicked(selectedItem, R.drawable.temperature_icon);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_temperature_sensor);
 
 
                         } else if (componenttypespinner.getSelectedItem().toString().equals("Motion")) {
 
-                            sensorbtnAddclicked(selectedItem, R.drawable.pressure_icon);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_motion_sensor);
 
 
                         } else if (componenttypespinner.getSelectedItem().toString().equals("Camera")) {
 
 
-                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_photo_camera_black_48dp);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_camera_sensor);
 
 
                         } else if (componenttypespinner.getSelectedItem().toString().equals("Location")) {
 
-                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_location_searching_black_48dp);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_location_sensor);
 
                         } else if (componenttypespinner.getSelectedItem().toString().equals("Gas")) {
 
-                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_local_gas_station_black_48dp);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_gas_sensor);
 
 
                         } else if (componenttypespinner.getSelectedItem().equals("Sound")) {
 
-                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_music_note_black_48dp);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_sound_sensor);
 
                         } else if (componenttypespinner.getSelectedItem().toString().equals("Touch")) {
 
-                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_touch_app_black_48dp);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_touch_sensor);
 
                         } else if (componenttypespinner.getSelectedItem().toString().contains("Humidity")) {
 
-                            sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_humidity_sensor);
 
 
                         } else if (componenttypespinner.getSelectedItem().toString().contains("Vibration")) {
 
-                            sensorbtnAddclicked(selectedItem, R.drawable.baseline_vibration_black_48dp);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_vibration_sensor);
 
                         } else if (componenttypespinner.getSelectedItem().toString().contains("Gyroscope")) {
 
-                            sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_gyroscope_sensor);
 
 
                         } else if (componenttypespinner.getSelectedItem().toString().contains("Proximity")) {
 
-                            sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_proximity_sensor);
 
 
                         } else if (componenttypespinner.getSelectedItem().toString().contains("Acceleration")) {
 
-                            sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_default_sensor);
 
 
                         } else if (componenttypespinner.getSelectedItem().toString().contains("Light Flicker")) {
@@ -411,7 +411,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
 
                         } else {
-                            sensorbtnAddclicked(selectedItem, R.mipmap.ic_launcher);
+                            sensorbtnAddclicked(selectedItem, R.drawable.icon_default_sensor);
 
 
                         }
@@ -513,32 +513,32 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
 
                     if (deviceType.getSelectedItem().equals("Raspberry Pi")) {
-                        deviceImage.setImageResource(R.drawable.raspberry_pi);
+                        deviceImage.setImageResource(R.drawable.icon_raspberry_pi_device);
 
                     } else if (deviceType.getSelectedItem().equals("Arduino")) {
-                        deviceImage.setImageResource(R.drawable.arduino);
+                        deviceImage.setImageResource(R.drawable.icon_arduino_device);
                     } else if (deviceType.getSelectedItem().equals("Computer")) {
-                        deviceImage.setImageResource(R.drawable.devicetype_computer_black_48dp);
+                        deviceImage.setImageResource(R.drawable.icon_computer_device);
                     } else if (deviceType.getSelectedItem().equals("Audio System")) {
-                        deviceImage.setImageResource(R.drawable.baseline_speaker_group_black_48dp);
+                        deviceImage.setImageResource(R.drawable.icon_audio_system_device);
                     } else if (deviceType.getSelectedItem().equals("Camera")) {
-                        deviceImage.setImageResource(R.drawable.baseline_photo_camera_black_48dp);
+                        deviceImage.setImageResource(R.drawable.icon_camera_device);
                     } else if (deviceType.getSelectedItem().equals("Gateway")) {
-                        deviceImage.setImageResource(R.mipmap.ic_launcher);
+                        deviceImage.setImageResource(R.drawable.icon_default_device);
                     } else if (deviceType.getSelectedItem().equals("Laptop")) {
-                        deviceImage.setImageResource(R.drawable.baseline_laptop_black_48dp);
+                        deviceImage.setImageResource(R.drawable.icon_laptop_device);
                     } else if (deviceType.getSelectedItem().equals("NodeMCU")) {
-                        deviceImage.setImageResource(R.mipmap.ic_launcher);
+                        deviceImage.setImageResource(R.drawable.icon_default_device);
                     } else if (deviceType.getSelectedItem().equals("Smartphone")) {
-                        deviceImage.setImageResource(R.drawable.baseline_smartphone_black_48dp);
+                        deviceImage.setImageResource(R.drawable.icon_smartphone_device);
                     } else if (deviceType.getSelectedItem().equals("Smartwatch")) {
-                        deviceImage.setImageResource(R.drawable.baseline_watch_black_48dp);
+                        deviceImage.setImageResource(R.drawable.icon_smartwatch_device);
                     } else if (deviceType.getSelectedItem().equals("TV")) {
-                        deviceImage.setImageResource(R.drawable.baseline_tv_black_48dp);
+                        deviceImage.setImageResource(R.drawable.icon_tv_device);
                     } else if (deviceType.getSelectedItem().equals("Voice Controller")) {
-                        deviceImage.setImageResource(R.mipmap.ic_launcher);
+                        deviceImage.setImageResource(R.drawable.icon_voice_controller_device);
                     } else if (deviceType.getSelectedItem().equals("Other")) {
-                        deviceImage.setImageResource(R.mipmap.ic_launcher);
+                        deviceImage.setImageResource(R.drawable.icon_default_device);
 
                     } else {
                         deviceImage.setImageResource(R.mipmap.ic_launcher);
@@ -691,46 +691,46 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
                 }
                 if (selectedItem.equals("Computer")) {
-                    imageView.setImageResource(R.drawable.devicetype_computer_black_48dp);
+                    imageView.setImageResource(R.drawable.icon_computer_device);
                     setDisplazAnimation();
                 }
                 if (selectedItem.equals("Audio System")) {
-                    imageView.setImageResource(R.drawable.baseline_speaker_group_black_48dp);
+                    imageView.setImageResource(R.drawable.icon_audio_system_device);
                     setDisplazAnimation();
                 }
                 if (selectedItem.equals("Camera")) {
-                    imageView.setImageResource(R.drawable.baseline_photo_camera_black_48dp);
+                    imageView.setImageResource(R.drawable.icon_camera_device);
                     setDisplazAnimation();
                 }
                 if (selectedItem.equals("Gateway")) {
-                    imageView.setImageResource(R.mipmap.ic_launcher);
+                    imageView.setImageResource(R.drawable.icon_default_device);
                     setDisplazAnimation();
                 }
                 if (selectedItem.equals("Laptop")) {
-                    imageView.setImageResource(R.drawable.baseline_laptop_black_48dp);
+                    imageView.setImageResource(R.drawable.icon_laptop_device);
                     setDisplazAnimation();
                 }
                 if (selectedItem.equals("NodeMCU")) {
-                    imageView.setImageResource(R.mipmap.ic_launcher);
+                    imageView.setImageResource(R.drawable.icon_default_device);
                 }
                 if (selectedItem.equals("Smartphone")) {
-                    imageView.setImageResource(R.drawable.baseline_smartphone_black_48dp);
+                    imageView.setImageResource(R.drawable.icon_smartphone_device);
                     setDisplazAnimation();
 
 
                 }
                 if (selectedItem.equals("Smartwatch")) {
-                    imageView.setImageResource(R.drawable.baseline_watch_black_48dp);
+                    imageView.setImageResource(R.drawable.icon_smartwatch_device);
                     setDisplazAnimation();
 
                 }
                 if (selectedItem.equals("TV")) {
-                    imageView.setImageResource(R.drawable.baseline_tv_black_48dp);
+                    imageView.setImageResource(R.drawable.icon_tv_device);
                     setDisplazAnimation();
 
                 }
                 if (selectedItem.equals("Voice Controller")) {
-                    imageView.setImageResource(R.mipmap.ic_launcher);
+                    imageView.setImageResource(R.drawable.icon_voice_controller_device);
                     setDisplazAnimation();
 
                 }
@@ -741,7 +741,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
                    // Toast.makeText(getApplicationContext(), "Other wurde gewählt", Toast.LENGTH_SHORT).show();
                     vf.setDisplayedChild(1);*/
-                    imageView.setImageResource(R.mipmap.ic_launcher);
+                    imageView.setImageResource(R.drawable.icon_default_device);
                     setDisplazAnimation();
 
                   /*  ResizeAnimation resizeAnimation = new ResizeAnimation(
@@ -1900,15 +1900,20 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     bytes = stream.toByteArray();
                                     String sensortypee = "";
                                     int image = R.mipmap.ic_launcher;
-                                    image = sensorTypeEquals(sensor, "Temperature", sensortypee, 0, R.drawable.temperature_icon, bytes, image);
-                                    image = sensorTypeEquals(sensor, "Motion", sensortypee, 1, R.mipmap.ic_launcher, bytes, image);
-                                    image = sensorTypeEquals(sensor, "Camera", sensortypee, 2, R.drawable.baseline_photo_camera_black_48dp, bytes, image);
-                                    image = sensorTypeEquals(sensor, "Location", sensortypee, 3, R.drawable.baseline_location_searching_black_48dp, bytes, image);
-                                    image = sensorTypeEquals(sensor, "Gas", sensortypee, 4, R.drawable.baseline_local_gas_station_black_48dp, bytes, image);
-                                    image = sensorTypeEquals(sensor, "Sound", sensortypee, 5, R.drawable.baseline_music_note_black_48dp, bytes, image);
-                                    image = sensorTypeEquals(sensor, "Touch", sensortypee, 6, R.drawable.baseline_touch_app_black_48dp, bytes, image);
-                                    image = sensorTypeEquals(sensor, "Humidity", sensortypee, 7, R.mipmap.ic_launcher, bytes, image);
-                                    image = sensorTypeEquals(sensor, "Vibration", sensortypee, 8, R.drawable.baseline_vibration_black_48dp, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Temperature", sensortypee, 0, R.drawable.icon_temperature_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Motion", sensortypee, 1, R.drawable.icon_motion_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Camera", sensortypee, 2, R.drawable.icon_camera_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Location", sensortypee, 3, R.drawable.icon_location_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Gas", sensortypee, 4, R.drawable.icon_gas_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Sound", sensortypee, 5, R.drawable.icon_sound_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Touch", sensortypee, 6, R.drawable.icon_touch_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Humidity", sensortypee, 7, R.drawable.icon_humidity_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Vibration", sensortypee, 8, R.drawable.icon_vibration_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Gyroscope", sensortypee, 9, R.drawable.icon_gyroscope_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Proximity", sensortypee, 10, R.drawable.icon_proximity_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Acceleration", sensortypee, 11, R.drawable.icon_default_sensor, bytes, image);
+                                    image = sensorTypeEquals(sensor, "Light Flicker", sensortypee, 12, R.drawable.icon_light_sensor, bytes, image);
+
                                     // sensorInfo = new SensorInfo(sensorname, bytes, pinset, );
                                     //sensorInfo = new SensorInfo(post, sensorname, bytes, pinset, sensortypee, sensorapt);
                                     sensorbtnAddclicked(sensorapt, image);
@@ -1945,15 +1950,15 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                                     actuatorimageqr = stream.toByteArray();
                                     int image = R.mipmap.ic_launcher;
-                                    image = actuatorTypeEqual(actuator, "Speaker", 0, R.drawable.baseline_speaker_black_48dp, actuatorimageqr, image);
-                                    image = actuatorTypeEqual(actuator, "Light", 1, R.drawable.ic_lightbulb_outline_black_24dp, actuatorimageqr, image);
-                                    image = actuatorTypeEqual(actuator, "Vibration", 2, R.drawable.baseline_vibration_black_48dp, actuatorimageqr, image);
-                                    image = actuatorTypeEqual(actuator, "Motor", 3, R.mipmap.ic_launcher, actuatorimageqr, image);
-                                    image = actuatorTypeEqual(actuator, "Heater", 4, R.mipmap.ic_launcher, actuatorimageqr, image);
-                                    image = actuatorTypeEqual(actuator, "Air Conditioner", 5, R.mipmap.ic_launcher, actuatorimageqr, image);
-                                    image = actuatorTypeEqual(actuator, "Buzer", 6, R.mipmap.ic_launcher, actuatorimageqr, image);
-                                    image = actuatorTypeEqual(actuator, "Switch", 7, R.mipmap.ic_launcher, actuatorimageqr, image);
-                                    image = actuatorTypeEqual(actuator, "LED", 8, R.mipmap.ic_launcher, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Speaker", 0, R.drawable.icon_speaker_actuator, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Light", 1, R.drawable.icon_light_actuator, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Vibration", 2, R.drawable.icon_vibration_actuator, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Motor", 3, R.drawable.icon_motor_actuator, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Heater", 4, R.drawable.icon_heater_actuator, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Air Conditioner", 5, R.drawable.icon_air_conditioner_actuator, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Buzer", 6, R.drawable.icon_buzzer_actuator, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "Switch", 7, R.drawable.icon_switch_actuator, actuatorimageqr, image);
+                                    image = actuatorTypeEqual(actuator, "LED", 8, R.drawable.icon_led_actuator, actuatorimageqr, image);
 
                                     //actuatorInfo = new ActuatorInfo(actuatorname, actuatorimageqr, pinset);
                                     //actuatorlist.add(actuatorInfo);
