@@ -1882,8 +1882,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     String sensorname = sensor.getString("sensorname");
                                     String pinset = sensor.getString("pinset");
                                     String sensorapt = sensorspinner.getSelectedItem().toString();
-                                    //edtSensorname.setText(sensorname);
-                                    //edtPinset.setText(pinset);
+                                    edtSensorname.setText(sensorname);
+                                    edtPinset.setText(pinset);
 
 
                                     for (int x = 0; x < sensorspinner.getCount(); x++) {
@@ -1922,6 +1922,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     //sensorlist.add(sensorInfo);
 
                                     sensoradapter.notifyDataSetChanged();
+                                    edtSensorname.setText("");
+                                    edtPinset.setText("");
                                 }
                             } else if (tokens[i].contains("actuators")) {
                                 ArrayList<String> allNames = new ArrayList<String>();
@@ -1932,8 +1934,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     String actuatorname = actuator.getString("actuatorname");
                                     String pinset = actuator.getString("pinset");
                                     String actuatorapt = actuatorspinner.getSelectedItem().toString();
-                                    //edtActuatorname.setText(actuatorname);
-                                    //edtPinsetActuator.setText(pinset);
+                                    edtActuatorname.setText(actuatorname);
+                                    edtPinsetActuator.setText(pinset);
 
 
                                     for (int x = 0; x < actuatorspinner.getCount(); x++) {
@@ -1966,8 +1968,9 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                     //actuatorlist.add(actuatorInfo);
                                     actuatorbtnAddclicked(actuatorapt, image);
 
-
                                     actuatoradapter.notifyDataSetChanged();
+                                    edtActuatorname.setText("");
+                                    edtPinsetActuator.setText("");
                                 }
                             }
 
