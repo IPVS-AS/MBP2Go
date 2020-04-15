@@ -29,6 +29,7 @@ public class DynamicFragment extends Fragment implements Updateable {
     int number = 1;
     View view;
     WebView wv;
+    boolean stop = false;
 
     DiagrammActivity diagrammActivity;
     ArrayList<SensorInfo> sensorlist;
@@ -92,9 +93,9 @@ public class DynamicFragment extends Fragment implements Updateable {
             @Override
             public void run() {
                 int i = 0;
-                while (true) {
+                while (!stop) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -160,6 +161,7 @@ public class DynamicFragment extends Fragment implements Updateable {
 
     @Override
     public void onDestroy() {
+        stop = true;
         super.onDestroy();
     }
 

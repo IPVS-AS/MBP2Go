@@ -316,7 +316,7 @@
                             android:ems="10"
                             android:inputType="textPersonName"
                             android:paddingLeft="10dp"
-                            android:text="Name" />
+                            android:hint="Sensor name" />
 
                         <Button
                             android:id="@+id/btn_addSensor"
@@ -489,7 +489,7 @@
                             android:layout_weight="0.25"
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="Actuator Name" />
+                            android:hint="Actuator name" />
 
                         <Button
                             android:id="@+id/btn_addActuator"

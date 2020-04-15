@@ -15,14 +15,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="16dp"
+        android:id="@+id/loginlinearlayouttitle"
+        >
+
+        <TextView
+            android:id="@+id/logintitlembp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="MBP2GO"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
+
+
+        <TextView
+            android:id="@+id/loginsubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="The MBP Client App"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loginlinearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginlinearlayouttitle"
+        android:orientation="vertical"
         android:padding="16dp">
 
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MBP Address:"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/txt_login_ip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:background="?android:attr/colorPressedHighlight"
             android:drawablePadding="16dp"
             android:drawableTint="@android:color/white"
@@ -61,49 +98,14 @@
             android:textColorHint="@android:color/white" />
 
         <Button
+            android:id="@+id/btn_activitylogin_signin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:background="?android:attr/colorActivatedHighlight"
-            android:text="Sign In"
             android:onClick="btn_Login_SignInClick"
-            android:textColor="@android:color/white"
-            android:id="@+id/btn_activitylogin_signin" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:gravity="center">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@drawable/circle_button"
-                android:padding="8dp"
-                android:src="@drawable/ic_facebook"
-                android:tint="@android:color/white" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@drawable/circle_button"
-                android:padding="8dp"
-                android:src="@drawable/ic_twitter"
-                android:tint="@android:color/white" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@drawable/circle_button"
-                android:padding="8dp"
-                android:src="@drawable/ic_google_plus"
-                android:tint="@android:color/white" />
-
-        </LinearLayout>
+            android:text="Sign In"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

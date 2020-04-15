@@ -430,11 +430,11 @@ public class HistoryDynamicFragment extends Fragment {
         //String url_forsensorvalues = historyDiagrammActivity.url + "/api/valueLogs/search/findAllByIdref?idref=" + sensorId + "&page=0&size=10000&sort=date,desc";
         if(unit.equals("null") || unit.equals("") ) {
             //url_forsensorvalues = historyDiagrammActivity.url + "/api/sensors/5c7fd6d3f8ea1203bcf381b9/valueLogs?size=200&sort=time,desc&unit=%C2%B0C";
-            url_forsensorvalues = historyDiagrammActivity.url + "/api/valueLogs/sensors/" + sensorId + "/valueLogs?size=10000&sort=time,desc";
+            url_forsensorvalues = historyDiagrammActivity.url + "/api/sensors/" + sensorId + "/valueLogs?size=200&sort=time,desc";
         }else{
             //url_forsensorvalues = historyDiagrammActivity.url + "/api/sensors/5c7fd6d3f8ea1203bcf381b9/valueLogs?size=200&sort=time,desc&unit=%C2%B0C";
 
-             url_forsensorvalues = historyDiagrammActivity.url + "/api/valueLogs/sensors/" + sensorId + "/valueLogs?size=10000&sort=time,desc&unit=%C2%B0C";
+             url_forsensorvalues = historyDiagrammActivity.url + "/api/sensors/" + sensorId + "/valueLogs?size=200&sort=time,desc&unit="+ unit;
         }
         //final String url = "http://192.168.209.189:8080/MBP/api/types";
         //http://192.168.209.194:8888/deploy/master/api/sensors/5da88741b1c4d32a862fadf0/valueLogs?size=200&sort=time,desc
@@ -462,8 +462,9 @@ public class HistoryDynamicFragment extends Fragment {
                                 JSONObject time = explrObject.getJSONObject("time");
                                 String epochsecound = time.getString("epochSecond");
 
-                                Date date = new Date(epochsecound);
-                                SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM d,yyyy h:mm,a", Locale.ENGLISH);
+                                long sec = Long.parseLong(epochsecound) * 1000;
+                                Date date = new Date(sec);
+                                SimpleDateFormat sdf = new SimpleDateFormat("MMMM d,yyyy h:mm a", Locale.ENGLISH);
                                 sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
                                 String formattedDate = sdf.format(date);
                                 System.out.println(formattedDate);

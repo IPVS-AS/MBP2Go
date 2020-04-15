@@ -1191,7 +1191,7 @@ public class DeviceOverviewActivity extends AppCompatActivity implements Progres
 
         };
 
-// add it to the RequestQueue
+        // add it to the RequestQueue
         queue.add(getRequest);
     }
 

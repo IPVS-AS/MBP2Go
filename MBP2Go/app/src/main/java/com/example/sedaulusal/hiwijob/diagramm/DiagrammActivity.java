@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Handler;
 import android.os.Trace;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
@@ -13,12 +14,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.sedaulusal.hiwijob.MainActivity;
 import com.example.sedaulusal.hiwijob.R;
 import com.example.sedaulusal.hiwijob.device.DeviceInfo;
@@ -26,6 +35,10 @@ import com.example.sedaulusal.hiwijob.device.DeviceOverviewActivity;
 import com.example.sedaulusal.hiwijob.device.SQLiteHelper;
 import com.example.sedaulusal.hiwijob.device.SensorInfo;
 import com.example.sedaulusal.hiwijob.device.advertise.SensorAdapterDeviceFinder;
+import com.highsoft.highcharts.Common.HIChartsClasses.HIOptions;
+import com.highsoft.highcharts.Common.HIChartsClasses.HISpline;
+import com.highsoft.highcharts.Common.HIChartsClasses.HIXAxis;
+import com.highsoft.highcharts.Core.HIChartView;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -36,13 +49,24 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
+import java.util.TimeZone;
 
 import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 
@@ -84,6 +108,8 @@ public class DiagrammActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String url;
+    boolean stop = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -365,7 +391,42 @@ public class DiagrammActivity extends AppCompatActivity {
                 try {
                     String serverURI = "tcp://"+parseurl();
                     String topic = "sensor/"+sensorInfo.getGeneratesensorid();
-                    connectToMqtt(serverURI, topic);
+                    //connectToMqtt(serverURI, topic);
+
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int i = 0;
+                            while (!stop) {
+                                try {
+                                    Thread.sleep(9000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                i++;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        getValuewithRest(sensorInfo.getGeneratesensorid());
+                                    }
+                                });
+
+                            }
+                        }
+                    }).start();
+
+
+
+                    /*new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getValuewithRest(sensorInfo.getGeneratesensorid());
+
+                        }
+                    }, 800);*/
+
+                    //getValuewithRest(sensorInfo.getGeneratesensorid());
                 }catch (Exception e){
                    // e.getMessage();
                    // Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT).show();
@@ -422,6 +483,179 @@ public class DiagrammActivity extends AppCompatActivity {
 
        return parseurl;
 
+    }
+
+    public void getValuewithRest(String sensorId){
+       // Random rand = new Random();
+
+        // Generate random integers in range 0 to 999
+        //value = String.valueOf(rand.nextInt(100));
+
+        getSensorParam(sensorId);
+    }
+
+
+    public void getSensorParam(String sensorId) {
+        String urlSensor = url + "/api/sensors/" + sensorId;
+        //final String url = "http://192.168.209.189:8080/MBP/api/types";
+        RequestQueue queue = Volley.newRequestQueue(context); // this = context
+
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, urlSensor, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        JSONObject obj = null;
+
+                        try {
+                            JSONObject mainObject = response;
+
+                            JSONObject embeddedObject = mainObject.getJSONObject("_embedded");
+                            JSONObject adapterObject = embeddedObject.getJSONObject("adapter");
+                            //JSONArray parameterObject = adapterObject.getJSONArray("parameters");
+                            String unit = adapterObject.getString("unit");
+                            unit.length();
+                            getValuesfromSensor(sensorId, unit);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            //  dialog.dismiss();
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error.Response", "errorrrrr"+ error);
+                        // dialog.dismiss();
+
+                    }
+                }) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+
+        queue.add(getRequest);
+
+    }
+
+
+    public void getValuesfromSensor(String sensorId, String unit) {
+        ArrayList<String> sensorValueList = new ArrayList<>();
+        String url_forsensorvalues;
+        //String url_forsensorvalues = historyDiagrammActivity.url + "/api/valueLogs/search/findAllByIdref?idref=" + sensorId + "&page=0&size=10000&sort=date,desc";
+        if(unit.equals("null") || unit.equals("") ) {
+            //url_forsensorvalues = historyDiagrammActivity.url + "/api/sensors/5c7fd6d3f8ea1203bcf381b9/valueLogs?size=200&sort=time,desc&unit=%C2%B0C";
+            url_forsensorvalues = url + "/api/sensors/" + sensorId + "/valueLogs?size=200&sort=time,desc";
+        }else{
+            //url_forsensorvalues = historyDiagrammActivity.url + "/api/sensors/5c7fd6d3f8ea1203bcf381b9/valueLogs?size=200&sort=time,desc&unit=%C2%B0C";
+
+            url_forsensorvalues = url + "/api/sensors/" + sensorId + "/valueLogs?size=200&sort=time,desc&unit="+ unit;
+        }
+        //final String url = "http://192.168.209.189:8080/MBP/api/types";
+        //http://192.168.209.194:8888/deploy/master/api/sensors/5da88741b1c4d32a862fadf0/valueLogs?size=200&sort=time,desc
+        sensorValueList.clear();
+        RequestQueue queue = Volley.newRequestQueue(context); // this = context
+        // prepare the Request
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url_forsensorvalues, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+
+                        try {
+                            JSONObject mainObject = response;
+
+                            // obj = response.getJSONObject("content");
+
+                            JSONArray jsonArray = response.getJSONArray("content");
+                            Log.d("Response Array", jsonArray.toString());
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject explrObject = jsonArray.getJSONObject(i);
+                                String jsonvalue = explrObject.getString("value");
+
+                                JSONObject time = explrObject.getJSONObject("time");
+                                String epochsecound = time.getString("epochSecond");
+
+                                long sec = Long.parseLong(epochsecound) * 1000;
+                                Date date = new Date(sec);
+                                SimpleDateFormat sdf = new SimpleDateFormat("MMMM d,yyyy h:mm a", Locale.ENGLISH);
+                                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                String formattedDate = sdf.format(date);
+                                System.out.println(formattedDate);
+
+                                sensorValueList.add(jsonvalue);
+                                //sensorTimeValueList.add(formattedDate);
+
+                            }
+                            //value = sensorValueList.get(sensorValueList.size() -1);
+                            value = sensorValueList.get(0);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            e.getMessage();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error.
+                        //TODO
+                        error.printStackTrace();
+                        error.getMessage();
+                        Log.e("Error.Response", "ERROR"+ error);
+
+                    }
+                }
+        ) {
+            //
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> authentification = getHeaderforAuthentification();
+                return authentification;
+
+            }
+
+        };
+
+
+        queue.add(getRequest);
+    }
+
+    public Map<String, String> getHeaderforAuthentification() {
+        SharedPreferences sp1= context.getSharedPreferences("Login",0);
+        String usernameSharedpref=sp1.getString("Username", null);
+        String passwordSharedpref = sp1.getString("Password", null);
+        String auth = new String(usernameSharedpref + ":" + passwordSharedpref);
+
+        byte[] data = auth.getBytes();
+        String base64 = Base64.encodeToString(data, Base64.NO_WRAP);
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic " + base64);
+        //headers.put("accept-language","EN");
+        headers.put("Content-Type", "application/json");
+        //headers.put("Accept","application/json");
+        return headers;
+    }
+
+    @Override
+    public void onDestroy() {
+        stop = true;
+        super.onDestroy();
     }
 }
 
