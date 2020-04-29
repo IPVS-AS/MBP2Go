@@ -18,9 +18,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -545,6 +547,12 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                     }
                 } // to close the onItemSelected
 
+                deviceType.setEnabled(false);
+                name.setEnabled(false);
+                macId.setEnabled(false);
+                optionalIP.setEnabled(false);
+                username.setEnabled(false);
+                password.setEnabled(false);
 
                 if (getIntent().hasExtra("maciddetail")) {
                     // Do stuff with extra
@@ -647,6 +655,8 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                     }
 
                 }
+
+
 
             }
 
@@ -1015,6 +1025,13 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
 
                     if (getIntent().hasExtra("macid") || getIntent().hasExtra("maciddetail")) {
+                        disableInput(edtName);
+                        edtMacid.setKeyListener(null);
+                        spinner.setOnKeyListener(null);
+                        edtOptionalId.setKeyListener(null);
+                        edtUsername.setKeyListener(null);
+                        edtPassword.setKeyListener(null);
+
                         Bundle extras = getIntent().getExtras();
                         int position;
                         String plattform;
@@ -1037,6 +1054,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                         deviceInfo.setPassword(password);
 
 
+
                         sqLiteHelper.updateDevice(deviceInfo);
 
                         RequestQueue queueUpdate = Volley.newRequestQueue(context);
@@ -1052,6 +1070,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
 
                         //String urlUpdate = "http://192.168.209.189:8080/MBP/api/devices/" + deviceInfo.getPlattformid();
+                      /*
                         String urlUpdate = url + "/api/devices/" + deviceInfo.getPlattformid();
                         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, urlUpdate, paramsUpdate,
                                 new Response.Listener() {
@@ -1081,7 +1100,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
 
                         };
 
-                        queueUpdate.add(putRequest);
+                        queueUpdate.add(putRequest);*/
 
 
                         //sqLiteHelper.updateSensor(sensorInfo, deviceInfo);
@@ -1097,7 +1116,7 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                             String deviceurl = url + "/api/devices/";
                             paramsUpdateSensor.put("name", sensorInfo.getName());
                             paramsUpdateSensor.put("adapter", typesurl + sensorInfo.getSensorTyp());
-                            paramsUpdateSensor.put("device", deviceurl + deviceInfo.getPlattformid());
+                            paramsUpdateSensor.put("device", deviceurl + deviceInfo.getPlattformid());//pid?
 
 
                             //String urlUpdateSensor = "http://192.168.209.189:8080/MBP/api/sensors/" + sensorInfo.getGeneratesensorid();
@@ -2080,5 +2099,16 @@ public class DeviceRegistryActivity extends AppCompatActivity {
         public boolean willChangeBounds() {
             return true;
         }
+    }
+
+    void disableInput(EditText editText){
+        editText.setInputType(InputType.TYPE_NULL);
+        editText.setTextIsSelectable(false);
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                return true;  // Blocks input from hardware keyboards.
+            }
+        });
     }
 }

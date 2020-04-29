@@ -37,7 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="btn_registerSensorDeviceFinder"
-            android:enabled="false"
             android:text="@string/btn_smartphonesensors_activity_device_finder" />
 
         <Button
