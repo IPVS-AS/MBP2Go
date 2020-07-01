@@ -112,6 +112,11 @@
             android:name=".ruleEngine.RuleEngingeActuatorSettingsActivity"
             android:label="Actuator Settings"
             android:theme="@style/Rulesetting" />
+        <service
+            android:name=".BackgroundService"
+            android:exported="true"
+            android:stopWithTask="false"
+            android:process=":ServiceProcess"/>
     </application>
 
 </manifest>

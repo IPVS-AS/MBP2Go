@@ -1411,7 +1411,6 @@ public class DeviceRegistryActivity extends AppCompatActivity {
                                         pid = post;
 
                                         System.out.print("RESPONSE von POST in Device Registry 2");
-                                        System.out.print(jsonString2.toString());
 
 
                                         ////////////////////////////

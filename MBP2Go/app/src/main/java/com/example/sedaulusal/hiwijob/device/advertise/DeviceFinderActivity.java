@@ -16,6 +16,7 @@ import android.hardware.SensorManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -88,7 +89,7 @@ import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 import static com.example.sedaulusal.hiwijob.device.advertise.RMPHelper.readJSONFile;
 
 //implements SensorEventListener
-public class DeviceFinderActivity extends AppCompatActivity {
+public class DeviceFinderActivity extends AppCompatActivity  {
     private static final String TAG = "ConndeMain";
     private SensorManager mSensorManager;
     Sensor sensor;
@@ -98,6 +99,8 @@ public class DeviceFinderActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String url;
     long deviceid, sensorid, actuatorid;
+    ArrayList<SensorInfo> sensorlist;
+
 
 
     String pid = "";
@@ -144,6 +147,7 @@ public class DeviceFinderActivity extends AppCompatActivity {
 
         context = this;
         sqLiteHelper = new SQLiteHelper(this);
+        sensorlist = new ArrayList<>();
 
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -185,7 +189,8 @@ public class DeviceFinderActivity extends AppCompatActivity {
         //registerSmartphone();
 
         regi();
-        startActivity(new Intent(this, DeviceOverviewActivity.class));
+        //getsensorvalues();
+        //startActivity(new Intent(this, DeviceOverviewActivity.class));
 
         /*for(SensorInfo sensorInfo: sensorNameList){
             sensorInfo.isDeployed();
@@ -396,6 +401,13 @@ public class DeviceFinderActivity extends AppCompatActivity {
         unbindFromService();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //unbind the service and null it out.
+        unbindFromService();
+        }//end onDestroy()
+
     private void unbindFromService() {
         if (advertiserService != null) {
             unbindService(advertiseConnection);
@@ -547,17 +559,17 @@ public class DeviceFinderActivity extends AppCompatActivity {
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
                         byte[] byteArray = stream.toByteArray();
+                        pid = post;
 
                         deviceInfo = new DeviceInfo(devicename, address, pid, byteArray, "Smartphone", ip, "admin", "admin");
                         deviceid = sqLiteHelper.createDevice(deviceInfo);
-                        pid = post;
 
                         for (final SensorInfo sensorInfo : sensorNameList) {
 
-                            registerSensors(sensorInfo);
+                            registerSensors(sensorInfo, pid);
                         }
 
-
+                        //getsensorvalues();
                         ////////////
 
                         return Response.success(new JSONObject(jsonString2),
@@ -658,7 +670,7 @@ public class DeviceFinderActivity extends AppCompatActivity {
                     if (sensorInfo.isDeployed() && sensorInfo.getName().equals(sen.getName())) {
 
                     } else {
-                        registerSensors(sensorInfo);
+                        registerSensors(sensorInfo, pid);
                     }
 
                 }
@@ -666,7 +678,7 @@ public class DeviceFinderActivity extends AppCompatActivity {
         }
     }
 
-    public void registerSensors(SensorInfo sensorInfo) throws JSONException {
+    public void registerSensors(SensorInfo sensorInfo, String pid) throws JSONException {
         if (sensorInfo.isDeployed()) {
 
             RequestQueue queue2 = Volley.newRequestQueue(context); // this = context
@@ -774,5 +786,172 @@ public class DeviceFinderActivity extends AppCompatActivity {
         //headers.put("Accept","application/json");
         return headers;
     }
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
+     /*
+    This part of code was for testing sensorvalues from smartphone
+    it is a part of a outlook
+     */
+    //TODO: it will need the interface for the smartphone sensorvalues
+    //implements SensorEventListener
+    /*public void getsensorvalues(){
+
+
+        //TODO: Bemerkt das PlattformID nicht gespeichert wird! korrigieren!
+        cursor = sqLiteHelper.getAllCursorSensorsByDevicesPlattformid(deviceInfo.getPlattformid());
+        sensorlist.clear();
+        while (cursor.moveToNext()) {
+
+            //int id = cursor.getInt(cursor.getColumnIndex(SQLiteHelper.KEY_ID));
+            String sensorname = cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_SensorNAME));
+            String  generatesensorid= cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_SensorID));
+            String plattformid = cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_PLATTFORMID));
+            byte[] sensorimage = cursor.getBlob(cursor.getColumnIndex(SQLiteHelper.KEY_SensorIMAGE));
+            String sensorPinset = cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_SensorPINSET));
+            String sensortype = cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_SensorTYP));
+            //String userName = cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_USERNAME));
+            //String password = cursor.getString(cursor.getColumnIndex(SQLiteHelper.KEY_PASSWORD));
+
+            //id gelöscht
+            SensorInfo sensorInfo = new SensorInfo(generatesensorid, sensorname, sensorimage, sensorPinset, sensortype);
+            // Log.d("Hiwi","device info: "+id+" "+name+" "+macid+" "+sensorId);
+            //Log.d("Hiwi", "device info: " + " " + name + " " + macid + " ");
+
+            sensorlist.add(sensorInfo);
+        }
+
+        for(SensorInfo sensorInf : sensorlist){
+            //sensorInfo = sensorInf;
+            getsensorvaluesfromsmartphone(sensorInf);
+        }
+        cursor.close();
+
+
+        //startActivity(new Intent(MainActivity.this, HistoryDiagrammActivity.class));
+        //finish();
+    }
+
+    public void getsensorvaluesfromsmartphone(SensorInfo sensorInfo){
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        Sensor sensor = mSensorManager.getDefaultSensor(Integer.parseInt(sensorInfo.getSensorTyp()));
+        mSensorManager.registerListener((SensorEventListener) this, sensor,mSensorManager.SENSOR_DELAY_NORMAL);
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                mSensorManager.unregisterListener((SensorEventListener) DeviceFinderActivity.this, sensor);
+            }
+        }, 5000);
+
+    }
+
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        String[] splitUp = url.split("/");
+        String ipAddress = splitUp[2];
+        String serverURI = "tcp://"+ ipAddress;
+        //TODO : find sensor id in database and set it error sensorinfo is immer letzter wert
+        //event.sensor.getId();
+        //event.sensor.getName();
+        for(SensorInfo sen: sensorlist) {
+            if(sen.getName().equals(event.sensor.getName())) {
+                String topic = "sensor/" + sen.getGeneratesensorid();
+
+                //String topic = "sensor/5bd18eba4f0cb71dd52873cb";
+                try {
+                    connectToMqtt(serverURI, topic, event, sen);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+
+
+    public void pubMqttChannel(MqttAndroidClient client, SensorEvent sensorEvent, SensorInfo sen) {
+
+        String topic = "sensor/"+sen.getGeneratesensorid();
+        //String payload = "{\"component\": \"SENSOR\", \"id\": \"5bd18eba4f0cb71dd52873cb\", \"value\": "+sensorEvent.values[0] +"}";
+        String payload = "{\"component\": \"SENSOR\", \"id\": "+"\"" +  sen.getGeneratesensorid() +"\", \"value\": "+sensorEvent.values[0] +"}";
+        byte[] encodedPayload = new byte[0];
+        try {
+            encodedPayload = payload.getBytes("UTF-8");
+            MqttMessage message = new MqttMessage(encodedPayload);
+            message.setRetained(true);
+            client.publish(topic, message);
+        } catch (UnsupportedEncodingException | MqttException e) {
+            e.printStackTrace();
+        }}
+
+    public void connectToMqtt(String serverURI, final String topic, SensorEvent sensorEvent, SensorInfo sen ) throws Exception{
+        String clientId = MqttClient.generateClientId();
+        final MqttAndroidClient client=
+                new MqttAndroidClient(this.getApplicationContext(), serverURI,
+                        clientId);
+
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
+        try {
+            IMqttToken token = client.connect(options);
+        } catch (MqttException e) {
+            e.printStackTrace();
+            //Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT).show();
+           // Toast toast = Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT);
+            //toast.show();
+        }
+
+
+        try {
+            IMqttToken token = client.connect();
+            if(token!=null){}
+            token.setActionCallback(new IMqttActionListener() {
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    // We are connected
+                    Log.d("MQtt", "onSuccess");
+                    // Toast.makeText(getApplicationContext(), "Please wait,mqtt", Toast.LENGTH_SHORT).show();
+                    //Toast toast = Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT);
+                   // toast.show();
+                    //pubMqttChannel(client);
+                    pubMqttChannel(client, sensorEvent, sen);
+                    //subscribe(client);
+
+                }
+
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    // Something went wrong e.g. connection timeout or firewall problems
+                    Log.d("TEEST", "onFailure");
+                    // Toast.makeText(getApplicationContext(), "Please wait,mqtt fail"+ exception, Toast.LENGTH_SHORT).show();
+                    //Toast toast = Toast.makeText(getApplicationContext(), "Error connect to Mqtt"+exception.toString(), Toast.LENGTH_SHORT);
+                    //toast.show();
+                    //Intent intent = new Intent(DiagrammActivity.this, DiagrammActivity.class);
+                    //startActivity(intent);
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+            Log.e("TEEST", "onFailure");
+
+            // Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT).show();
+            //Toast toast = Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT);
+            //toast.show();
+            //Intent intent = new Intent(DiagrammActivity.this, DiagrammActivity.class);
+            //startActivity(intent);
+
+        }
+    }*/
 
 }
