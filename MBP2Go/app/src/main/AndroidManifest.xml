@@ -117,6 +117,7 @@
             android:exported="true"
             android:stopWithTask="false"
             android:process=":ServiceProcess"/>
+
     </application>
 
 </manifest>

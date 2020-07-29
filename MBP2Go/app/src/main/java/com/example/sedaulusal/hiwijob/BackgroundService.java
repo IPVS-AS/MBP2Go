@@ -83,10 +83,10 @@ public class BackgroundService extends Service
     {
 
         for(Integer sensorInf : sensorlist){
-        timerTaskMagnetic = new TimerTaskMagnetic(sensorInf);
-        //the period value describes how often the sensor value will be updated
-        timerMagnetic.schedule(timerTaskMagnetic, 0, 10000);
-    }
+            timerTaskMagnetic = new TimerTaskMagnetic(sensorInf);
+            //the period value describes how often the sensor value will be updated
+            timerMagnetic.schedule(timerTaskMagnetic, 0, 10000);
+        }
         //timerTaskAccelerometer = new TimerTaskAccelerometer();
         //the period value describes how often the sensor value will be updated
         //timerAccelerometer.schedule(timerTaskAccelerometer, 0,1000);
@@ -109,26 +109,31 @@ public class BackgroundService extends Service
      */
     private class ServiceInterfaceImplementation extends IServiceInterface.Stub{
 
-    @Override
-    public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-    }
+        @Override
+        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+        }
 
-    /**
-     * This method is the interface to get the value from sensor accelerometer
-     */
-    @Override
-    public String getSensorAccelerometer() throws RemoteException {
-        return Float.toString(value_accelerometer);
-    }
+        /**
+         * This method is the interface to get the value from sensor accelerometer
+         */
+        @Override
+        public String getSensorAccelerometer() throws RemoteException {
+            return Float.toString(value_accelerometer);
+        }
 
-    /**
-     * This method is the interface to get the value from sensor magnetic
-     */
-    @Override
-    public String getSensorMagnetic() throws RemoteException {
-        return Float.toString(value_magnetic);
+        /**
+         * This method is the interface to get the value from sensor magnetic
+         */
+        @Override
+        public String getSensorMagnetic() throws RemoteException {
+            return Float.toString(value_magnetic);
 
-    }
+        }
+
+        @Override
+        public String getSensorName() throws RemoteException {
+            return null;
+        }
 
         @Override
         public String getSensorValue() throws RemoteException {
@@ -179,7 +184,12 @@ public class BackgroundService extends Service
         @Override
         public void onSensorChanged(SensorEvent event) {
 
-            if (event.sensor.getType() == sensortype) {
+            if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                //get the sensor value from magnetic field sensor
+                value_magnetic = event.values[0];
+                System.out.print(value_magnetic);
+                unregistersensor();
+            } else if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 //get the sensor value from magnetic field sensor
                 value_magnetic = event.values[0];
                 System.out.print(value_magnetic);

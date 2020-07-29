@@ -15,6 +15,10 @@ interface IServiceInterface {
 
     String getSensorMagnetic();
 
+    String getSensorName();
+
     String getSensorValue();
+
+
 
 }

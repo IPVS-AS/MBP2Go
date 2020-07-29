@@ -21,6 +21,7 @@ import com.example.sedaulusal.hiwijob.device.DeviceOverviewActivity;
 import com.example.sedaulusal.hiwijob.device.SQLiteHelper;
 import com.example.sedaulusal.hiwijob.device.SensorInfo;
 import com.example.sedaulusal.hiwijob.diagramm.DiagrammActivity;
+import com.example.sedaulusal.hiwijob.historydiagramm.HistoryDiagrammActivity;
 import com.example.sedaulusal.hiwijob.monitoring.MonitoringDeviceOverviewActivity;
 import com.example.sedaulusal.hiwijob.ruleEngine.RuleEngineOverviewActivity;
 
@@ -39,6 +40,8 @@ import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.example.sedaulusal.hiwijob.SettingActivity.mypreference;
 
@@ -124,8 +127,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     }
 
     public void btn_History(View v){
-        getsensorvalues();
-        //startActivity(new Intent(MainActivity.this, HistoryDiagrammActivity.class));
+        startActivity(new Intent(MainActivity.this, HistoryDiagrammActivity.class));
         //finish();
     }
 
@@ -187,10 +189,11 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             sensorlist.add(sensorInfo);
         }
 
+        sensorTypeIntlist.clear();
         for(SensorInfo sensorInf : sensorlist){
             sensorInfo = sensorInf;
             sensorTypeIntlist.add(Integer.valueOf(sensorInf.getSensorTyp()));
-           // getsensorvaluesfromsmartphone(sensorInf);
+            // getsensorvaluesfromsmartphone(sensorInf);
         }
         cursor.close();
 
@@ -275,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     public void pubMqttChannel(IMqttAsyncClient client, SensorInfo sen) {
 
-        }
+    }
 
     public void connectToMqtt(String serverURI, final String topic, SensorInfo sen ) throws Exception{
         String clientId = MqttClient.generateClientId();
@@ -290,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         } catch (MqttException e) {
             e.printStackTrace();
             //Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT).show();
-           // Toast toast = Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT);
+            // Toast toast = Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT);
             //toast.show();
         }
 
@@ -305,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                     Log.d("MQtt", "onSuccess");
                     // Toast.makeText(getApplicationContext(), "Please wait,mqtt", Toast.LENGTH_SHORT).show();
                     //Toast toast = Toast.makeText(getApplicationContext(), "Error connect to Mqtt", Toast.LENGTH_SHORT);
-                   // toast.show();
+                    // toast.show();
                     //pubMqttChannel(client);
                     pubMqttChannel(asyncActionToken.getClient(), sen);
                     //subscribe(client);
@@ -367,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     @Override
     protected void onResume() {
         super.onResume();
+        getsensorvalues();
         Intent i = new Intent(this, BackgroundService.class);
         i.putExtra("sensorlist", sensorTypeIntlist);
         //command to start service
@@ -379,10 +383,25 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         // String serverURI = "tcp://"+ ipAddress+":1883";
         String serverURI = "tcp://"+"192.168.178.61:1883";
         try {
-            if(sensorInfo != null) {
-                mqtt(serverURI, sensorInfo);
-            }
-        } catch (MqttException e) {
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    if(sensorInfo != null) {
+                        for(SensorInfo sensorInfo : sensorlist) {
+                            try {
+                                mqtt(serverURI, sensorInfo);
+                            } catch (MqttException e) {
+                                e.printStackTrace();
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }, 0, 5000);
+
+        }catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -390,79 +409,93 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     }
 
-    public void mqtt(String serverURI, SensorInfo sensorInfo) throws MqttException {
+    public void mqtt(String serverURI, SensorInfo sensorInfo) throws MqttException, RemoteException {
         //final MqttAndroidClient client = new MqttAndroidClient(context, "tcp://192.168.0.13:1883");
         //new MqttAndroidClient(this.getApplicationContext(), serverURI,clientId);
+        if(serviceInterface != null ) {
+            String idtest = sensorInfo.getGeneratesensorid();
+            String sensornametest = sensorInfo.getName();
+            String testvalue = serviceInterface.getSensorMagnetic();
+            String testinterfacename = serviceInterface.getSensorName();
 
+            System.out.println("TEST INTERFACE" + idtest + sensornametest + testvalue + testinterfacename);
+        }
         String clientId = MqttClient.generateClientId();
         MqttConnectOptions options = new MqttConnectOptions();
 
         MqttAndroidClient client= new MqttAndroidClient(this.getApplicationContext(), serverURI,
-                        clientId);
-               // client.connect(null, new IMqttActionListener() {
+                clientId);
+        // client.connect(null, new IMqttActionListener() {
 
-                    IMqttToken token = client.connect(options);
+        IMqttToken token = client.connect(options);
 
-            token.setActionCallback(new IMqttActionListener() {
-                                        @Override
-                                        public void onSuccess(IMqttToken asyncActionToken) {
-                                            if (serviceInterface != null){
-                                                String topic = "sensor/"+sensorInfo.getGeneratesensorid();
-                                                //String payload = "{\"component\": \"SENSOR\", \"id\": \"5bd18eba4f0cb71dd52873cb\", \"value\": "+sensorEvent.values[0] +"}";
-                                                String payload = null;
-                                                try {
-                                                    payload = "{\"component\": \"SENSORS\", \"id\": "+"\"" +  sensorInfo.getGeneratesensorid() +"\", \"value\": "+serviceInterface.getSensorMagnetic() +"}";
+        token.setActionCallback(new IMqttActionListener() {
+            @Override
+            public void onSuccess(IMqttToken asyncActionToken) {
 
-                                                    //payload = "{\"component\": \"SENSOR\", \"id\": "+"\"" +  sen.getGeneratesensorid() +"\", \"value\": "+serviceInterface.getSensorMagnetic() +"}";
-                                                } catch (RemoteException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                byte[] encodedPayload = new byte[0];
-                                                try {
-                                                    encodedPayload = payload.getBytes("UTF-8");
-                                                    MqttMessage message = new MqttMessage(encodedPayload);
-                                                    message.setRetained(true);
-                                                    message.setQos(1);
-                                                    client.publish(topic, message);
-                                                    client.disconnect();
-                                                } catch (UnsupportedEncodingException | MqttException e) {
-                                                    e.printStackTrace();
-                                                    System.out.println(e);
-                                                }
-
-                                            }else{
-                                                System.out.println("Error No Servie");
-                                            }
-                                            Log.i("Main","still running");
+                publishMqttMessage(sensorInfo, client);
+                Log.i("Main","still running");
                                     /*try {
                                       //  Thread.sleep(1000);
 
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }*/
-                                        }
-                //}
+            }
+            //}
 
-                @Override
-                public void onFailure(IMqttToken arg0, Throwable arg1) {
-                    // TODO Auto-generated method stub
-                    Log.i("ERROR", "Client connection failed: "+arg1.getMessage());
+            @Override
+            public void onFailure(IMqttToken arg0, Throwable arg1) {
+                // TODO Auto-generated method stub
+                Log.i("ERROR", "Client connection failed: "+arg1.getMessage());
 
-                }
-            });
+            }
+        });
         // ).start();
 
-    };
+    }
+
+    public void publishMqttMessage(SensorInfo sensorInfo, MqttAndroidClient client) {
+        if (serviceInterface != null){
+            String topic = "sensor/"+sensorInfo.getGeneratesensorid();
+            //String payload = "{\"component\": \"SENSOR\", \"id\": \"5bd18eba4f0cb71dd52873cb\", \"value\": "+sensorEvent.values[0] +"}";
+            String payload = null;
+            try {
+                payload = "{\"component\": \"SENSORS\", \"id\": "+"\"" +  sensorInfo.getGeneratesensorid() +"\", \"value\": "+serviceInterface.getSensorMagnetic() +"}";
+
+                //payload = "{\"component\": \"SENSOR\", \"id\": "+"\"" +  sen.getGeneratesensorid() +"\", \"value\": "+serviceInterface.getSensorMagnetic() +"}";
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            byte[] encodedPayload = new byte[0];
+            try {
+                encodedPayload = payload.getBytes("UTF-8");
+                MqttMessage message = new MqttMessage(encodedPayload);
+                message.setRetained(true);
+                message.setQos(1);
+                client.publish(topic, message);
+                client.disconnect();
+            } catch (UnsupportedEncodingException | MqttException e) {
+                e.printStackTrace();
+                System.out.println(e);
+            }
+
+        }else{
+            System.out.println("Error No Servie");
+        }
+    }
+
+    ;
 
 
-                                        // MqttMessage message = new MqttMessage("Hello, I am Android Mqtt Client.".getBytes());
-                        //message.setQos(2);
-                        //message.setRetained(false);
+    // MqttMessage message = new MqttMessage("Hello, I am Android Mqtt Client.".getBytes());
+    //message.setQos(2);
+    //message.setRetained(false);
 
-                        //new Thread(new Runnable() {
-                           // @Override
-                            //public void run() {
-                               // while(true){
+    //new Thread(new Runnable() {
+    // @Override
+    //public void run() {
+    // while(true){
 
 
 
