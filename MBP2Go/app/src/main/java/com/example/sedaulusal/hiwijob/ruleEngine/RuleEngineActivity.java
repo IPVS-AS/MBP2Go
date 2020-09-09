@@ -119,7 +119,7 @@ public class RuleEngineActivity extends AppCompatActivity {
 
         //recyclerView_when = (RecyclerView) findViewById(R.id.ruleEngine_recyclerView_when);
 
-        recyclerView_action = (RecyclerView) findViewById(R.id.ruleEngine_recyclerView_action);
+        //recyclerView_action = (RecyclerView) findViewById(R.id.ruleEngine_recyclerView_action);
 
 
         /////Layout Inflater////
@@ -130,20 +130,20 @@ public class RuleEngineActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
 
         mLayoutManagerActuator = new LinearLayoutManager(this);
-        recyclerView_action.setLayoutManager(mLayoutManagerActuator);
+        //recyclerView_action.setLayoutManager(mLayoutManagerActuator);
 
 
         //currentActuatorlist = getArrayListActuator("actuatorlist");
 
         //if (currentActuatorlist != null) {
         actuatorAdapter = new RuleEngineRuleActuatorAdapter(currentRuleActuatorInfolist, cursor, context);
-        recyclerView_action.setAdapter(actuatorAdapter);
+       // recyclerView_action.setAdapter(actuatorAdapter);
         //actuatorAdapter.notifyDataSetChanged();
         //}
 
 
         //TODO Action!!
-        recyclerView_action.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView_action, new RecyclerTouchListener.ClickListener() {
+       /* recyclerView_action.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView_action, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 position_stelle_actuator = position;
@@ -167,7 +167,7 @@ public class RuleEngineActivity extends AppCompatActivity {
 
             }
         }));
-
+*/
         this.addORSensorLayout(true);
 
     }

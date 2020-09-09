@@ -98,6 +98,9 @@ public class RuleEngineOverviewActivity extends AppCompatActivity {
     String asso;
     int numberrequest;
 
+    FloatingActionButton fab1, fab2;
+    boolean isFABOpen = false;
+
     ////////////////
     String value = "0";
     ArrayList<Double> listofsensorvaluesfromdb;
@@ -118,15 +121,45 @@ public class RuleEngineOverviewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+         fab2 = (FloatingActionButton) findViewById(R.id.fab2);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //       .setAction("Action", null).show();
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            }
+        });
+
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RuleEngineOverviewActivity.this, RuleActionOverviewActivity.class);
+                 startActivity(intent);
+            }
+        });
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(RuleEngineOverviewActivity.this, RuleEngineActivity.class);
                 startActivity(intent);
             }
         });
+
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                  //     .setAction("Action", null).show();
+               // Intent intent = new Intent(RuleEngineOverviewActivity.this, RuleEngineActivity.class);
+               // startActivity(intent);
+            }
+        });*/
 
         deleteSharendPref("actuatorlist");
         deleteSharendPref("testsens");
@@ -180,6 +213,7 @@ public class RuleEngineOverviewActivity extends AppCompatActivity {
 
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view, int position) {
                 position_stelle = position;
@@ -724,6 +758,17 @@ public class RuleEngineOverviewActivity extends AppCompatActivity {
         return count;
     }
 
+    private void showFABMenu(){
+        isFABOpen=true;
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab1.animate().translationY(0);
+        fab2.animate().translationY(0);
+    }
 
 }
 

@@ -66,6 +66,18 @@
     <string name="sensor_light">Light</string>
 
 
+    <string-array name="ruleactions">
+        <item>@string/actuator</item>
+        <item>@string/iftt</item>
+        <item>@string/component</item>
+
+    </string-array>
+
+    <string name="actuator">Actuator action</string>
+    <string name="iftt">IFTT webhook</string>
+    <string name="component">Component deployment</string>
+
+
     <string-array name="devicetype">
         <item>@string/device_raspberrypie</item>
         <item>@string/device_arduino</item>
@@ -186,6 +198,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_activity_rule_engine_action">RuleEngineActionActivity</string>
 
 </resources>
 

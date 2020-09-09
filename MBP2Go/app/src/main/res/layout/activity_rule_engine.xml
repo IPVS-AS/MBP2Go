@@ -131,53 +131,6 @@
                 android:text="OR"
                 android:textColor="#FFFFFF" />
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_below="@+id/ruleEngine_button"
-                android:layout_marginBottom="8dp"
-                tools:layout_editor_absoluteX="8dp">
-
-                <TextView
-                    android:id="@+id/ruleEngine_Actionname"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Run these actions"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:layout_editor_absoluteX="0dp" />
-            </RelativeLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/ruleEngine_recyclerView_action"
-
-                android:layout_width="match_parent"
-                android:layout_height="244dp"
-
-                android:layout_below="@+id/relativeLayout2"
-                android:layout_marginTop="8dp"
-                android:layout_weight="0.25"
-                tools:layout_editor_absoluteX="0dp">
-
-
-            </android.support.v7.widget.RecyclerView>
-            <Button
-                android:id="@+id/ruleEngine_button_action"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/ruleEngine_recyclerView_action"
-                android:background="@color/screen4"
-                android:onClick="btn_RuleEngine_addAction"
-                android:text="Add Action"
-                android:textColor="@color/white" />
-
         </LinearLayout>
     </ScrollView>
 

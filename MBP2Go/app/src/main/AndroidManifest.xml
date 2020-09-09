@@ -24,7 +24,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".monitoring.MonitoringDiagramm2Activity"></activity>
+        <activity android:name=".ruleEngine.RuleActionOverviewActivity"></activity>
+        <activity
+            android:name=".ruleEngine.RuleEngineActionActivity"
+            android:label="@string/title_activity_rule_engine_action"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".monitoring.MonitoringDiagramm2Activity" />
         <activity
             android:name=".monitoring.MonitoringDeployDeviceActivity"
             android:label="@string/title_activity_monitoring_deploy_device"
@@ -112,12 +117,12 @@
             android:name=".ruleEngine.RuleEngingeActuatorSettingsActivity"
             android:label="Actuator Settings"
             android:theme="@style/Rulesetting" />
+
         <service
             android:name=".BackgroundService"
             android:exported="true"
-            android:stopWithTask="false"
-            android:process=":ServiceProcess"/>
-
+            android:process=":ServiceProcess"
+            android:stopWithTask="false" />
     </application>
 
 </manifest>

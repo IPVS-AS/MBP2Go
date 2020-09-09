@@ -24,21 +24,6 @@
 
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab2"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="21dp"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab1"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="21dp"
-        app:srcCompat="@android:drawable/ic_dialog_map" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -46,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_add_white_24dp" />
+        app:srcCompat="@drawable/ic_add_white_24dp"
+        />
 
 
     <android.support.v7.widget.RecyclerView
